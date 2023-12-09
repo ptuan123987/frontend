@@ -24,9 +24,9 @@ const CourseCard = ({ course }) => {
             <span className="text-gray-400 text-xs">({course.ratings_count}) </span>
           </div>
           <p className="mb-3 font-UdemySansBold font-black">
-            ₦{course.price}{' '}
+            ${course.price}{' '}
             <span className="line-through text-gray-400 text-sm font-normal ms-1">
-              ₦{course.inflated_price}
+              ${course.inflated_price}
             </span>
           </p>
         </div>

@@ -63,12 +63,7 @@ const Signup = () => {
   };
 
   return (
-    <Layout
-      title={`Sign up and start learning | ${
-        (window && window.props && window.props.appName) || "DefaultAppName"
-      }`}
-      description="hello"
-    >
+    <Layout>
       <section className="my-10 max-w-[21rem] mx-auto">
         <h1 className="text-base font-UdemySansBold mb-3">
           Sign up and start learning
@@ -95,7 +90,6 @@ const Signup = () => {
             {form.errors && form.errors.email && (
               <div className="text-red-600">{form.errors.email}</div>
             )}
-            {/* Replace Input1 with your actual Input component */}
             <Input1
               label="Password"
               value={form.password}

@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 
-export function useSlide() {
+export function useSlideCourses() {
   useEffect(() => {
     const slideContainers = document.querySelectorAll("[data-slide-container]");
-    const slideDistance = window.screen.availWidth; 
+    const slideDistance = window.screen.availWidth/2; 
 
     slideContainers.forEach((container) => {
       let containerMotion = container.parentElement.getAttribute("data-slide-motion");
@@ -18,11 +18,8 @@ export function useSlide() {
             container.scrollLeft = 0;
             currentSlide = 0;
           }
-
-          setTimeout(autoSlide, 3000); 
         };
 
-        setTimeout(autoSlide, 3000); 
       }
 
       let nextButton = container.querySelector("[data-slide-next]");

@@ -11,7 +11,7 @@ const SlideControls = ({ previousControlCustom, nextControlCustom }) => {
         <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-black">
           <svg
             aria-hidden="true"
-            className="w-6 h-6 text-white font-black dark:text-gray-800"
+            className="w-6 h-6 text-white font-black"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -30,7 +30,7 @@ const SlideControls = ({ previousControlCustom, nextControlCustom }) => {
         <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-black">
           <svg
             aria-hidden="true"
-            className="w-6 h-6 text-white dark:text-gray-800"
+            className="w-6 h-6 text-white "
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

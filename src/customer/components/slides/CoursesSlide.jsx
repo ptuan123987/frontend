@@ -2,14 +2,14 @@ import React from 'react';
 import Slide from './Slides';
 import CourseCard from '../cards/CourseCard';
 
-const CourseSlide = ({ courses }) => {
+const CoursesSlide = ({ courses }) => {
   return (
     <Slide>
-      {Object.values(courses).map((row) => (
-        <CourseCard key={row.id} course={row} />
+      {courses.map((course) => (
+        <CourseCard key={course.id} course={course} />
       ))}
     </Slide>
   );
 };
 
-export default CourseSlide;
+export default CoursesSlide;

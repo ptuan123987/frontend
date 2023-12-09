@@ -18,7 +18,6 @@ const Carousel = ({ dataSlideMotion, children, ...props }) => {
         style={{ overflowX: 'hidden' }} 
       >
         {children}
-        {/* Slider controls */}
         <CarouselControls />
       </div>
     </div>

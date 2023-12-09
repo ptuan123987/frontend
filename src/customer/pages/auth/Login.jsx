@@ -14,7 +14,7 @@ const Login = () => {
   }
 
   return (
-    <Layout title={`Log in and start learning | Udemy`} description="hello">
+    <Layout >
       <section className="my-10 max-w-xs mx-auto">
         <h1 className="text-base font-UdemySansBold mb-3 text-center">
           Log in to your {appName} account
