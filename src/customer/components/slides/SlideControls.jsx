@@ -2,10 +2,10 @@ import React from 'react';
 
 const SlideControls = ({ previousControlCustom, nextControlCustom }) => {
   return (
-    <div className="hidden md:block">
+    <div className="flex z-50">
       <button
         type="button"
-        className={`absolute top-0 -left-6 z-20 flex items-center justify-center h-full cursor-pointer group focus:outline-none ${previousControlCustom}`}
+        className={`absolute top-0 -left-6 z-20 flex items-center justify-center h-full cursor-pointer group focus:outline-none transform scale-75 md:scale-100 ${previousControlCustom}`}
         data-slide-previous
       >
         <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-black">
@@ -24,7 +24,7 @@ const SlideControls = ({ previousControlCustom, nextControlCustom }) => {
       </button>
       <button
         type="button"
-        className={`absolute top-0 -right-6 z-20 flex items-center justify-center h-full cursor-pointer group focus:outline-none ${nextControlCustom}`}
+        className={`absolute top-0 -right-6 z-20 flex items-center justify-center h-full cursor-pointer group focus:outline-none transform scale-75 md:scale-100 ${nextControlCustom}`}
         data-slide-next
       >
         <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-black">

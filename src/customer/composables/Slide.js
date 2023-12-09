@@ -19,10 +19,10 @@ export function useSlide() {
             currentSlide = 0;
           }
 
-          setTimeout(autoSlide, 3000); 
+          setTimeout(autoSlide, 5000); 
         };
 
-        setTimeout(autoSlide, 3000); 
+        setTimeout(autoSlide, 5000); 
       }
 
       let nextButton = container.querySelector("[data-slide-next]");

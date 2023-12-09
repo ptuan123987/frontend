@@ -10,18 +10,6 @@ export function useSlideCourses() {
       let totalSlides = container.querySelectorAll("[data-slide]").length;
       let currentSlide = 0;
 
-      if (containerMotion === "slide") {
-        const autoSlide = () => {
-          container.scrollLeft += slideDistance;
-
-          if (++currentSlide === totalSlides) {
-            container.scrollLeft = 0;
-            currentSlide = 0;
-          }
-        };
-
-      }
-
       let nextButton = container.querySelector("[data-slide-next]");
       let previousButton = container.querySelector("[data-slide-previous]");
 

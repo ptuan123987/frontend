@@ -1,7 +1,6 @@
 import React from "react";
 import SlideControls from "./SlideControls";
 import { useSlideCourses } from "../../composables/SlideCourses";
-import './slides.css'
 
 const Slides = ({ dataSlideMotion, children, ...attrs }) => {
   useSlideCourses();
