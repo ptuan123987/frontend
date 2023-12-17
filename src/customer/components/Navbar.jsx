@@ -4,15 +4,490 @@ import Popover from "./Popover";
 import Button2 from "./buttons/Button2";
 
 const Navbar = () => {
-  const fakeCategories = [
-    { id: 1, title: "Category 1", a: "/category1" },
-    { id: 2, title: "Category 2", a: "/category2" },
-    { id: 3, title: "Category 3", a: "/category3" },
+  const Categories = [
+    {
+      id: 1,
+      title: "Development",
+      a: "/development",
+      subCategories: [
+        {
+          id: '1-1',
+          title: 'Web Development',
+          a: '/web-development',
+          subSubCategories: [
+            {
+              id: '1-1-1',
+              title: 'JavaScript',
+              a: '/javacript',
+            },
+            {
+              id: '1-1-2',
+              title: 'React JS',
+              a: '/reactjs',
+            },
+            {
+              id: '1-1-3',
+              title: 'Angular',
+              a: '/angular',
+            },
+          ]
+        },
+        {
+          id: '1-2',
+          title: 'Data Science',
+          a: '/data-science',
+          subSubCategories: [
+            {
+              id: '1-2-1',
+              title: 'Python',
+              a: '/python',
+            },
+            {
+              id: '1-2-2',
+              title: 'Machine Learning',
+              a: '/machine-learning',
+            },
+            {
+              id: '1-2-3',
+              title: 'Deep Learning',
+              a: '/deep-learning',
+            },
+            {
+              id: '1-2-4',
+              title: 'Artificial Intelligence',
+              a: '/artificial-intelligence',
+            },
+          ]
+        },
+        {
+          id: '1-3',
+          title: 'Mobile Development',
+          a: '/mobile-development',
+          subSubCategories: [
+            {
+              id: '1-3-1',
+              title: 'Google Flutter',
+              a: '/google-flutter',
+            },
+            {
+              id: '1-3-2',
+              title: 'iOS Development',
+              a: '/ios-development',
+            },
+            {
+              id: '1-3-3',
+              title: 'Android Development',
+              a: '/android-development',
+            },
+            {
+              id: '1-3-4',
+              title: 'React Native',
+              a: '/react-native',
+            },
+          ]
+        },
+        {
+          id: '1-4',
+          title: 'Programming Languages',
+          a: '/programming-languages',
+          subSubCategories: [
+            {
+              id: '1-4-1',
+              title: 'Python',
+              a: '/python',
+            },
+            {
+              id: '1-4-2',
+              title: 'Java',
+              a: '/java',
+            },
+          ]
+        },
+        {
+          id: '1-5',
+          title: 'Game Development',
+          a: '/game-development',
+        },
+        {
+          id: '1-6',
+          title: 'Database Design',
+          a: '/database-design',
+        },
+        {
+          id: '1-7',
+          title: 'Software Testing',
+          a: '/software-testing',
+        },
+        {
+          id: '1-8',
+          title: 'Software Engineering',
+          a: '/software-engineering',
+        },
+        {
+          id: '1-9',
+          title: 'Software Development Tools',
+          a: '/software-developement-tools',
+        },
+        {
+          id: '1-10',
+          title: 'No-Code Developement',
+          a: '/no-code-developement',
+        },
+      ]
+    },
+    {
+      id: 2,
+      title: "Business",
+      a: "/business",
+      subCategories: [
+        {
+          id: '2-1',
+          title: 'Entrepreneurship',
+          a: '/entrepreneurship',
+          subSubCategories: [
+            {
+              id: '2-1-1',
+              title: 'Freelancing',
+              a: '/freelancing',
+            },
+            {
+              id: '2-1-2',
+              title: 'Business Strategy',
+              a: '/business-strategy',
+            },
+            {
+              id: '2-1-3',
+              title: 'Startup',
+              a: '/startup',
+            },
+            {
+              id: '2-1-4',
+              title: 'Business Plan',
+              a: '/business-plan',
+            },
+          ]
+        },
+        {
+          id: '2-2',
+          title: 'Communication',
+          a: '/communication',
+        },
+        {
+          id: '2-3',
+          title: 'Management',
+          a: '/management',
+        },
+        {
+          id: '2-4',
+          title: 'Sales',
+          a: '/sales',
+        },
+        {
+          id: '2-5',
+          title: 'Business Strategy',
+          a: '/business-strategy',
+        },
+        {
+          id: '2-6',
+          title: 'Operations',
+          a: '/operations',
+        },
+        {
+          id: '2-7',
+          title: 'Project Management',
+          a: '/project-management',
+        },
+        {
+          id: '2-8',
+          title: 'Business Law',
+          a: '/business-law',
+        },
+        {
+          id: '2-9',
+          title: 'Human Resources',
+          a: '/human-resources',
+        },
+        {
+          id: '2-10',
+          title: 'Industry',
+          a: '/industry',
+        },
+      ]
+    },
+    {
+      id: 3,
+      title: "Finance & Accounting",
+      a: "/finance-accounting",
+      subCategories: [
+        {
+          id: '3-1',
+          title: 'Accounting',
+          a: '/accounting',
+        },
+        {
+          id: '3-2',
+          title: 'Compliance',
+          a: '/compliance',
+        },
+        {
+          id: '3-3',
+          title: 'Economics',
+          a: '/economics',
+        },
+        {
+          id: '3-4',
+          title: 'Finance',
+          a: '/finance',
+        },
+        {
+          id: '3-5',
+          title: 'Monney Management Tools',
+          a: '/money-management-tools',
+        },
+      ]
+    },
+    {
+      id: 4,
+      title: "IT & Software",
+      a: "/it-software",
+      subCategories: [
+        {
+          id: '4-1',
+          title: 'IT Certifications',
+          a: '/it-certification',
+        },
+        {
+          id: '4-2',
+          title: 'Network & Security',
+          a: '/network-security',
+        },
+        {
+          id: '4-3',
+          title: 'Hardware',
+          a: '/hardware',
+        },
+        {
+          id: '4-4',
+          title: 'Operating Systems & Servers',
+          a: '/operating-systems-servers',
+        },
+        {
+          id: '4-5',
+          title: 'Other IT & Software',
+          a: '/other-it-software',
+        },
+      ]
+    },
+    {
+      id: 5,
+      title: "Office Productivity",
+      a: "/office-productivity",
+      subCategories: [
+        {
+          id: '5-1',
+          title: 'Microsoft',
+          a: '/microsoft',
+        },
+        {
+          id: '5-2',
+          title: 'Apple',
+          a: '/apple',
+        },
+        {
+          id: '5-3',
+          title: 'Google',
+          a: '/google',
+        },
+        {
+          id: '5-4',
+          title: 'SAP',
+          a: '/sap',
+        },
+        {
+          id: '5-5',
+          title: 'Oracle',
+          a: '/oracle',
+        },
+        {
+          id: '5-6',
+          title: 'Other Office Productivity',
+          a: '/other-office-productivity',
+        },
+      ]
+    },
+    {
+      id: 6,
+      title: "Personal Development",
+      a: "/personal-development",
+      subCategories: [
+        {
+          id: '6-1',
+          title: 'Personal Transformation',
+          a: '/personal-transformation',
+        },
+        {
+          id: '6-2',
+          title: 'Personal Productivity',
+          a: '/personal-productivity',
+        },
+      ]
+    },
+    {
+      id: 7,
+      title: "Design",
+      a: "/design",
+      subCategories: [
+        {
+          id: '7-1',
+          title: 'Web Design',
+          a: '/web-design',
+        },
+        {
+          id: '7-2',
+          title: 'Design Tools',
+          a: '/design-tools',
+        },
+        {
+          id: '7-3',
+          title: 'Game Design',
+          a: '/game-design',
+        },
+      ]
+    },
+    {
+      id: 8,
+      title: "Marketing",
+      a: "/marketing",
+      subCategories: [
+        {
+          id: '8-1',
+          title: 'Digital Marketing',
+          a: '/digital-marketing',
+        },
+        {
+          id: '8-2',
+          title: 'Search Engine Optimization',
+          a: '/search-engine-optimization',
+        },
+        {
+          id: '8-3',
+          title: 'Social Media Marketing',
+          a: '/social-media-marketing',
+        },
+        {
+          id: '8-4',
+          title: 'Branding',
+          a: '/branding',
+        },
+      ]
+    },
+    {
+      id: 9,
+      title: "Lifestyle",
+      a: "/lifestyle",
+      subCategories: [
+        {
+          id: '9-1',
+          title: 'Arts & Crafts',
+          a: '/arts-crafts',
+        },
+        {
+          id: '9-2',
+          title: 'Beauty & Makeup',
+          a: '/beauty-makeup',
+        },
+        {
+          id: '9-3',
+          title: 'Food & Beverage',
+          a: '/food-beverage',
+        },
+      ]
+    },
+    {
+      id: 10,
+      title: "Photography & Video",
+      a: "/photography-video",
+      subCategories: [
+        {
+          id: '10-1',
+          title: 'Digital Photography',
+          a: '/digital-photography',
+        },
+        {
+          id: '10-2',
+          title: 'Photography',
+          a: '/photography',
+        },
+        {
+          id: '10-3',
+          title: 'Video Design',
+          a: '/video-design',
+        },
+      ]
+    },
+    {
+      id: 11,
+      title: "Health & Fitness",
+      a: "/health-fitness",
+      subCategories: [
+        {
+          id: '11-1',
+          title: 'Fitness',
+          a: '/fitness',
+        },
+        {
+          id: '11-2',
+          title: 'Sports',
+          a: '/sports',
+        },
+        {
+          id: '11-3',
+          title: 'Yoga',
+          a: '/yoga',
+        },
+      ]
+    },
+    {
+      id: 12,
+      title: "Music",
+      a: "/music",
+      subCategories: [
+        {
+          id: '12-1',
+          title: 'Instruments',
+          a: '/instruments',
+        },
+        {
+          id: '12-2',
+          title: 'Vocal',
+          a: '/vocal',
+        },
+      ]
+    },
+    {
+      id: 13,
+      title: "Teaching & Academics",
+      a: "/teaching-academics",
+      subCategories: [
+        {
+          id: '13-1',
+          title: 'Engineering',
+          a: '/engineering',
+        },
+        {
+          id: '13-2',
+          title: 'Humanities',
+          a: '/humanities',
+        },
+      ]
+    },
   ];
 
   const navigate = useNavigate();
 
-  const [activePopover, setActivePopover] = useState(null);
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [activeSubCategory, setActiveSubCategory] = useState(null);
+  const [activeSubSubCategory, setActiveSubSubCategory] = useState(null);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -23,12 +498,16 @@ const Navbar = () => {
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
   };
-  const handleMouseEnter = (popoverId) => {
-    setActivePopover(popoverId);
+  const handleMouseEnter = (categoryId, subCategoryId, subSubCategoryId) => {
+    setActiveCategory(categoryId);
+    setActiveSubCategory(subCategoryId);
+    setActiveSubSubCategory(subSubCategoryId);
   };
 
   const handleMouseLeave = () => {
-    setActivePopover(null);
+    setActiveCategory(null);
+    setActiveSubCategory(null);
+    setActiveSubSubCategory(null);
   };
 
   function moveToLogin() {
@@ -128,7 +607,7 @@ const Navbar = () => {
           </>
         )}
 
-        <div className=" max-w-screen-xl flex flex-wrap items-center justify-between p-2 md:p-4">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between p-2 md:p-4">
           <a onClick={moveToHome} to="/" className="flex items-center">
             <img
               src="https://www.udemy.com/staticx/udemy/images/v7/logo-udemy.svg"
@@ -138,10 +617,8 @@ const Navbar = () => {
           </a>
         </div>
 
-        <div
-          className=" hidden md:flex flex-col md:flex-row items-start md:items-center justify-between w-full md:w-auto text-base md:text-sm gap-4 md:grow order-2 md:order-none p-4 md:p-0 border border-gray-100 rounded-lg md:border-0 mt-4 md:mt-0 bg-gray-50 md:bg-white"
-          id="navbar-cta"
-        >
+        <div className="hidden md:flex flex-col md:flex-row items-start md:items-center justify-between w-full md:w-auto text-base md:text-sm gap-4 md:grow order-2 md:order-none p-4 md:p-0 border border-gray-100 rounded-lg md:border-0 mt-4 md:mt-0 bg-gray-50 md:bg-white"
+          id="navbar-cta">
           <div
             className="relative"
             onMouseEnter={() => handleMouseEnter("categories")}
@@ -155,42 +632,112 @@ const Navbar = () => {
             >
               Categories
             </button>
-            {/* categories */}
-            {activePopover === "categories" && (
-              <Popover
-                target="categories"
-                className="text-sm text-gray-500 h-5/6 w-32 md:w-64"
-              >
-                <ul className=" text-gray-900 bg-white rounded-lg ">
-                  {fakeCategories.map((item) => (
-                    <li
-                      key={item.id}
-                      data-dropdown-toggle={`subCategory${item.id}Dropdown`}
-                      data-dropdown-placement="right-start"
-                      data-dropdown-trigger="hover"
-                      data-dropdown-offset-distance="13"
-                      data-dropdown-offset-skidding="-9"
-                    >
-                      <div className="flex items-center justify-between w-full py-2 hover:text-purple-600">
-                        <a to={item.a}>{item.title}</a>
-                        <svg
-                          aria-hidden="true"
-                          className="w-4 h-4"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clipRule="evenodd"
-                          ></path>
-                        </svg>
-                      </div>
-                    </li>
-                  ))}
+            {/* -- CATEGORIES -- */}
+            {activeCategory === "categories" && (
+              // <Popover
+              //   target="categories"
+              //   className="text-sm text-gray-500 h-5/6 w-32 md:w-64 bg-white rounded-lg shadow-lg z-1"
+              // >
+              <div className="absolute w-32 md:w-64 z-10 bg-white rounded-lg shadow-lg">
+                <ul className="text-gray-900">
+                  {
+                    Categories.map((category) => (
+                      <li
+                        key={category.id}
+                        // data-dropdown-toggle={`subCategory${category.id}Dropdown`}
+                        // data-dropdown-placement="right-start"
+                        // data-dropdown-trigger="hover"
+                        // data-dropdown-offset-distance="13"
+                        // data-dropdown-offset-skidding="-9"
+                        className="relative"
+                        onMouseEnter={() => handleMouseEnter("categories", category.id)}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        <div className="flex items-center justify-between w-full hover:text-purple-600">
+                          <a href={category.a} className="flex items-center justify-between w-full py-3 px-4 hover:text-purple-600">
+                            {category.title}
+                          </a>
+                          {
+                            category.subCategories && (
+                              <svg
+                                aria-hidden="true"
+                                className="w-4 h-4"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                  clipRule="evenodd"
+                                ></path>
+                              </svg>
+                            )
+                          }
+                        </div>
+                        {/* -- SUBCATEGORY -- */}
+                        {category.subCategories && activeSubCategory === category.id && (
+                          <div className="absolute left-full top-0 mt-1 w-48 md:w-64 bg-white shadow-lg z-10">
+                            <ul>
+                              {category.subCategories.map((subCategory) => (
+                                <li
+                                  key={subCategory.id}
+                                  className="relative"
+                                  onMouseEnter={() => handleMouseEnter("categories", category.id, subCategory.id)}
+                                  onMouseLeave={handleMouseLeave}
+                                >
+                                  <div className="flex items-center justify-between w-full py-1 hover:text-purple-600">
+                                    <a href={subCategory.a} className="flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:text-purple-600">
+                                      {subCategory.title}
+                                    </a>
+                                    {subCategory.subSubCategories && (
+                                      <svg
+                                        aria-hidden="true"
+                                        className="w-4 h-4"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          fillRule="evenodd"
+                                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                          clipRule="evenodd"
+                                        ></path>
+                                      </svg>
+                                    )}
+                                  </div>
+                                  {/* -- SUBSUBCATEGORY -- */}
+                                  {subCategory.subSubCategories && activeSubSubCategory === subCategory.id && (
+                                    <div className="absolute left-full top-0 mt-1 py-1 w-48 md:w-64 bg-white shadow-lg z-20">
+                                      <ul>
+                                        {subCategory.subSubCategories.map((subSubCategory) => (
+                                          <li
+                                            key={subSubCategory.id}
+                                            onMouseEnter={() => handleMouseEnter("subCategories", subCategory.id, subSubCategory.id)}
+                                            onMouseLeave={handleMouseLeave}
+                                          >
+                                            <a href={subSubCategory.a}
+                                              className="block px-4 py-2 text-sm text-gray-700 hover:text-purple-600 hover:bg-gray-100">
+                                              {subSubCategory.title}
+                                            </a>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  )}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+
+                        )}
+                      </li>
+                    ))
+                  }
                 </ul>
-              </Popover>
+              </div>
+              // </Popover>
+
             )}
           </div>
 
@@ -228,7 +775,7 @@ const Navbar = () => {
               onMouseLeave={handleMouseLeave}
             >
               <a to="/">Udemy Business</a>
-              {activePopover === "activePopover" && (
+              {activeCategory === "activePopover" && (
                 <Popover
                   target="activePopover"
                   className="max-w-xs text-xl p-2 font-extrabold"
@@ -252,7 +799,7 @@ const Navbar = () => {
               onMouseLeave={handleMouseLeave}
             >
               <a to="/">Teach on Udemy</a>
-              {activePopover === "teachPopover" && (
+              {activeCategory === "teachPopover" && (
                 <Popover
                   target="teachPopover"
                   className="max-w-xs text-xl p-2 font-extrabold"
@@ -294,7 +841,7 @@ const Navbar = () => {
                 />
               </svg>
             </a>
-            {activePopover === "cartPopover" && (
+            {activeCategory === "cartPopover" && (
               <Popover
                 target="cartPopover"
                 className="py-5 px-16 text-center text-sm"
@@ -361,7 +908,7 @@ const Navbar = () => {
                 <span>Tuấn</span>
               </button>
 
-              {activePopover === "profilePopover" && (
+              {activeCategory === "profilePopover" && (
                 <Popover
                   target="profilePopover"
                   className="max-w-xs !-right-2.5 py-5 w-[500px]  "
