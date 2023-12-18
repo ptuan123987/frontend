@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Login from '../pages/auth/Login';
 import Signup from '../pages/auth/Signup';
 import Home from '../pages/Home';
-import Course from '../pages/courses/course-topic';
+import CoursePage from '../pages/courses/CoursePage';
 
 const AppRoutes = () => {
     return (
@@ -11,7 +11,9 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/course" element={<Course />} />
+        {/* Categories route */}
+        <Route path="/development" element={<CoursePage />} />
+        <Route path="/business" element={<CoursePage />} />
 
       </Routes>
     );
