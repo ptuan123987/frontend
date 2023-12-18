@@ -5,6 +5,7 @@ import Button3 from "../../components/buttons/Button3";
 import Button1 from "../../components/buttons/Button1";
 import { useNavigate } from "react-router-dom";
 
+import axios from "axios";
 const Login = () => {
   const appName = "Udemy";
   const navigate = useNavigate();
@@ -13,8 +14,30 @@ const Login = () => {
     navigate("/signup");
   }
 
+  async function redirectToGoogleLogin() {
+    const response = await axios.get("http://localhost:8000/api/login/google", {
+      params: {
+        redirect_url: "http://localhost:3000/callback/google",
+      },
+    });
+    console.log(response);
+
+    window.location.href = response.data.login_url;
+  }
+
+  async function redirectToGithubLogin() {
+    const response = await axios.get("http://localhost:8000/api/login/github", {
+      params: {
+        redirect_url: "http://localhost:3000/callback/github",
+      },
+    });
+    console.log(response);
+    
+    window.location.href = response.data.login_url;
+  }
+
   return (
-    <Layout >
+    <Layout>
       <section className="my-10 max-w-xs mx-auto">
         <h1 className="text-base font-UdemySansBold mb-3 text-center">
           Log in to your {appName} account
@@ -22,7 +45,10 @@ const Login = () => {
         <div className="flex flex-col gap-2">
           {/* Google */}
           <Button1 className="w-full !font-black !text-black !text-base !mb-0">
-            <div className="flex items-center gap-4">
+            <div
+              onClick={redirectToGoogleLogin}
+              className="flex items-center gap-4"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 48 48"
@@ -34,7 +60,10 @@ const Login = () => {
 
           {/* Github */}
           <Button1 className="w-full !font-black !text-black !text-base !mb-0">
-            <div className="flex items-center gap-2">
+            <div
+              onClick={redirectToGithubLogin}
+              className="flex items-center gap-2"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 48 48"
