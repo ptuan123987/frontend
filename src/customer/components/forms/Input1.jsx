@@ -1,13 +1,13 @@
 import React from 'react';
 
-const FloatingLabelInput = ({ modelValue, label, ...attrs }) => {
+const FloatingLabelInput = ({ value, label, ...attrs }) => {
   return (
     <div className="relative">
       <input
         className="block px-2.5 pb-2.5 pt-5 w-full text-sm text-black border border-black appearance-none focus:outline-none focus:border-black focus:ring-0 peer"
         placeholder=""
-        value={modelValue}
-        onChange={(e) => attrs['onChange'] && attrs['onChange'](e.target.value)}
+        value={value}
+        
         {...attrs}
       />
 

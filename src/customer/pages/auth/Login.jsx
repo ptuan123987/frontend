@@ -1,4 +1,4 @@
-import React from "react";
+import {React,useState} from "react";
 import Layout from "../../components/Layout";
 import Input1 from "../../components/forms/Input1";
 import Button3 from "../../components/buttons/Button3";
@@ -6,15 +6,21 @@ import Button1 from "../../components/buttons/Button1";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
+import AuthService from "../../services/AuthService";
+import PasswordInput from "../../components/forms/PasswordInput";
 const Login = () => {
+
   const appName = "Udemy";
   const navigate = useNavigate();
-
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
   function moveToSignup() {
     navigate("/signup");
   }
-
+  
   async function redirectToGoogleLogin() {
+
     const response = await axios.get("http://localhost:8000/api/login/google", {
       params: {
         redirect_url: "http://localhost:3000/callback/google",
@@ -34,6 +40,13 @@ const Login = () => {
     console.log(response);
     
     window.location.href = response.data.login_url;
+  }
+
+  const handleSubmit = (event) => {
+    AuthService.login(email, password).then( async () => {
+      console.log("Logged In Successfully !");
+      navigate("/");
+    })
   }
 
   return (
@@ -74,10 +87,21 @@ const Login = () => {
           </Button1>
 
           {/* Form for email and password */}
-          <form className="flex flex-col gap-2">
-            <Input1 label="Email" />
-            <Input1 label="Password" />
-            <Button3 className="mt-2" type="submit"></Button3>
+          <form className="flex flex-col gap-2" >
+          <Input1
+              label="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              required
+            />
+            <PasswordInput
+              label="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              
+            />
+            <Button3 className="mt-2" type="submit"  onClick={handleSubmit}>Login</Button3>
           </form>
 
           <hr />

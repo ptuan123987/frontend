@@ -11,6 +11,7 @@ import AdminLogin from "../../admin/pages/AdminLogin";
 import AdminCourse from "../../admin/pages/AdminCourse";
 import Students from "../../admin/pages/Students"
 import Analytics from "../../admin/pages/Analytics";
+import NotFound from "../pages/NotFound";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -24,6 +25,7 @@ const AppRoutes = () => {
         
       <Route path="/callback/github/*" element={<GithubLanding/>} />
       <Route path="/callback/google/*" element={<GoogleLanding/>} />
+      <Route  path= "*" element ={ <NotFound /> }/>
 
 
       <Route path="/admin/login" element={<AdminLogin/>}></Route>
