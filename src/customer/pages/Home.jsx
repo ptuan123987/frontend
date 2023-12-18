@@ -19,7 +19,7 @@ const fakeCategories = [
         id: 1,
         title: "React Fundamentals",
         link: "/react-fundamentals",
-        image: "assets/img/course.png",
+        image: "assets/images/course.png",
         instructor: {
           name: "John Doe",
         },
@@ -32,7 +32,7 @@ const fakeCategories = [
         id: 2,
         title: "Node.js Masterclass",
         link: "/nodejs-masterclass",
-        image: "assets/img/course.png",
+        image: "assets/images/course.png",
         instructor: {
           name: "Jane Smith",
         },
@@ -45,7 +45,7 @@ const fakeCategories = [
         id: 3,
         title: "React Fundamentals",
         link: "/react-fundamentals",
-        image: "assets/img/course.png",
+        image: "assets/images/course.png",
         instructor: {
           name: "John Doe",
         },
@@ -58,7 +58,7 @@ const fakeCategories = [
         id: 4,
         title: "Node.js Masterclass",
         link: "/nodejs-masterclass",
-        image: "assets/img/course.png",
+        image: "assets/images/course.png",
         instructor: {
           name: "Jane Smith",
         },
@@ -71,7 +71,7 @@ const fakeCategories = [
         id: 5,
         title: "React Fundamentals",
         link: "/react-fundamentals",
-        image: "assets/img/course.png",
+        image: "assets/images/course.png",
         instructor: {
           name: "John Doe",
         },
@@ -84,7 +84,7 @@ const fakeCategories = [
         id: 6,
         title: "Node.js Masterclass",
         link: "/nodejs-masterclass",
-        image: "assets/img/course.png",
+        image: "assets/images/course.png",
         instructor: {
           name: "Jane Smith",
         },
@@ -104,7 +104,7 @@ const fakeCategories = [
         id: 1,
         title: "React Fundamentals",
         link: "/react-fundamentals",
-        image: "assets/img/course.png",
+        image: "assets/images/course.png",
         instructor: {
           name: "John Doe",
         },
@@ -117,7 +117,7 @@ const fakeCategories = [
         id: 2,
         title: "Node.js Masterclass",
         link: "/nodejs-masterclass",
-        image: "assets/img/course.png",
+        image: "assets/images/course.png",
         instructor: {
           name: "Jane Smith",
         },
@@ -132,26 +132,26 @@ const fakeCategories = [
 
 const carouselItems = [
   {
-    imgSrc: "assets/img/carousel-1.jpg",
+    imgSrc: "assets/images/carousel-1.jpg",
     title: "Learning that gets you",
     description:
       "Skills for your present (and your future). Get started with us.",
   },
   {
-    imgSrc: "/assets/img/carousel-2.jpg",
+    imgSrc: "/assets/images/carousel-2.jpg",
     title: "Unlock the power of your people",
     description:
       "Udemy Business is trusted by 12.5K+ companies around the world. Find out what we can do for yours.",
     buttonLabel: "Request a demo",
   },
   {
-    imgSrc: "assets/img/carousel-3.jpg",
+    imgSrc: "assets/images/carousel-3.jpg",
     title: "New to Udemy? Lucky you.",
     description:
       "Enjoy new-learner savings with courses starting at $12 for a very limited time.",
   },
   {
-    imgSrc: "assets/img/carousel-4.jpg",
+    imgSrc: "assets/images/carousel-4.jpg",
     title: "Build ready-for-anything teams",
     description:
       "See why leading organizations choose to learn with Udemy Business.",
@@ -219,7 +219,7 @@ const Home = () => {
               <div className="flex flex-col items-center md:items-start">
                 <img
                   className="mb-5"
-                  src="assets/img/logo-ub.svg"
+                  src="assets/images/logo-ub.svg"
                   width="192"
                   height="32"
                   alt="Udemy Business Logo"
@@ -246,7 +246,7 @@ const Home = () => {
             <div className="col-span-12 md:col-span-6 order-first md:order-none">
               <div className="ms-0 md:ms-16">
                 <img
-                  src="assets/img/UB_Promo_1200x1200.jpg"
+                  src="assets/images/UB_Promo_1200x1200.jpg"
                   alt="Udemy Business Promo"
                 />
               </div>
@@ -256,7 +256,7 @@ const Home = () => {
           <div className="grid grid-cols-12 gap-5 mb-20">
             <div className="col-span-12 md:col-span-6">
               <img
-                src="assets/img/instructor-2x-v3.jpg"
+                src="assets/images/instructor-2x-v3.jpg"
                 alt="Instructor Image"
               />
             </div>
