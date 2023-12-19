@@ -29,7 +29,7 @@ const AppRoutes = () => {
   
       return userRole === requiredRole;
     } catch (error) {
-      moveToLogin();
+      return false;
     }
   };
 
