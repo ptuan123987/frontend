@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import CourseCard from '../../components/cards/CourseCard'; // Your CourseCard component
 import Layout from "../../components/Layout";
+import CoursesSlide from "../../components/slides/CoursesSlide";
+
 // import CourseFilter from '../../components/cards/CourseFilter'; // Your CourseFilter component, if you have one
 import Slider from "react-slick"
 
@@ -68,10 +70,77 @@ const coursesData = [
     image: 'assets/images/course-page/development-course/image5.png',
     link: '/course-link',
   },
+  {
+    id: 6,
+    title: 'The Complete 2020 Fullstack Web Developer Course',
+    instructor: { name: 'Kalob Taulien' },
+    rating: 4.7,
+    ratings_count: 7219,
+    price: '279,000',
+    inflated_price: '1,499,000',
+    image: 'assets/images/course-page/development-course/image6.png',
+    link: '/course-link',
+  },
+  {
+    id: 7,
+    title: 'Java Swing (GUI) Programming: From Beginner to Expert',
+    instructor: { name: 'John Purcell' },
+    rating: 4.6,
+    ratings_count: 2681,
+    price: '329,000',
+    inflated_price: '1,699,000',
+    image: 'assets/images/course-page/development-course/image7.png',
+    link: '/course-link',
+  },
+  {
+    id: 8,
+    title: 'Java Swing (GUI) Programming: From Beginner to Expert',
+    instructor: { name: 'John Purcell' },
+    rating: 4.6,
+    ratings_count: 2681,
+    price: '329,000',
+    inflated_price: '1,699,000',
+    image: 'assets/images/course-page/development-course/image8.png',
+    link: '/course-link',
+  },
+  {
+    id: 9,
+    title: 'Java Swing (GUI) Programming: From Beginner to Expert',
+    instructor: { name: 'John Purcell' },
+    rating: 4.6,
+    ratings_count: 2681,
+    price: '329,000',
+    inflated_price: '1,699,000',
+    image: 'assets/images/course-page/development-course/image9.png',
+    link: '/course-link',
+  },
+  {
+    id: 10,
+    title: 'Java Swing (GUI) Programming: From Beginner to Expert',
+    instructor: { name: 'John Purcell' },
+    rating: 4.6,
+    ratings_count: 2681,
+    price: '329,000',
+    inflated_price: '1,699,000',
+    image: 'assets/images/course-page/development-course/image10.png',
+    link: '/course-link',
+  },
   // ...other courses
 ];
 
 const tabs = ['Most popular', 'New', 'Trending'];
+
+const instructorsData = [
+  {
+    id: 1,
+    name: 'Dr. Angela Yu',
+    subject: 'Python, Data Science',
+    rating: 4.7,
+    studentsCount: '2,447,808',
+    coursesCount: 7,
+    imageUrl: '/path-to-image-of-Dr-Angela-Yu',
+  }
+]
 
 const JavaScriptCoursesPage = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
@@ -84,7 +153,7 @@ const JavaScriptCoursesPage = () => {
   return (
     <Layout>
       <div className="container mx-auto p-6">
-        <h1 className="text-3xl font-bold my-4 ">Development Courses</h1>
+        <h1 className="text-3xl font-bold my-4 font-serif">Development Courses</h1>
         <p className='text-xl font-bold text-gray-700'>Courses to get you started</p>
 
         {/* Tabs */}
@@ -99,18 +168,15 @@ const JavaScriptCoursesPage = () => {
             </button>
           ))}
         </div>
+        <hr />
 
-        {/* Carousel with CourseCards */}
-        {/* <Slider {...sliderSettings}>
-          {filteredCourses.map((course) => (
-            <CourseCard key={course.id} course={course} />
-          ))}
-        </Slider> */}
-
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        {/* <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           {coursesData.map((course) => (
             <CourseCard key={course.id} course={course} />
           ))}
+        </div> */}
+        <div>
+          <CoursesSlide courses={coursesData} />
         </div>
 
         {/* -- FEATURE COURSE -- */}
@@ -130,6 +196,8 @@ const JavaScriptCoursesPage = () => {
             ))}
           </div>
         </div>
+
+
         {/* Include your CourseFilter component here if you have one */}
 
         {/* Pagination */}
