@@ -1,9 +1,10 @@
 import React from 'react';
 
-const Button1 = ({ children }) => {
+const Button1 = ({ children, onClick }) => {
   return (
     <button
       type="button"
+      onClick={onClick}
       className="border border-black 
       mb-5 text-gray-900 font-bold focus:outline-none 
       hover:bg-gray-100 focus:ring-4

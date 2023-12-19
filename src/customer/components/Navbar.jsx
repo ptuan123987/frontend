@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Popover from "./Popover";
 import Button2 from "./buttons/Button2";
-
+import AuthService from "../../customer/services/AuthService";
+import Button1 from "./buttons/Button1";
 const Navbar = () => {
   const Categories = [
     {
@@ -11,129 +12,129 @@ const Navbar = () => {
       a: "/development",
       subCategories: [
         {
-          id: '1-1',
-          title: 'Web Development',
-          a: '/web-development',
+          id: "1-1",
+          title: "Web Development",
+          a: "/web-development",
           subSubCategories: [
             {
-              id: '1-1-1',
-              title: 'JavaScript',
-              a: '/javacript',
+              id: "1-1-1",
+              title: "JavaScript",
+              a: "/javacript",
             },
             {
-              id: '1-1-2',
-              title: 'React JS',
-              a: '/reactjs',
+              id: "1-1-2",
+              title: "React JS",
+              a: "/reactjs",
             },
             {
-              id: '1-1-3',
-              title: 'Angular',
-              a: '/angular',
+              id: "1-1-3",
+              title: "Angular",
+              a: "/angular",
             },
-          ]
+          ],
         },
         {
-          id: '1-2',
-          title: 'Data Science',
-          a: '/data-science',
+          id: "1-2",
+          title: "Data Science",
+          a: "/data-science",
           subSubCategories: [
             {
-              id: '1-2-1',
-              title: 'Python',
-              a: '/python',
+              id: "1-2-1",
+              title: "Python",
+              a: "/python",
             },
             {
-              id: '1-2-2',
-              title: 'Machine Learning',
-              a: '/machine-learning',
+              id: "1-2-2",
+              title: "Machine Learning",
+              a: "/machine-learning",
             },
             {
-              id: '1-2-3',
-              title: 'Deep Learning',
-              a: '/deep-learning',
+              id: "1-2-3",
+              title: "Deep Learning",
+              a: "/deep-learning",
             },
             {
-              id: '1-2-4',
-              title: 'Artificial Intelligence',
-              a: '/artificial-intelligence',
+              id: "1-2-4",
+              title: "Artificial Intelligence",
+              a: "/artificial-intelligence",
             },
-          ]
+          ],
         },
         {
-          id: '1-3',
-          title: 'Mobile Development',
-          a: '/mobile-development',
+          id: "1-3",
+          title: "Mobile Development",
+          a: "/mobile-development",
           subSubCategories: [
             {
-              id: '1-3-1',
-              title: 'Google Flutter',
-              a: '/google-flutter',
+              id: "1-3-1",
+              title: "Google Flutter",
+              a: "/google-flutter",
             },
             {
-              id: '1-3-2',
-              title: 'iOS Development',
-              a: '/ios-development',
+              id: "1-3-2",
+              title: "iOS Development",
+              a: "/ios-development",
             },
             {
-              id: '1-3-3',
-              title: 'Android Development',
-              a: '/android-development',
+              id: "1-3-3",
+              title: "Android Development",
+              a: "/android-development",
             },
             {
-              id: '1-3-4',
-              title: 'React Native',
-              a: '/react-native',
+              id: "1-3-4",
+              title: "React Native",
+              a: "/react-native",
             },
-          ]
+          ],
         },
         {
-          id: '1-4',
-          title: 'Programming Languages',
-          a: '/programming-languages',
+          id: "1-4",
+          title: "Programming Languages",
+          a: "/programming-languages",
           subSubCategories: [
             {
-              id: '1-4-1',
-              title: 'Python',
-              a: '/python',
+              id: "1-4-1",
+              title: "Python",
+              a: "/python",
             },
             {
-              id: '1-4-2',
-              title: 'Java',
-              a: '/java',
+              id: "1-4-2",
+              title: "Java",
+              a: "/java",
             },
-          ]
+          ],
         },
         {
-          id: '1-5',
-          title: 'Game Development',
-          a: '/game-development',
+          id: "1-5",
+          title: "Game Development",
+          a: "/game-development",
         },
         {
-          id: '1-6',
-          title: 'Database Design',
-          a: '/database-design',
+          id: "1-6",
+          title: "Database Design",
+          a: "/database-design",
         },
         {
-          id: '1-7',
-          title: 'Software Testing',
-          a: '/software-testing',
+          id: "1-7",
+          title: "Software Testing",
+          a: "/software-testing",
         },
         {
-          id: '1-8',
-          title: 'Software Engineering',
-          a: '/software-engineering',
+          id: "1-8",
+          title: "Software Engineering",
+          a: "/software-engineering",
         },
         {
-          id: '1-9',
-          title: 'Software Development Tools',
-          a: '/software-developement-tools',
+          id: "1-9",
+          title: "Software Development Tools",
+          a: "/software-developement-tools",
         },
         {
-          id: '1-10',
-          title: 'No-Code Developement',
-          a: '/no-code-developement',
+          id: "1-10",
+          title: "No-Code Developement",
+          a: "/no-code-developement",
         },
-      ]
+      ],
     },
     {
       id: 2,
@@ -141,78 +142,78 @@ const Navbar = () => {
       a: "/business",
       subCategories: [
         {
-          id: '2-1',
-          title: 'Entrepreneurship',
-          a: '/entrepreneurship',
+          id: "2-1",
+          title: "Entrepreneurship",
+          a: "/entrepreneurship",
           subSubCategories: [
             {
-              id: '2-1-1',
-              title: 'Freelancing',
-              a: '/freelancing',
+              id: "2-1-1",
+              title: "Freelancing",
+              a: "/freelancing",
             },
             {
-              id: '2-1-2',
-              title: 'Business Strategy',
-              a: '/business-strategy',
+              id: "2-1-2",
+              title: "Business Strategy",
+              a: "/business-strategy",
             },
             {
-              id: '2-1-3',
-              title: 'Startup',
-              a: '/startup',
+              id: "2-1-3",
+              title: "Startup",
+              a: "/startup",
             },
             {
-              id: '2-1-4',
-              title: 'Business Plan',
-              a: '/business-plan',
+              id: "2-1-4",
+              title: "Business Plan",
+              a: "/business-plan",
             },
-          ]
+          ],
         },
         {
-          id: '2-2',
-          title: 'Communication',
-          a: '/communication',
+          id: "2-2",
+          title: "Communication",
+          a: "/communication",
         },
         {
-          id: '2-3',
-          title: 'Management',
-          a: '/management',
+          id: "2-3",
+          title: "Management",
+          a: "/management",
         },
         {
-          id: '2-4',
-          title: 'Sales',
-          a: '/sales',
+          id: "2-4",
+          title: "Sales",
+          a: "/sales",
         },
         {
-          id: '2-5',
-          title: 'Business Strategy',
-          a: '/business-strategy',
+          id: "2-5",
+          title: "Business Strategy",
+          a: "/business-strategy",
         },
         {
-          id: '2-6',
-          title: 'Operations',
-          a: '/operations',
+          id: "2-6",
+          title: "Operations",
+          a: "/operations",
         },
         {
-          id: '2-7',
-          title: 'Project Management',
-          a: '/project-management',
+          id: "2-7",
+          title: "Project Management",
+          a: "/project-management",
         },
         {
-          id: '2-8',
-          title: 'Business Law',
-          a: '/business-law',
+          id: "2-8",
+          title: "Business Law",
+          a: "/business-law",
         },
         {
-          id: '2-9',
-          title: 'Human Resources',
-          a: '/human-resources',
+          id: "2-9",
+          title: "Human Resources",
+          a: "/human-resources",
         },
         {
-          id: '2-10',
-          title: 'Industry',
-          a: '/industry',
+          id: "2-10",
+          title: "Industry",
+          a: "/industry",
         },
-      ]
+      ],
     },
     {
       id: 3,
@@ -220,31 +221,31 @@ const Navbar = () => {
       a: "/finance-accounting",
       subCategories: [
         {
-          id: '3-1',
-          title: 'Accounting',
-          a: '/accounting',
+          id: "3-1",
+          title: "Accounting",
+          a: "/accounting",
         },
         {
-          id: '3-2',
-          title: 'Compliance',
-          a: '/compliance',
+          id: "3-2",
+          title: "Compliance",
+          a: "/compliance",
         },
         {
-          id: '3-3',
-          title: 'Economics',
-          a: '/economics',
+          id: "3-3",
+          title: "Economics",
+          a: "/economics",
         },
         {
-          id: '3-4',
-          title: 'Finance',
-          a: '/finance',
+          id: "3-4",
+          title: "Finance",
+          a: "/finance",
         },
         {
-          id: '3-5',
-          title: 'Monney Management Tools',
-          a: '/money-management-tools',
+          id: "3-5",
+          title: "Monney Management Tools",
+          a: "/money-management-tools",
         },
-      ]
+      ],
     },
     {
       id: 4,
@@ -252,31 +253,31 @@ const Navbar = () => {
       a: "/it-software",
       subCategories: [
         {
-          id: '4-1',
-          title: 'IT Certifications',
-          a: '/it-certification',
+          id: "4-1",
+          title: "IT Certifications",
+          a: "/it-certification",
         },
         {
-          id: '4-2',
-          title: 'Network & Security',
-          a: '/network-security',
+          id: "4-2",
+          title: "Network & Security",
+          a: "/network-security",
         },
         {
-          id: '4-3',
-          title: 'Hardware',
-          a: '/hardware',
+          id: "4-3",
+          title: "Hardware",
+          a: "/hardware",
         },
         {
-          id: '4-4',
-          title: 'Operating Systems & Servers',
-          a: '/operating-systems-servers',
+          id: "4-4",
+          title: "Operating Systems & Servers",
+          a: "/operating-systems-servers",
         },
         {
-          id: '4-5',
-          title: 'Other IT & Software',
-          a: '/other-it-software',
+          id: "4-5",
+          title: "Other IT & Software",
+          a: "/other-it-software",
         },
-      ]
+      ],
     },
     {
       id: 5,
@@ -284,36 +285,36 @@ const Navbar = () => {
       a: "/office-productivity",
       subCategories: [
         {
-          id: '5-1',
-          title: 'Microsoft',
-          a: '/microsoft',
+          id: "5-1",
+          title: "Microsoft",
+          a: "/microsoft",
         },
         {
-          id: '5-2',
-          title: 'Apple',
-          a: '/apple',
+          id: "5-2",
+          title: "Apple",
+          a: "/apple",
         },
         {
-          id: '5-3',
-          title: 'Google',
-          a: '/google',
+          id: "5-3",
+          title: "Google",
+          a: "/google",
         },
         {
-          id: '5-4',
-          title: 'SAP',
-          a: '/sap',
+          id: "5-4",
+          title: "SAP",
+          a: "/sap",
         },
         {
-          id: '5-5',
-          title: 'Oracle',
-          a: '/oracle',
+          id: "5-5",
+          title: "Oracle",
+          a: "/oracle",
         },
         {
-          id: '5-6',
-          title: 'Other Office Productivity',
-          a: '/other-office-productivity',
+          id: "5-6",
+          title: "Other Office Productivity",
+          a: "/other-office-productivity",
         },
-      ]
+      ],
     },
     {
       id: 6,
@@ -321,16 +322,16 @@ const Navbar = () => {
       a: "/personal-development",
       subCategories: [
         {
-          id: '6-1',
-          title: 'Personal Transformation',
-          a: '/personal-transformation',
+          id: "6-1",
+          title: "Personal Transformation",
+          a: "/personal-transformation",
         },
         {
-          id: '6-2',
-          title: 'Personal Productivity',
-          a: '/personal-productivity',
+          id: "6-2",
+          title: "Personal Productivity",
+          a: "/personal-productivity",
         },
-      ]
+      ],
     },
     {
       id: 7,
@@ -338,21 +339,21 @@ const Navbar = () => {
       a: "/design",
       subCategories: [
         {
-          id: '7-1',
-          title: 'Web Design',
-          a: '/web-design',
+          id: "7-1",
+          title: "Web Design",
+          a: "/web-design",
         },
         {
-          id: '7-2',
-          title: 'Design Tools',
-          a: '/design-tools',
+          id: "7-2",
+          title: "Design Tools",
+          a: "/design-tools",
         },
         {
-          id: '7-3',
-          title: 'Game Design',
-          a: '/game-design',
+          id: "7-3",
+          title: "Game Design",
+          a: "/game-design",
         },
-      ]
+      ],
     },
     {
       id: 8,
@@ -360,26 +361,26 @@ const Navbar = () => {
       a: "/marketing",
       subCategories: [
         {
-          id: '8-1',
-          title: 'Digital Marketing',
-          a: '/digital-marketing',
+          id: "8-1",
+          title: "Digital Marketing",
+          a: "/digital-marketing",
         },
         {
-          id: '8-2',
-          title: 'Search Engine Optimization',
-          a: '/search-engine-optimization',
+          id: "8-2",
+          title: "Search Engine Optimization",
+          a: "/search-engine-optimization",
         },
         {
-          id: '8-3',
-          title: 'Social Media Marketing',
-          a: '/social-media-marketing',
+          id: "8-3",
+          title: "Social Media Marketing",
+          a: "/social-media-marketing",
         },
         {
-          id: '8-4',
-          title: 'Branding',
-          a: '/branding',
+          id: "8-4",
+          title: "Branding",
+          a: "/branding",
         },
-      ]
+      ],
     },
     {
       id: 9,
@@ -387,21 +388,21 @@ const Navbar = () => {
       a: "/lifestyle",
       subCategories: [
         {
-          id: '9-1',
-          title: 'Arts & Crafts',
-          a: '/arts-crafts',
+          id: "9-1",
+          title: "Arts & Crafts",
+          a: "/arts-crafts",
         },
         {
-          id: '9-2',
-          title: 'Beauty & Makeup',
-          a: '/beauty-makeup',
+          id: "9-2",
+          title: "Beauty & Makeup",
+          a: "/beauty-makeup",
         },
         {
-          id: '9-3',
-          title: 'Food & Beverage',
-          a: '/food-beverage',
+          id: "9-3",
+          title: "Food & Beverage",
+          a: "/food-beverage",
         },
-      ]
+      ],
     },
     {
       id: 10,
@@ -409,21 +410,21 @@ const Navbar = () => {
       a: "/photography-video",
       subCategories: [
         {
-          id: '10-1',
-          title: 'Digital Photography',
-          a: '/digital-photography',
+          id: "10-1",
+          title: "Digital Photography",
+          a: "/digital-photography",
         },
         {
-          id: '10-2',
-          title: 'Photography',
-          a: '/photography',
+          id: "10-2",
+          title: "Photography",
+          a: "/photography",
         },
         {
-          id: '10-3',
-          title: 'Video Design',
-          a: '/video-design',
+          id: "10-3",
+          title: "Video Design",
+          a: "/video-design",
         },
-      ]
+      ],
     },
     {
       id: 11,
@@ -431,21 +432,21 @@ const Navbar = () => {
       a: "/health-fitness",
       subCategories: [
         {
-          id: '11-1',
-          title: 'Fitness',
-          a: '/fitness',
+          id: "11-1",
+          title: "Fitness",
+          a: "/fitness",
         },
         {
-          id: '11-2',
-          title: 'Sports',
-          a: '/sports',
+          id: "11-2",
+          title: "Sports",
+          a: "/sports",
         },
         {
-          id: '11-3',
-          title: 'Yoga',
-          a: '/yoga',
+          id: "11-3",
+          title: "Yoga",
+          a: "/yoga",
         },
-      ]
+      ],
     },
     {
       id: 12,
@@ -453,16 +454,16 @@ const Navbar = () => {
       a: "/music",
       subCategories: [
         {
-          id: '12-1',
-          title: 'Instruments',
-          a: '/instruments',
+          id: "12-1",
+          title: "Instruments",
+          a: "/instruments",
         },
         {
-          id: '12-2',
-          title: 'Vocal',
-          a: '/vocal',
+          id: "12-2",
+          title: "Vocal",
+          a: "/vocal",
         },
-      ]
+      ],
     },
     {
       id: 13,
@@ -470,16 +471,16 @@ const Navbar = () => {
       a: "/teaching-academics",
       subCategories: [
         {
-          id: '13-1',
-          title: 'Engineering',
-          a: '/engineering',
+          id: "13-1",
+          title: "Engineering",
+          a: "/engineering",
         },
         {
-          id: '13-2',
-          title: 'Humanities',
-          a: '/humanities',
+          id: "13-2",
+          title: "Humanities",
+          a: "/humanities",
         },
-      ]
+      ],
     },
   ];
 
@@ -490,10 +491,13 @@ const Navbar = () => {
   const [activeSubSubCategory, setActiveSubSubCategory] = useState(null);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [initials, setInitials] = useState('');
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
+  
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
@@ -519,6 +523,33 @@ const Navbar = () => {
   function moveToHome() {
     navigate("/");
   }
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await AuthService.profile();
+        setUserData(response.data);
+        console.log(response.data);
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  const getInitials = (name) =>  {
+    const words = name.split(' ');
+    initials = words.map(word => word[0].toUpperCase());
+    return initials.join('');
+  }
+  
+
+  const logout = () => {
+    AuthService.logout();
+    setUserData(false);
+    moveToLogin();
+  };
 
   return (
     <nav className="bg-white border-gray-800 shadow-[0_2px_4px_rgba(0,0,0,0.08)] md:shadow-none ">
@@ -580,26 +611,64 @@ const Navbar = () => {
                     onMouseLeave={handleMouseLeave}
                   >
                     <button
-                      className="flex items-center justify-center w-10 h-10 rounded-full bg-black text-white font-UdemySansBold"
+                      className="flex items-center justify-center w-20 h-20 rounded-full bg-black text-white font-UdemySansBold"
                       data-popover-target="profilePopover"
                       data-popover-offset="20"
                       data-popover-placement="bottom"
                     >
-                      <span>Tuấn</span>
+                      <span>{userData.display_name}</span>
                     </button>
                   </div>
                 )}
 
                 {/* Your mobile menu content */}
-                <div className="flex  justify-center h-full">
+                <div className="flex justify-center h-full">
                   <ul className="text-gray-900">
-                    <li>
-                      <a to="/">Home</a>
+                    <li className="group relative block">
+                      <a
+                        href=""
+                        className="py-2 px-4 inline-block cursor-pointer"
+                      >
+                        Profile
+                      </a>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
-                    <li>
-                      <a to="/category1">Category 1</a>
+                    <li className="group relative block">
+                      <a
+                        href=""
+                        className="py-2 px-4 inline-block cursor-pointer"
+                      >
+                        My Learning
+                      </a>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
-                    {/* Add more menu items as needed */}
+                    <li className="group relative block">
+                      <a
+                        href=""
+                        className="py-2 px-4 inline-block cursor-pointer"
+                      >
+                        My Cart
+                      </a>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
+                    </li>
+                    <li className="group relative block">
+                      <a
+                        href=""
+                        className="py-2 px-4 inline-block cursor-pointer"
+                      >
+                        Wishlist
+                      </a>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
+                    </li>
+                    <li className="group relative block">
+                      <a
+                        className="py-2 px-4 inline-block cursor-pointer"
+                        onClick={logout}
+                      >
+                        Log out
+                      </a>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -617,8 +686,10 @@ const Navbar = () => {
           </a>
         </div>
 
-        <div className="hidden md:flex flex-col md:flex-row items-start md:items-center justify-between w-full md:w-auto text-base md:text-sm gap-4 md:grow order-2 md:order-none p-4 md:p-0 border border-gray-100 rounded-lg md:border-0 mt-4 md:mt-0 bg-gray-50 md:bg-white"
-          id="navbar-cta">
+        <div
+          className="hidden md:flex flex-col md:flex-row items-start md:items-center justify-between w-full md:w-auto text-base md:text-sm gap-4 md:grow order-2 md:order-none p-4 md:p-0 border border-gray-100 rounded-lg md:border-0 mt-4 md:mt-0 bg-gray-50 md:bg-white"
+          id="navbar-cta"
+        >
           <div
             className="relative"
             onMouseEnter={() => handleMouseEnter("categories")}
@@ -640,54 +711,66 @@ const Navbar = () => {
               // >
               <div className="absolute w-32 md:w-64 z-10 bg-white rounded-lg shadow-lg">
                 <ul className="text-gray-900">
-                  {
-                    Categories.map((category) => (
-                      <li
-                        key={category.id}
-                        // data-dropdown-toggle={`subCategory${category.id}Dropdown`}
-                        // data-dropdown-placement="right-start"
-                        // data-dropdown-trigger="hover"
-                        // data-dropdown-offset-distance="13"
-                        // data-dropdown-offset-skidding="-9"
-                        className="relative"
-                        onMouseEnter={() => handleMouseEnter("categories", category.id)}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        <div className="flex items-center justify-between w-full hover:text-purple-600">
-                          <a href={category.a} className="flex items-center justify-between w-full py-3 px-4 hover:text-purple-600">
-                            {category.title}
-                          </a>
-                          {
-                            category.subCategories && (
-                              <svg
-                                aria-hidden="true"
-                                className="w-4 h-4"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                  clipRule="evenodd"
-                                ></path>
-                              </svg>
-                            )
-                          }
-                        </div>
-                        {/* -- SUBCATEGORY -- */}
-                        {category.subCategories && activeSubCategory === category.id && (
+                  {Categories.map((category) => (
+                    <li
+                      key={category.id}
+                      // data-dropdown-toggle={`subCategory${category.id}Dropdown`}
+                      // data-dropdown-placement="right-start"
+                      // data-dropdown-trigger="hover"
+                      // data-dropdown-offset-distance="13"
+                      // data-dropdown-offset-skidding="-9"
+                      className="relative"
+                      onMouseEnter={() =>
+                        handleMouseEnter("categories", category.id)
+                      }
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <div className="flex items-center justify-between w-full hover:text-purple-600">
+                        <a
+                          href={category.a}
+                          className="flex items-center justify-between w-full py-3 px-4 hover:text-purple-600"
+                        >
+                          {category.title}
+                        </a>
+                        {category.subCategories && (
+                          <svg
+                            aria-hidden="true"
+                            className="w-4 h-4"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                              clipRule="evenodd"
+                            ></path>
+                          </svg>
+                        )}
+                      </div>
+                      {/* -- SUBCATEGORY -- */}
+                      {category.subCategories &&
+                        activeSubCategory === category.id && (
                           <div className="absolute left-full top-0 mt-1 w-48 md:w-64 bg-white shadow-lg z-10">
                             <ul>
                               {category.subCategories.map((subCategory) => (
                                 <li
                                   key={subCategory.id}
                                   className="relative"
-                                  onMouseEnter={() => handleMouseEnter("categories", category.id, subCategory.id)}
+                                  onMouseEnter={() =>
+                                    handleMouseEnter(
+                                      "categories",
+                                      category.id,
+                                      subCategory.id
+                                    )
+                                  }
                                   onMouseLeave={handleMouseLeave}
                                 >
                                   <div className="flex items-center justify-between w-full py-1 hover:text-purple-600">
-                                    <a href={subCategory.a} className="flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:text-purple-600">
+                                    <a
+                                      href={subCategory.a}
+                                      className="flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:text-purple-600"
+                                    >
                                       {subCategory.title}
                                     </a>
                                     {subCategory.subSubCategories && (
@@ -707,37 +790,45 @@ const Navbar = () => {
                                     )}
                                   </div>
                                   {/* -- SUBSUBCATEGORY -- */}
-                                  {subCategory.subSubCategories && activeSubSubCategory === subCategory.id && (
-                                    <div className="absolute left-full top-0 mt-1 py-1 w-48 md:w-64 bg-white shadow-lg z-20">
-                                      <ul>
-                                        {subCategory.subSubCategories.map((subSubCategory) => (
-                                          <li
-                                            key={subSubCategory.id}
-                                            onMouseEnter={() => handleMouseEnter("subCategories", subCategory.id, subSubCategory.id)}
-                                            onMouseLeave={handleMouseLeave}
-                                          >
-                                            <a href={subSubCategory.a}
-                                              className="block px-4 py-2 text-sm text-gray-700 hover:text-purple-600 hover:bg-gray-100">
-                                              {subSubCategory.title}
-                                            </a>
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </div>
-                                  )}
+                                  {subCategory.subSubCategories &&
+                                    activeSubSubCategory === subCategory.id && (
+                                      <div className="absolute left-full top-0 mt-1 py-1 w-48 md:w-64 bg-white shadow-lg z-20">
+                                        <ul>
+                                          {subCategory.subSubCategories.map(
+                                            (subSubCategory) => (
+                                              <li
+                                                key={subSubCategory.id}
+                                                onMouseEnter={() =>
+                                                  handleMouseEnter(
+                                                    "subCategories",
+                                                    subCategory.id,
+                                                    subSubCategory.id
+                                                  )
+                                                }
+                                                onMouseLeave={handleMouseLeave}
+                                              >
+                                                <a
+                                                  href={subSubCategory.a}
+                                                  className="block px-4 py-2 text-sm text-gray-700 hover:text-purple-600 hover:bg-gray-100"
+                                                >
+                                                  {subSubCategory.title}
+                                                </a>
+                                              </li>
+                                            )
+                                          )}
+                                        </ul>
+                                      </div>
+                                    )}
                                 </li>
                               ))}
                             </ul>
                           </div>
-
                         )}
-                      </li>
-                    ))
-                  }
+                    </li>
+                  ))}
                 </ul>
               </div>
               // </Popover>
-
             )}
           </div>
 
@@ -897,7 +988,7 @@ const Navbar = () => {
             <div
               class="relative "
               onMouseEnter={() => handleMouseEnter("profilePopover")}
-              onMouseLeave={handleMouseLeave}
+              
             >
               <button
                 className="flex items-center justify-center w-10 h-10 rounded-full bg-black text-white font-UdemySansBold"
@@ -905,15 +996,14 @@ const Navbar = () => {
                 data-popover-offset="20"
                 data-popover-placement="bottom"
               >
-                <span>Tuấn</span>
+                <span>{userData.display_name}</span>
               </button>
 
               {activeCategory === "profilePopover" && (
-                <Popover
-                  target="profilePopover"
-                  className="max-w-xs !-right-2.5 py-5 w-[500px]  "
+                <  div className = "absolute w-40 md:w-64 z-20 bg-white rounded-lg shadow-lg right-[0] top-[90%]"
+                  
                 >
-                  <div className="flex items-center gap-2 px-2">
+                  <div className="flex items-center gap-2 p-2 text-center">
                     <div
                       className="flex items-center justify-center w-16 h-16 rounded-full
                    bg-black text-white font-UdemySansBold"
@@ -921,26 +1011,62 @@ const Navbar = () => {
                       data-popover-offset="20"
                       data-popover-placement="bottom"
                     >
-                      <span>Tuan</span>
+                      <span>{userData.display_name}</span>
                     </div>
                     <div className="flex flex-col items-start text-sm ">
-                      <p className="font-UdemySansBold">TuanPhan</p>
-                      <p className="text-neutral-500">ptuan123987@gmail.com</p>
+                      <p className="font-UdemySansBold">{userData.display_name}</p>
+                      <p className="text-neutral-500">{userData.email}</p>
                     </div>
                   </div>
                   <hr />
                   <ul className="space-y-2 text-zinc-800 hover:[&>*]:text-violet-700 px-2">
-                    <li>My learning</li>
-                    <li>My cart</li>
-                    <li>Wishlist</li>
-                  </ul>
-                  <hr />
-                  <ul className="space-y-2 text-zinc-800 hover:[&>*]:text-violet-700 px-2">
-                    <li>
-                      <a to="/logout">Log out</a>
+                    <li className="group relative block">
+                      <a
+                        href=""
+                        className="py-2 px-4 inline-block cursor-pointer"
+                      >
+                        Profile
+                      </a>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
+                    </li>
+                    <li className="group relative block">
+                      <a
+                        href=""
+                        className="py-2 px-4 inline-block cursor-pointer"
+                      >
+                        My Learning
+                      </a>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
+                    </li>
+                    <li className="group relative block">
+                      <a
+                        href=""
+                        className="py-2 px-4 inline-block cursor-pointer"
+                      >
+                        My Cart
+                      </a>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
+                    </li>
+                    <li className="group relative block">
+                      <a
+                        href=""
+                        className="py-2 px-4 inline-block cursor-pointer"
+                      >
+                        Wishlist
+                      </a>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
+                    </li>
+                    <li className="group relative block">
+                      <a
+                        className="py-2 px-4 inline-block cursor-pointer"
+                        onClick={logout}
+                      >
+                        Log out
+                      </a>
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
                   </ul>
-                </Popover>
+                </div>
               )}
             </div>
           )}

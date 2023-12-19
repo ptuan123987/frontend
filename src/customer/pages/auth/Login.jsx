@@ -1,17 +1,26 @@
-import React from "react";
+import { React, useState } from "react";
 import Layout from "../../components/Layout";
 import Input1 from "../../components/forms/Input1";
 import Button3 from "../../components/buttons/Button3";
 import Button1 from "../../components/buttons/Button1";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import axios from "axios";
+import AuthService from "../../services/AuthService";
+import PasswordInput from "../../components/forms/PasswordInput";
 const Login = () => {
+  const location = useLocation();
   const appName = "Udemy";
   const navigate = useNavigate();
 
+  const [email, setEmail] = useState(location.state?.email || "");
+  const [password, setPassword] = useState(location.state?.password || "");
+  const [errorMessage, setErrorMessage] = useState("");
   function moveToSignup() {
     navigate("/signup");
+  }
+  function moveToForgot() {
+    navigate("/forgot-password");
   }
 
   async function redirectToGoogleLogin() {
@@ -32,9 +41,32 @@ const Login = () => {
       },
     });
     console.log(response);
-    
+
     window.location.href = response.data.login_url;
   }
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); 
+
+    AuthService.login(email, password).then(
+      () => {
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setErrorMessage(resMessage); 
+        console.log(errorMessage);
+      }
+    );
+  };
 
   return (
     <Layout>
@@ -75,11 +107,26 @@ const Login = () => {
 
           {/* Form for email and password */}
           <form className="flex flex-col gap-2">
-            <Input1 label="Email" />
-            <Input1 label="Password" />
-            <Button3 className="mt-2" type="submit"></Button3>
+            <Input1
+              label="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              required
+            />
+            <PasswordInput
+              label="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button3 className="mt-2" type="submit" onClick={handleSubmit}>
+              Login
+            </Button3>
           </form>
-
+          {/* Display error message if it exists */}
+          {errorMessage && (
+            <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+          )}
           <hr />
           <p className="text-center">
             Don't have an account?
@@ -95,6 +142,7 @@ const Login = () => {
             <button
               to="#"
               className="underline text-violet-700 font-UdemySansBold"
+              onClick={moveToForgot}
             >
               Forgot Password
             </button>
