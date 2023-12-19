@@ -12,13 +12,17 @@ import AdminCourse from "../../admin/pages/AdminCourse";
 import Students from "../../admin/pages/Students"
 import Analytics from "../../admin/pages/Analytics";
 import NotFound from "../pages/NotFound";
+import ResetPassword from "../pages/ResetPassword";
+import ForgotPassword from "../pages/ForgotPassword";
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path= "/response-password-reset/*" element={<ResetPassword/>}/>
+
       {/* Categories route */}
       <Route path="/development" element={<CoursePage />} />
       <Route path="/business" element={<CoursePage />} />

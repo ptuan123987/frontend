@@ -1000,12 +1000,12 @@ const Navbar = () => {
               </button>
 
               {activeCategory === "profilePopover" && (
-                <  div className = "absolute w-32 md:w-64 z-20 bg-white rounded-lg shadow-lg right-[0] top-[90%]"
+                <  div className = "absolute w-40 md:w-64 z-20 bg-white rounded-lg shadow-lg right-[0] top-[90%]"
                   
                 >
                   <div className="flex items-center gap-2 p-2 text-center">
                     <div
-                      className="flex items-center justify-center w-20 h-20 rounded-full
+                      className="flex items-center justify-center w-16 h-16 rounded-full
                    bg-black text-white font-UdemySansBold"
                       data-popover-target="profilePopover"
                       data-popover-offset="20"

@@ -3,20 +3,24 @@ import Layout from "../../components/Layout";
 import Input1 from "../../components/forms/Input1";
 import Button3 from "../../components/buttons/Button3";
 import Button1 from "../../components/buttons/Button1";
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import AuthService from "../../services/AuthService";
 import PasswordInput from "../../components/forms/PasswordInput";
 const Login = () => {
-
+  const location = useLocation();
   const appName = "Udemy";
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
+  const [email, setEmail] = useState(location.state?.email || "");
+  const [password, setPassword] = useState(location.state?.password || "");
   
   function moveToSignup() {
     navigate("/signup");
+  }
+  function moveToForgot() {
+    navigate("/forgot-password");
   }
   
   async function redirectToGoogleLogin() {
@@ -119,6 +123,7 @@ const Login = () => {
             <button
               to="#"
               className="underline text-violet-700 font-UdemySansBold"
+              onClick={moveToForgot}
             >
               Forgot Password
             </button>
