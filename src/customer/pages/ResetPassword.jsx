@@ -15,7 +15,7 @@ const ResetPassword = () => {
   const [email, setEmail] = useState(location.state?.email || "");
   const [token, setToken] = useState("");
   const [password, setPassword] = useState("");
-
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const tokenFromURL = searchParams.get("token");
@@ -24,16 +24,29 @@ const ResetPassword = () => {
   }, [searchParams]);
 
   const handleSubmit = () => {
-    console.log(email,password,token);
-    AuthService.resetPassword(email, token, password).then((response) => {
-      console.log(response);
-      setShowSuccessModal(true);
-      setTimeout(() => {
-        navigate("/login", {
+    console.log(email, password, token);
+    AuthService.resetPassword(email, token, password).then(
+      (response) => {
+        console.log(response);
+        setShowSuccessModal(true);
+        setTimeout(() => {
+          navigate("/login", {
             state: { email: email, password: password },
           });
-      }, 3000);
-    });
+        }, 3000);
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setErrorMessage(resMessage);
+        console.log(errorMessage);
+      }
+    );
   };
 
   return (
@@ -62,6 +75,9 @@ const ResetPassword = () => {
             Reset Password
           </Button3>
         </form>
+        {errorMessage && (
+          <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+        )}
 
         {showSuccessModal && (
           <SuccessModal onClick={() => setShowSuccessModal(false)}>

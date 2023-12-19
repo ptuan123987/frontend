@@ -18,6 +18,8 @@ const Signup = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const passwordStrengthContainer = useRef(null);
+  const [errorMessage, setErrorMessage] = useState("");
+
   function moveToLogin() {
     navigate("/login");
   }
@@ -104,6 +106,17 @@ const Signup = () => {
         navigate("/login", {
           state: { email: form.email, password: form.password },
         });
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setErrorMessage(resMessage);
+        console.log(errorMessage);
       }
     );
   };
@@ -184,7 +197,6 @@ const Signup = () => {
               </button>
             </div>
 
-         
             <div
               className="flex items-center gap-1 my-2"
               ref={passwordStrengthContainer}
@@ -213,6 +225,11 @@ const Signup = () => {
               Sign up
             </Button3>
           </form>
+          {/* Display error message if it exists */}
+          {errorMessage && (
+            <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+          )}
+
           <p className="text-xs">
             By signing up, you agree to our{" "}
             <button to="#" className="underline">

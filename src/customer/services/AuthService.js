@@ -44,6 +44,7 @@ const profile = () => {
     },
   });
 };
+
 const logout = () => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
@@ -58,6 +59,7 @@ const forgotPassword = (email) => {
       console.log(response);
     });
 };
+
 const resetPassword = (email, resetToken, password) => {
   console.log(email, resetToken, password);
   return axios

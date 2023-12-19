@@ -12,7 +12,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState(location.state?.email || "");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-
+  
   const handleSubmit = () => {
     AuthService.forgotPassword(email).then((response) => {
       console.log(response);

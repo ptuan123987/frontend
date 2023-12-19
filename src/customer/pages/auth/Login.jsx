@@ -1,9 +1,9 @@
-import {React,useState} from "react";
+import { React, useState } from "react";
 import Layout from "../../components/Layout";
 import Input1 from "../../components/forms/Input1";
 import Button3 from "../../components/buttons/Button3";
 import Button1 from "../../components/buttons/Button1";
-import {useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import AuthService from "../../services/AuthService";
@@ -15,16 +15,15 @@ const Login = () => {
 
   const [email, setEmail] = useState(location.state?.email || "");
   const [password, setPassword] = useState(location.state?.password || "");
-  
+  const [errorMessage, setErrorMessage] = useState("");
   function moveToSignup() {
     navigate("/signup");
   }
   function moveToForgot() {
     navigate("/forgot-password");
   }
-  
-  async function redirectToGoogleLogin() {
 
+  async function redirectToGoogleLogin() {
     const response = await axios.get("http://localhost:8000/api/login/google", {
       params: {
         redirect_url: "http://localhost:3000/callback/google",
@@ -42,16 +41,32 @@ const Login = () => {
       },
     });
     console.log(response);
-    
+
     window.location.href = response.data.login_url;
   }
 
   const handleSubmit = (event) => {
-    AuthService.login(email, password).then( async () => {
-      console.log("Logged In Successfully !");
-      navigate("/");
-    })
-  }
+    event.preventDefault(); 
+
+    AuthService.login(email, password).then(
+      () => {
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setErrorMessage(resMessage); 
+        console.log(errorMessage);
+      }
+    );
+  };
 
   return (
     <Layout>
@@ -91,8 +106,8 @@ const Login = () => {
           </Button1>
 
           {/* Form for email and password */}
-          <form className="flex flex-col gap-2" >
-          <Input1
+          <form className="flex flex-col gap-2">
+            <Input1
               label="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -103,11 +118,15 @@ const Login = () => {
               label="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              
             />
-            <Button3 className="mt-2" type="submit"  onClick={handleSubmit}>Login</Button3>
+            <Button3 className="mt-2" type="submit" onClick={handleSubmit}>
+              Login
+            </Button3>
           </form>
-
+          {/* Display error message if it exists */}
+          {errorMessage && (
+            <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+          )}
           <hr />
           <p className="text-center">
             Don't have an account?
