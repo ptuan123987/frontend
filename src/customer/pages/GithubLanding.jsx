@@ -1,6 +1,7 @@
 import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
+import { API_URL } from "../../Constants";
 const GitLanding = () => {
   const [searchParams] = useSearchParams();
   const code = searchParams.get("code");
@@ -12,7 +13,7 @@ const GitLanding = () => {
     async function sendTokenToLogin() {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/callback/github",
+            API_URL + "api/callback/github",
           {
             params: {
               code: code,
