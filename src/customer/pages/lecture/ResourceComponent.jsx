@@ -18,12 +18,12 @@ const ResourceComponent = ({ lectureId }) => {
                 if (response.ok) {
                     const data = await response.json();
                     setResourceInfo(data);
-                    console.log('Fetched Resources Info:', data);
+                    console.log('Fetched resources Info:', data);
                 } else {
                     console.error('Failed to fetch Resources information');
                 }
             } catch (error) {
-                console.error('Error fetching Resources information:', error);
+                console.error('Error fetching resources information:', error);
             }
         };
 
