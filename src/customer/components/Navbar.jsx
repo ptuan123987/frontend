@@ -4,6 +4,8 @@ import Popover from "./Popover";
 import Button2 from "./buttons/Button2";
 import AuthService from "../../customer/services/AuthService";
 import Button1 from "./buttons/Button1";
+import useUserStore from "../stores/useUserStore";
+import MyLearning from "../pages/user/MyLearning";
 const Navbar = () => {
   const Categories = [
     {
@@ -491,13 +493,11 @@ const Navbar = () => {
   const [activeSubSubCategory, setActiveSubSubCategory] = useState(null);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const [initials, setInitials] = useState('');
+  const { userData, setUserData } = useUserStore();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
-
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
@@ -523,33 +523,22 @@ const Navbar = () => {
   function moveToHome() {
     navigate("/");
   }
-  const moveToProfile = () => {
-    navigate('/profile');
-  };
-
-  const moveToMyLearning = () => {
-    navigate('/mylearning');
-  };
+  function moveToProfile() {
+    navigate("/profile");
+  }
+  function moveToMyLearning() {
+    navigate("/my-learning")
+  }
 
   const moveToWishlist = () => {
     navigate('/wishlist');
   };
-
-  const getInitials = (name) => {
-    return name
-      .split(' ')
-      .map((n) => n[0])
-      .join('')
-      .toUpperCase();
-  };
-
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const response = await AuthService.profile();
         setUserData(response.data);
-        console.log(response.data);
         setIsLoggedIn(true);
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -557,14 +546,14 @@ const Navbar = () => {
     };
 
     fetchUserProfile();
-  }, []);
+  }, [setUserData]);
 
-  // const getInitials = (name) => {
-  //   const words = name.split(' ');
-  //   initials = words.map(word => word[0].toUpperCase());
-  //   return initials.join('');
-  // }
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
 
+   const initials = useUserStore((state) => state.getInitials());
+  console.log(initials);
 
   const logout = () => {
     AuthService.logout();
@@ -637,7 +626,7 @@ const Navbar = () => {
                       data-popover-offset="20"
                       data-popover-placement="bottom"
                     >
-                      <span>{userData.display_name}</span>
+                      <span>{initials}</span>
                     </button>
                   </div>
                 )}
@@ -649,6 +638,7 @@ const Navbar = () => {
                       <a
                         href=""
                         className="py-2 px-4 inline-block cursor-pointer"
+                        onClick={moveToProfile}
                       >
                         Profile
                       </a>
@@ -658,6 +648,7 @@ const Navbar = () => {
                       <a
                         href=""
                         className="py-2 px-4 inline-block cursor-pointer"
+                        onClick={MyLearning}
                       >
                         My Learning
                       </a>
@@ -1009,7 +1000,6 @@ const Navbar = () => {
             <div
               class="relative "
               onMouseEnter={() => handleMouseEnter("profilePopover")}
-
             >
               <button
                 className="flex items-center justify-center w-10 h-10 rounded-full bg-black text-white font-UdemySansBold"
@@ -1017,13 +1007,11 @@ const Navbar = () => {
                 data-popover-offset="20"
                 data-popover-placement="bottom"
               >
-                <span>{getInitials(userData.display_name)}</span>
+                <span>{initials}</span>
               </button>
 
               {activeCategory === "profilePopover" && (
-                <  div className="absolute w-40 md:w-64 z-20 bg-white rounded-lg shadow-lg right-[0] top-[90%]"
-
-                >
+                <div className="absolute w-40 md:w-64 z-20 bg-white rounded-lg shadow-lg right-[0] top-[90%]">
                   <div className="flex items-center gap-2 p-2 text-center">
                     <div
                       className="flex items-center justify-center w-9 h-9 rounded-full
@@ -1032,10 +1020,12 @@ const Navbar = () => {
                       data-popover-offset="20"
                       data-popover-placement="bottom"
                     >
-                      <span>{getInitials(userData.display_name)}</span>
+                      <span>{initials}</span>
                     </div>
                     <div className="flex flex-col items-start text-sm ">
-                      <p className="font-UdemySansBold">{userData.display_name}</p>
+                      <p className="font-UdemySansBold">
+                        {userData.display_name}
+                      </p>
                       <p className="text-neutral-500">{userData.email}</p>
                     </div>
                   </div>
