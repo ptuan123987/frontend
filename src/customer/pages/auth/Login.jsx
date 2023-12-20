@@ -136,7 +136,7 @@ const Login = () => {
           {showSuccessModal && (
             <SuccessModal onClick={() => setShowSuccessModal(false)}>
               <h2>Success!</h2>
-              <p>Profile updated successfully.</p>
+              <p>Login successfully.</p>
             </SuccessModal>
           )}
           <hr />

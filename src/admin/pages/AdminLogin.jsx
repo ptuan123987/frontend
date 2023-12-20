@@ -38,6 +38,10 @@ const AdminLogin = () => {
         console.log(errorMessage);
       }
     );
+
+    AuthService.profile().then((res) => {
+      console.log(res);
+    });
   };
 
   return (
@@ -68,7 +72,7 @@ const AdminLogin = () => {
           {showSuccessModal && (
             <SuccessModal onClick={() => setShowSuccessModal(false)}>
               <h2>Success!</h2>
-              <p>Register successfully.</p>
+              <p>Login successfully.</p>
             </SuccessModal>
           )}
           <Button3 className="mt-2" type="submit" onClick={handleSubmit}>
