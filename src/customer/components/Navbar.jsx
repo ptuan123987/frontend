@@ -1007,7 +1007,7 @@ const Navbar = () => {
                 <div className="absolute w-40 md:w-64 z-20 bg-white rounded-lg shadow-lg right-[0] top-[90%]">
                   <div className="flex items-center gap-2 p-2 text-center">
                     <div
-                      className="flex items-center justify-center w-16 h-16 rounded-full
+                      className="flex items-center justify-center w-9 h-9 rounded-full
                    bg-black text-white font-UdemySansBold"
                       data-popover-target="profilePopover"
                       data-popover-offset="20"

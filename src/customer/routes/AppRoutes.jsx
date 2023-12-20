@@ -41,6 +41,8 @@ const AppRoutes = () => {
 
       <Route path="/callback/github/*" element={<GithubLanding />} />
       <Route path="/callback/google/*" element={<GoogleLanding />} />
+      
+      {/* User route */}
       <Route path="/profile" element={<Profile />} />
       <Route path="/change-password" element={<ChangePassword />} />
       <Route path="*" element={<NotFound />} />
