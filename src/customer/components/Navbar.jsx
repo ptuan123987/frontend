@@ -497,7 +497,7 @@ const Navbar = () => {
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
-  
+
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
@@ -523,6 +523,19 @@ const Navbar = () => {
   function moveToHome() {
     navigate("/");
   }
+  const moveToProfile = () => {
+    navigate('/profile');
+  };
+
+  const getInitials = (name) => {
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase();
+  };
+
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -538,12 +551,12 @@ const Navbar = () => {
     fetchUserProfile();
   }, []);
 
-  const getInitials = (name) =>  {
-    const words = name.split(' ');
-    initials = words.map(word => word[0].toUpperCase());
-    return initials.join('');
-  }
-  
+  // const getInitials = (name) => {
+  //   const words = name.split(' ');
+  //   initials = words.map(word => word[0].toUpperCase());
+  //   return initials.join('');
+  // }
+
 
   const logout = () => {
     AuthService.logout();
@@ -988,7 +1001,7 @@ const Navbar = () => {
             <div
               class="relative "
               onMouseEnter={() => handleMouseEnter("profilePopover")}
-              
+
             >
               <button
                 className="flex items-center justify-center w-10 h-10 rounded-full bg-black text-white font-UdemySansBold"
@@ -996,22 +1009,22 @@ const Navbar = () => {
                 data-popover-offset="20"
                 data-popover-placement="bottom"
               >
-                <span>{userData.display_name}</span>
+                <span>{getInitials(userData.display_name)}</span>
               </button>
 
               {activeCategory === "profilePopover" && (
-                <  div className = "absolute w-40 md:w-64 z-20 bg-white rounded-lg shadow-lg right-[0] top-[90%]"
-                  
+                <  div className="absolute w-40 md:w-64 z-20 bg-white rounded-lg shadow-lg right-[0] top-[90%]"
+
                 >
                   <div className="flex items-center gap-2 p-2 text-center">
                     <div
-                      className="flex items-center justify-center w-16 h-16 rounded-full
+                      className="flex items-center justify-center w-9 h-9 rounded-full
                    bg-black text-white font-UdemySansBold"
                       data-popover-target="profilePopover"
                       data-popover-offset="20"
                       data-popover-placement="bottom"
                     >
-                      <span>{userData.display_name}</span>
+                      <span>{getInitials(userData.display_name)}</span>
                     </div>
                     <div className="flex flex-col items-start text-sm ">
                       <p className="font-UdemySansBold">{userData.display_name}</p>
@@ -1020,13 +1033,10 @@ const Navbar = () => {
                   </div>
                   <hr />
                   <ul className="space-y-2 text-zinc-800 hover:[&>*]:text-violet-700 px-2">
-                    <li className="group relative block">
-                      <a
-                        href=""
-                        className="py-2 px-4 inline-block cursor-pointer"
-                      >
+                    <li className="group relative block" onClick={moveToProfile}>
+                      <span className="py-2 px-4 inline-block cursor-pointer">
                         Profile
-                      </a>
+                      </span>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
                     <li className="group relative block">

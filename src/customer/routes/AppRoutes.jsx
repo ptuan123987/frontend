@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import CoursePage from '../pages/courses/CoursePage';
 import Profile from "../pages/user/Profile";
 import Photo from "../pages/user/Photo";
+import MyLearning from "../pages/user/MyLearning";
 import GithubLanding from "../pages/GithubLanding";
 import GoogleLanding from "../pages/GoogleLanding";
 import Dashboard from "../../admin/pages/Dashboard";
@@ -57,10 +58,14 @@ const AppRoutes = () => {
 
       <Route path="/callback/github/*" element={<GithubLanding />} />
       <Route path="/callback/google/*" element={<GoogleLanding />} />
+      
+      {/* User route */}
       <Route path="/profile" element={<Profile />} />
       <Route path="/photo" element={<Photo />} />
+      <Route path="/mylearning" element={<MyLearning />} />
       <Route path="*" element={<NotFound />} />
 
+      {/* Admin route */}
       <Route path="/admin/login" element={<AdminLogin />}></Route>
 
       <Route
