@@ -16,6 +16,7 @@ import Analytics from "../../admin/pages/Analytics";
 import NotFound from "../pages/NotFound";
 import ResetPassword from "../pages/ResetPassword";
 import ForgotPassword from "../pages/ForgotPassword";
+import LecturePage from "../pages/lecture/LecturePage";
 import AuthService from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
 import MyLearning from "../pages/user/MyLearning";
@@ -63,7 +64,7 @@ const AppRoutes = () => {
       <Route path="/admin/students" element={<Students />} />
       <Route path="/admin/analytics" element={<Analytics />} />
 
-
+      <Route path="/course/:courseId/chapter/:chapterId/lecture/:lectureId" element={<LecturePage />} />
     </Routes>
   );
 };

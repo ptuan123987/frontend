@@ -35,6 +35,10 @@ const login = (email, password) => {
     });
 };
 
+const getCurrentAccessToken = () => {
+    return localStorage.getItem('access_token');
+};
+
 const profile = () => {
   const access_token = localStorage.getItem("access_token");
 
@@ -128,7 +132,8 @@ const AuthService = {
   forgotPassword,
   resetPassword,
   editProfile,
-  changePassword
+  changePassword,
+  getCurrentAccessToken
 };
 
 export default AuthService;
