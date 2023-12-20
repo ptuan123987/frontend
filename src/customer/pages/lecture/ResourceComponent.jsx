@@ -20,7 +20,7 @@ const ResourceComponent = ({ lectureId }) => {
                     setResourceInfo(data);
                     console.log('Fetched resources Info:', data);
                 } else {
-                    console.error('Failed to fetch Resources information');
+                    console.error('Failed to fetch resources information');
                 }
             } catch (error) {
                 console.error('Error fetching resources information:', error);
