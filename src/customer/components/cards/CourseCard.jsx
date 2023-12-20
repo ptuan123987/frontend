@@ -1,16 +1,17 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import StarRating from '../star_rating/StarRating';
-// import { Wishlist } from '../../pages/user/Wishlist';
+import useWishlistStore from '../../stores/useWishlistStore';
 
 
 const CourseCard = ({ course }) => {
   const [isHovered, setIsHovered] = useState(false);
-  // const { addCourseToWishlist, wishlist } = useContext(Wishlist);
+  const addToWishlist = useWishlistStore((state) => state.addToWishlist);
 
-  // const handleAddToWishlist = () => {
-  //   addCourseToWishlist(course);
-  // };
+  const handleAddToWishlist = () => {
+    addToWishlist(course);
+  };
+
   return (
     <div className="flex flex-col max-w-[15rem] relative group"
       onMouseEnter={() => setIsHovered(true)}
@@ -51,7 +52,7 @@ const CourseCard = ({ course }) => {
         <div className="flex justify-between items-center">
           <button
             className="text-sm bg-transparent min-w-[20rem] hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-            // onClick={{handleAddToWishlist}}
+            onClick={handleAddToWishlist}
           >
             <span className="hidden sm:inline">Add to Wishlist</span>
             <span className="sm:hidden">❤️</span>
