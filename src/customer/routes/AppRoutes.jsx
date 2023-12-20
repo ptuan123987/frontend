@@ -18,10 +18,14 @@ import ResetPassword from "../pages/ResetPassword";
 import ForgotPassword from "../pages/ForgotPassword";
 import AuthService from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
+import MyLearning from "../pages/user/MyLearning";
 const AppRoutes = () => {
   const navigate = useNavigate();
 
-  
+  const token = localStorage.getItem("access_token");
+  if (token) {
+
+  }
 
   function moveToAdminLogin() {
     navigate("/admin/login");
@@ -45,15 +49,21 @@ const AppRoutes = () => {
       {/* User route */}
       <Route path="/profile" element={<Profile />} />
       <Route path="/change-password" element={<ChangePassword />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path= "/my-learning" element={<MyLearning/>} />
+
       <Route path="*" element={<NotFound />} />
 
 
-      <Route path="/admin/login" element={<AdminLogin />}></Route>
 
+
+      <Route path="/admin/login" element={<AdminLogin />}></Route>
       <Route path="/admin" element={<Dashboard />} />
       <Route path="/admin/course" element={<AdminCourse />} />
       <Route path="/admin/students" element={<Students />} />
       <Route path="/admin/analytics" element={<Analytics />} />
+
+
     </Routes>
   );
 };

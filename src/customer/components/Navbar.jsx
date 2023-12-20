@@ -5,6 +5,7 @@ import Button2 from "./buttons/Button2";
 import AuthService from "../../customer/services/AuthService";
 import Button1 from "./buttons/Button1";
 import useUserStore from "../stores/useUserStore";
+import MyLearning from "../pages/user/MyLearning";
 const Navbar = () => {
   const Categories = [
     {
@@ -525,6 +526,9 @@ const Navbar = () => {
   function moveToProfile() {
     navigate("/profile");
   }
+  function moveToMyLearning() {
+    navigate("/my-learning")
+  }
 
  
 
@@ -642,6 +646,7 @@ const Navbar = () => {
                       <a
                         href=""
                         className="py-2 px-4 inline-block cursor-pointer"
+                        onClick={MyLearning}
                       >
                         My Learning
                       </a>
@@ -1038,6 +1043,7 @@ const Navbar = () => {
                       <a
                         href=""
                         className="py-2 px-4 inline-block cursor-pointer"
+                        onClick={moveToMyLearning}
                       >
                         My Learning
                       </a>
