@@ -527,6 +527,14 @@ const Navbar = () => {
     navigate('/profile');
   };
 
+  const moveToMyLearning = () => {
+    navigate('/mylearning');
+  };
+
+  const moveToWishlist = () => {
+    navigate('/wishlist');
+  };
+
   const getInitials = (name) => {
     return name
       .split(' ')
@@ -1039,13 +1047,10 @@ const Navbar = () => {
                       </span>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
-                    <li className="group relative block">
-                      <a
-                        href=""
-                        className="py-2 px-4 inline-block cursor-pointer"
-                      >
+                    <li className="group relative block" onClick={moveToMyLearning}>
+                      <span className="py-2 px-4 inline-block cursor-pointer">
                         My Learning
-                      </a>
+                      </span>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
                     <li className="group relative block">
@@ -1057,22 +1062,16 @@ const Navbar = () => {
                       </a>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
-                    <li className="group relative block">
-                      <a
-                        href=""
-                        className="py-2 px-4 inline-block cursor-pointer"
-                      >
+                    <li className="group relative block" onClick={moveToWishlist}>
+                      <span className="py-2 px-4 inline-block cursor-pointer">
                         Wishlist
-                      </a>
+                      </span>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
                     <li className="group relative block">
-                      <a
-                        className="py-2 px-4 inline-block cursor-pointer"
-                        onClick={logout}
-                      >
+                      <span className="py-2 px-4 inline-block cursor-pointer" onClick={logout}>
                         Log out
-                      </a>
+                      </span>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
                   </ul>

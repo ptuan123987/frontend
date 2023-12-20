@@ -7,6 +7,7 @@ import CoursePage from '../pages/courses/CoursePage';
 import Profile from "../pages/user/Profile";
 import Photo from "../pages/user/Photo";
 import MyLearning from "../pages/user/MyLearning";
+import Wishlist from "../pages/user/Wishlist";
 import GithubLanding from "../pages/GithubLanding";
 import GoogleLanding from "../pages/GoogleLanding";
 import Dashboard from "../../admin/pages/Dashboard";
@@ -63,12 +64,13 @@ const AppRoutes = () => {
       <Route path="/profile" element={<Profile />} />
       <Route path="/photo" element={<Photo />} />
       <Route path="/mylearning" element={<MyLearning />} />
+      <Route path="/wishlist" element={<Wishlist />} />
       <Route path="*" element={<NotFound />} />
 
       {/* Admin route */}
-      <Route path="/admin/login" element={<AdminLogin />}></Route>
+      {/* <Route path="/admin/login" element={<AdminLogin />}></Route> */}
 
-      <Route
+      {/* <Route
         path="/admin"
         element={
           <PrivateRoute
@@ -107,7 +109,7 @@ const AppRoutes = () => {
             fallback={moveToLogin()}
           />
         }
-      />
+      /> */}
     </Routes>
   );
 };
