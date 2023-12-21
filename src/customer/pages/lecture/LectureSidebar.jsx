@@ -78,6 +78,7 @@ const Accordion = ({ title, content }) => {
     );
 };
 
+
 const LectureSideBar = ({ courseId }) => {
     const [chapterData, setChapterData] = useState([]);
 
@@ -93,5 +94,6 @@ const LectureSideBar = ({ courseId }) => {
         </div>
     );
 };
+
 
 export default LectureSideBar;
