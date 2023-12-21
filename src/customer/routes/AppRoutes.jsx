@@ -6,6 +6,8 @@ import Home from "../pages/Home";
 import CoursePage from "../pages/courses/CoursePage";
 import Profile from "../pages/user/Profile";
 import ChangePassword from "../pages/user/ChangePassword";
+import MyLearning from "../pages/user/MyLearning";
+import Wishlist from "../pages/user/Wishlist";
 import GithubLanding from "../pages/GithubLanding";
 import GoogleLanding from "../pages/GoogleLanding";
 import Dashboard from "../../admin/pages/Dashboard";
@@ -19,7 +21,7 @@ import ForgotPassword from "../pages/ForgotPassword";
 import LecturePage from "../pages/lecture/LecturePage";
 import AuthService from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
-import MyLearning from "../pages/user/MyLearning";
+
 const AppRoutes = () => {
   const navigate = useNavigate();
 
@@ -48,11 +50,10 @@ const AppRoutes = () => {
       <Route path="/callback/google/*" element={<GoogleLanding />} />
       
       {/* User route */}
-      <Route path="/profile" element={<Profile />} />
       <Route path="/change-password" element={<ChangePassword />} />
       <Route path="/profile" element={<Profile />} />
       <Route path= "/my-learning" element={<MyLearning/>} />
-
+      <Route path="/wishlist" element={<Wishlist />} />
       <Route path="*" element={<NotFound />} />
 
 

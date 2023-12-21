@@ -27,6 +27,8 @@ const fakeCategories = [
         ratings_count: 120,
         price: 19.99,
         inflated_price: 29.99,
+        time_updated: 'July 2023',
+        description: 'Learn javascript online and supercharge your web design with this Javascript for beginners training course.'
       },
       {
         id: 2,
@@ -40,6 +42,8 @@ const fakeCategories = [
         ratings_count: 150,
         price: 24.99,
         inflated_price: 39.99,
+        time_updated: 'August 2023',
+        description: 'Learn: HTML | CSS | JavaScript | Web programming | Web development | Front-end | Responsive | JQuery'
       },
       {
         id: 3,
