@@ -5,6 +5,7 @@ import Button2 from "./buttons/Button2";
 import AuthService from "../../customer/services/AuthService";
 import Button1 from "./buttons/Button1";
 import useUserStore from "../stores/useUserStore";
+import MyLearning from "../pages/user/MyLearning";
 const Navbar = () => {
   const Categories = [
     {
@@ -525,8 +526,13 @@ const Navbar = () => {
   function moveToProfile() {
     navigate("/profile");
   }
+  function moveToMyLearning() {
+    navigate("/my-learning")
+  }
 
- 
+  const moveToWishlist = () => {
+    navigate('/wishlist');
+  };
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -642,6 +648,7 @@ const Navbar = () => {
                       <a
                         href=""
                         className="py-2 px-4 inline-block cursor-pointer"
+                        onClick={MyLearning}
                       >
                         My Learning
                       </a>
@@ -1024,23 +1031,16 @@ const Navbar = () => {
                   </div>
                   <hr />
                   <ul className="space-y-2 text-zinc-800 hover:[&>*]:text-violet-700 px-2">
-                    <li className="group relative block">
-                      <a
-                        href=""
-                        className="py-2 px-4 inline-block cursor-pointer"
-                        onClick={moveToProfile}
-                      >
+                    <li className="group relative block" onClick={moveToProfile}>
+                      <span className="py-2 px-4 inline-block cursor-pointer">
                         Profile
-                      </a>
+                      </span>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
-                    <li className="group relative block">
-                      <a
-                        href=""
-                        className="py-2 px-4 inline-block cursor-pointer"
-                      >
+                    <li className="group relative block" onClick={moveToMyLearning}>
+                      <span className="py-2 px-4 inline-block cursor-pointer">
                         My Learning
-                      </a>
+                      </span>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
                     <li className="group relative block">
@@ -1052,22 +1052,16 @@ const Navbar = () => {
                       </a>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
-                    <li className="group relative block">
-                      <a
-                        href=""
-                        className="py-2 px-4 inline-block cursor-pointer"
-                      >
+                    <li className="group relative block" onClick={moveToWishlist}>
+                      <span className="py-2 px-4 inline-block cursor-pointer">
                         Wishlist
-                      </a>
+                      </span>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
                     <li className="group relative block">
-                      <a
-                        className="py-2 px-4 inline-block cursor-pointer"
-                        onClick={logout}
-                      >
+                      <span className="py-2 px-4 inline-block cursor-pointer" onClick={logout}>
                         Log out
-                      </a>
+                      </span>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
                   </ul>

@@ -6,22 +6,29 @@ import Home from "../pages/Home";
 import CoursePage from "../pages/courses/CoursePage";
 import Profile from "../pages/user/Profile";
 import ChangePassword from "../pages/user/ChangePassword";
+import MyLearning from "../pages/user/MyLearning";
+import Wishlist from "../pages/user/Wishlist";
 import GithubLanding from "../pages/GithubLanding";
 import GoogleLanding from "../pages/GoogleLanding";
 import Dashboard from "../../admin/pages/Dashboard";
 import AdminLogin from "../../admin/pages/AdminLogin";
-import AdminCourse from "../../admin/pages/AdminCourse";
+import AdminAddCourse from "../../admin/pages/AdminAddCourse";
 import Students from "../../admin/pages/Students";
 import Analytics from "../../admin/pages/Analytics";
 import NotFound from "../pages/NotFound";
 import ResetPassword from "../pages/ResetPassword";
 import ForgotPassword from "../pages/ForgotPassword";
+import LecturePage from "../pages/lecture/LecturePage";
 import AuthService from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
+
 const AppRoutes = () => {
   const navigate = useNavigate();
 
-  
+  const token = localStorage.getItem("access_token");
+  if (token) {
+
+  }
 
   function moveToAdminLogin() {
     navigate("/admin/login");
@@ -43,17 +50,23 @@ const AppRoutes = () => {
       <Route path="/callback/google/*" element={<GoogleLanding />} />
       
       {/* User route */}
-      <Route path="/profile" element={<Profile />} />
       <Route path="/change-password" element={<ChangePassword />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path= "/my-learning" element={<MyLearning/>} />
+      <Route path="/wishlist" element={<Wishlist />} />
       <Route path="*" element={<NotFound />} />
+      <Route path= ""/>
+
+
 
 
       <Route path="/admin/login" element={<AdminLogin />}></Route>
-
       <Route path="/admin" element={<Dashboard />} />
-      <Route path="/admin/course" element={<AdminCourse />} />
+      <Route path="/admin/add-course" element={<AdminAddCourse />} />
       <Route path="/admin/students" element={<Students />} />
       <Route path="/admin/analytics" element={<Analytics />} />
+
+      <Route path="/course/:courseId/chapter/:chapterId/lecture/:lectureId" element={<LecturePage />} />
     </Routes>
   );
 };

@@ -29,7 +29,7 @@ const Sidebar = () => {
       left : '-60%'
     }
   }
-  console.log(window.innerWidth)
+  // console.log(window.innerWidth)
 
   function moveToDashboard() {
     setSelected(0);
@@ -38,7 +38,7 @@ const Sidebar = () => {
   function moveToCourse() {
     setSelected(1);
 
-    navigate("/admin/course");
+    navigate("/admin/add-course");
   }
   function moveToStudents() {
     setSelected(2);

@@ -29,6 +29,10 @@ const login = (email, password) => {
         });
 };
 
+const getCurrentAccessToken = () => {
+    return localStorage.getItem('access_token');
+};
+
 const profile = () => {
     const access_token = localStorage.getItem('access_token');
   
@@ -42,6 +46,53 @@ const profile = () => {
 const getCurrentAccessToken = () => {
     return localStorage.getItem('access_token');
 };
+const editProfile = (display_name, email) => {
+  console.log(display_name, email);
+  const access_token = localStorage.getItem("access_token");
+
+  return axios
+    .put(
+      API_URL + "api/user/edit-profile",
+      {
+        display_name,
+        email,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    )
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+const changePassword = (oldPassword, newPassword) => {
+  const access_token = localStorage.getItem("access_token");
+  return axios
+    .post(
+      API_URL + "api/user/change-password",
+      {
+        oldPassword,
+        newPassword,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    )
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 
 const logout = () => {
     localStorage.removeItem('access_token');
@@ -49,12 +100,15 @@ const logout = () => {
 }
 
 const AuthService = {
-    register,
-    login,
-    profile,
-    logout,
-    getCurrentAccessToken
-}
-
+  register,
+  login,
+  profile,
+  logout,
+  forgotPassword,
+  resetPassword,
+  editProfile,
+  changePassword,
+  getCurrentAccessToken
+};
 
 export default AuthService;

@@ -8,6 +8,7 @@ const PasswordInput = ({ label, value, onChange, error, ...attrs  }) => {
       <input
         className="block px-2.5 pb-2.5 pt-5 w-full text-sm text-black border border-black appearance-none focus:outline-none focus:border-black focus:ring-0 peer"
         type={showPassword ? "text" : "password"}
+        placeholder=""
         value={value}
         onChange={onChange}
         required

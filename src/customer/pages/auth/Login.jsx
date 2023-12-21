@@ -8,6 +8,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthService from "../../services/AuthService";
 import PasswordInput from "../../components/forms/PasswordInput";
+import { API_URL } from "../../../Constants";
+import SuccessModal from "../../components/modal/SuccessModal";
 const Login = () => {
   const location = useLocation();
   const appName = "Udemy";
@@ -16,6 +18,8 @@ const Login = () => {
   const [email, setEmail] = useState(location.state?.email || "");
   const [password, setPassword] = useState(location.state?.password || "");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   function moveToSignup() {
     navigate("/signup");
   }
@@ -24,7 +28,7 @@ const Login = () => {
   }
 
   async function redirectToGoogleLogin() {
-    const response = await axios.get("http://localhost:8000/api/login/google", {
+    const response = await axios.get(API_URL + "api/login/google", {
       params: {
         redirect_url: "http://localhost:3000/callback/google",
       },
@@ -35,7 +39,7 @@ const Login = () => {
   }
 
   async function redirectToGithubLogin() {
-    const response = await axios.get("http://localhost:8000/api/login/github", {
+    const response = await axios.get( API_URL + "api/login/github", {
       params: {
         redirect_url: "http://localhost:3000/callback/github",
       },
@@ -46,13 +50,14 @@ const Login = () => {
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
 
     AuthService.login(email, password).then(
       () => {
+        setShowSuccessModal(true);
         setTimeout(() => {
           navigate("/");
-        }, 3000);
+        }, 1500);
       },
       (error) => {
         const resMessage =
@@ -62,7 +67,7 @@ const Login = () => {
           error.message ||
           error.toString();
 
-        setErrorMessage(resMessage); 
+        setErrorMessage(resMessage);
         console.log(errorMessage);
       }
     );
@@ -123,9 +128,17 @@ const Login = () => {
               Login
             </Button3>
           </form>
+          
           {/* Display error message if it exists */}
           {errorMessage && (
             <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+          )}
+
+          {showSuccessModal && (
+            <SuccessModal onClick={() => setShowSuccessModal(false)}>
+              <h2>Success!</h2>
+              <p>Login successfully.</p>
+            </SuccessModal>
           )}
           <hr />
           <p className="text-center">

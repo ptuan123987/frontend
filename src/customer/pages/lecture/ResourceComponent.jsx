@@ -33,12 +33,16 @@ const ResourceComponent = ({ lectureId }) => {
     return (
         <div>
             {resourceInfo ? (
-                <div>
-                    <h3>Resources:</h3>
+                <div className="grid gap-4 mt-4">
                     {resourceInfo.data.resources.map((resource, index) => (
-                        <div key={index}>
-                            <p>Title: {resource.title}</p>
-                            <p>Link: {resource.link}</p>
+                        <div key={index} className="border p-4">
+                            <p className="font-bold">Title: {resource.title}</p>
+                            <p>
+                                Link:{' '}
+                                <a href={resource.link} className="text-blue-500 underline">
+                                    {resource.link}
+                                </a>
+                            </p>
                         </div>
                     ))}
                 </div>

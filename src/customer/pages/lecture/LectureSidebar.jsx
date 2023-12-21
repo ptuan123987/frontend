@@ -41,48 +41,36 @@ const Accordion = ({ title, content }) => {
     const [accordionOpen, setAccordionOpen] = useState(false);
 
     return (
-        <div className="py-2 border-2">
+        <div className="border border-gray-300 rounded-md my-2">
             <button
                 onClick={() => setAccordionOpen(!accordionOpen)}
-                className="flex justify-between w-full"
+                className="flex justify-between w-full p-4 bg-gray-100 hover:bg-gray-200 focus:outline-none"
             >
                 <span>{title}</span>
                 <svg
-                    className="fill-indigo-500 shrink-0 ml-8"
-                    width="16"
-                    height="16"
+                    className={`fill-current h-4 w-4 transition-transform ${
+                        accordionOpen ? 'rotate-90' : ''
+                    }`}
                     xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
                 >
-                    <rect
-                        y="7"
-                        width="16"
-                        height="2"
-                        rx="1"
-                        className={`transform origin-center transition duration-200 ease-out ${
-                            accordionOpen && "!rotate-180"
-                        }`}
-                    />
-                    <rect
-                        y="7"
-                        width="16"
-                        height="2"
-                        rx="1"
-                        className={`transform origin-center rotate-90 transition duration-200 ease-out ${
-                            accordionOpen && "!rotate-180"
-                        }`}
+                    <path
+                        fillRule="evenodd"
+                        d="M5.293 6.293a1 1 0 011.414 0L10 9.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414zM10 13a1 1 0 010-2h-.001a1 1 0 010 2z"
+                        clipRule="evenodd"
                     />
                 </svg>
             </button>
             <div
-                className={`grid overflow-hidden transition-all duration-300 ease-in-out text-slate-600 text-sm ${
-                    accordionOpen
-                        ? "grid-rows-[1fr] opacity-100"
-                        : "grid-rows-[0fr] opacity-0"
+                className={`overflow-hidden transition-max-height ease-out duration-300 ${
+                    accordionOpen ? 'h-auto' : 'h-0'
                 }`}
             >
-                <div className="overflow-hidden border-2">
+                <div className="border-t border-gray-300">
                     {content.map((lecture, index) => (
-                        <p key={index}>{lecture.title}</p>
+                        <div key={index} className="p-4">
+                            <p>{lecture.title}</p>
+                        </div>
                     ))}
                 </div>
             </div>
@@ -91,16 +79,17 @@ const Accordion = ({ title, content }) => {
 };
 
 const LectureSideBar = ({ courseId }) => {
-    const [chapterData, setChapterData] = useState([]); // State để lưu data của chapter
+    const [chapterData, setChapterData] = useState([]);
 
     return (
-        <div>
-            <div className="font-bold font-SuisseWorks border-2">Course content</div>
+        <div className="p-4 rounded-md">
+            <h2 className="text-xl font-bold mb-2 border-b-2 border-black">Course content</h2>
             <ChapterList courseId={courseId} setChapterData={setChapterData} />
-            {/* Sử dụng dữ liệu từ ChapterList thông qua prop */}
-            {chapterData.map((chapter, index) => (
-                <Accordion key={index} title={chapter.title} content={chapter.lectures} />
-            ))}
+            <div className="space-y-2 mt-4">
+                {chapterData.map((chapter, index) => (
+                    <Accordion key={index} title={chapter.title} content={chapter.lectures} />
+                ))}
+            </div>
         </div>
     );
 };

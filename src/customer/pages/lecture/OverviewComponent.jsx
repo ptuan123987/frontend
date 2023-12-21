@@ -41,7 +41,7 @@ const OverviewComponent = ({ courseId }) => {
                     </div>
                     <p className="font-SuisseWorks">Price: ${courseInfo.data.price}</p>
                     <p className="font-SuisseWorks">Author: {courseInfo.data.author}</p>
-                    <p className="font-SuisseWorks">Total Video Duration: {courseInfo.data.total_video_duration} hours</p>
+                    {/*<p className="font-SuisseWorks">Total Video Duration: {courseInfo.data.total_video_duration} hours</p>*/}
                 </div>
             ) : (
                 <p>Loading...</p>

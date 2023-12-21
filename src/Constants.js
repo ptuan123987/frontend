@@ -1,2 +1,2 @@
-const API_URL = "http://57.181.106.82/"
+const API_URL = "https://api-study.salyr.online/"
 export { API_URL };

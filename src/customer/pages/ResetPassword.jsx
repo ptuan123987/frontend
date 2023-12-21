@@ -33,7 +33,7 @@ const ResetPassword = () => {
           navigate("/login", {
             state: { email: email, password: password },
           });
-        }, 3000);
+        }, 1500);
       },
       (error) => {
         const resMessage =
