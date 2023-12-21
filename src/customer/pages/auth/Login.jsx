@@ -39,7 +39,7 @@ const Login = () => {
   }
 
   async function redirectToGithubLogin() {
-    const response = await axios.get(API_URL + "api/login/github", {
+    const response = await axios.get( API_URL + "api/login/github", {
       params: {
         redirect_url: "http://localhost:3000/callback/github",
       },

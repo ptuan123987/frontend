@@ -20,7 +20,9 @@ const GoogleLanding = () => {
             },
           }
         );
-        console.log(response.json());
+        console.log(response);
+        console.log(response.data.access_token);
+        localStorage.setItem("access_token", response.data.access_token);
         navigate("/");
       } catch (error) {
         console.error("Error fetching Google login URL:", error);

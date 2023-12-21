@@ -4,7 +4,7 @@ import MainDash from '../components/MainDash/MainDash';
 const AdminCourse = () => {
     return (    
         <AdminLayout>
-     
+            
         </AdminLayout>
     )
 }
