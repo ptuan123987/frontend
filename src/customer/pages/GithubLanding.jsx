@@ -21,7 +21,9 @@ const GitLanding = () => {
           }
         );
         console.log(response);
-        // navigate("/");
+        console.log(response.data.access_token);
+        localStorage.setItem("access_token", response.data.access_token);
+        navigate("/");
         
       } catch (error) {
         console.error("Error fetching Github login URL:", error);
