@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import CourseCard from '../../components/cards/CourseCard';
 import Layout from "../../components/Layout";
 import CoursesSlide from "../../components/slides/CoursesSlide";
+import { useParams } from "react-router-dom";
 
 // import CourseFilter from '../../components/cards/CourseFilter'; // Your CourseFilter component, if you have one
 import Slider from "react-slick"
+import CourseDescription from "./CourseDescription";
 
 // const sliderSettings = {
 //   dots: true,
@@ -162,7 +164,8 @@ const instructorsData = [
   }
 ]
 
-const JavaScriptCoursesPage = () => {
+const CoursesPage = () => {
+  const { courseId } = useParams();
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const filteredCourses = coursesData.filter(course => {
     // filtering logic
@@ -173,8 +176,7 @@ const JavaScriptCoursesPage = () => {
   return (
     <Layout>
       <div className="container mx-auto p-6">
-        <h1 className="text-3xl font-bold my-4 font-serif">Development Courses</h1>
-        <p className='text-xl font-bold text-gray-700'>Courses to get you started</p>
+        <CourseDescription courseId={courseId}/>
 
         {/* Tabs */}
         <ul className="flex flex-wrap -mb-px pt-5">
@@ -225,4 +227,4 @@ const JavaScriptCoursesPage = () => {
     </Layout>
   );
 };
-export default JavaScriptCoursesPage;
+export default CoursesPage;

@@ -12,7 +12,7 @@ import GithubLanding from "../pages/GithubLanding";
 import GoogleLanding from "../pages/GoogleLanding";
 import Dashboard from "../../admin/pages/Dashboard";
 import AdminLogin from "../../admin/pages/AdminLogin";
-import AdminAddCourse from "../../admin/pages/AdminAddCourse";
+import AdminCourse from "../../admin/pages/AdminCourse";
 import Students from "../../admin/pages/Students";
 import Analytics from "../../admin/pages/Analytics";
 import NotFound from "../pages/NotFound";
@@ -55,17 +55,17 @@ const AppRoutes = () => {
       <Route path= "/my-learning" element={<MyLearning/>} />
       <Route path="/wishlist" element={<Wishlist />} />
       <Route path="*" element={<NotFound />} />
-      <Route path= ""/>
 
 
 
 
       <Route path="/admin/login" element={<AdminLogin />}></Route>
       <Route path="/admin" element={<Dashboard />} />
-      <Route path="/admin/add-course" element={<AdminAddCourse />} />
+      <Route path="/admin/course" element={<AdminCourse />} />
       <Route path="/admin/students" element={<Students />} />
       <Route path="/admin/analytics" element={<Analytics />} />
 
+      <Route path="/course/:courseId" element={<CoursePage />} />
       <Route path="/course/:courseId/chapter/:chapterId/lecture/:lectureId" element={<LecturePage />} />
     </Routes>
   );
