@@ -198,7 +198,7 @@ const CoursesPage = () => {
           ))}
         </div> */}
         <div>
-          <CoursesSlide courses={coursesData} />
+          <CoursesSlide categoryId='1' />
         </div>
 
         {/* -- FEATURE COURSE -- */}
