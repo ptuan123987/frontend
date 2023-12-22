@@ -29,7 +29,7 @@ const VideoPlayer = ({ lectureId }) => {
     }, [lectureId]);
 
     return (
-        <div>
+        <div style={{ position: 'relative', width: '100%', paddingTop: '56.25%' }}>
             {videoUrl ? (
                 <ReactPlayer
                     url={videoUrl}
@@ -37,9 +37,13 @@ const VideoPlayer = ({ lectureId }) => {
                     volume={1}
                     loop={true}
                     light={thumbnailUrl}
+                    width="100%"
+                    height="100%"
+                    style={{ position: 'absolute', top: 0, left: 0 }}
                 />
             ) : (
-                <p>Loading video...</p>
+                // Skeleton
+                <div className="w-full h-full bg-gray-200 animate-pulse"></div>
             )}
         </div>
     );

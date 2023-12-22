@@ -22,7 +22,7 @@ const LectureNavBar = ({ handleButtonClick, activeButton }) => {
                     <button
                         key={index}
                         onClick={() => handleButtonClick(button.id)}
-                        className={`text-gray-900 hover:text-purple-600 mr-4 focus:outline-none ${activeButton === button.id ? 'border-b-2 border-black' : ''}`}
+                        className={`text-gray-900 hover:text-purple-600 mr-4 focus:outline-none ${activeButton === button.id ? 'border-b-2 border-black' : ''} text-base font-bold`}
                     >
                         {button.label}
                     </button>
@@ -45,17 +45,17 @@ const LecturePage = () =>  {
     return (
         <Layout>
             <div className="flex w-full">
-                <div className="w-3/4 p-4">
+                <div className="w-3/4">
                     <div className="flex items-center justify-center">
                         <VideoPlayer lectureId={lectureId}/>
                     </div>
-                    <div className="border-b-2 border-black">
+                    <div className="mx-12 py-4 border-b-2 border-black">
                         <LectureNavBar handleButtonClick={handleButtonClick} activeButton={activeButton} />
-                    </div>
-                    <div>
-                        {componentToShow === "overview" && <OverviewComponent courseId={courseId} />}
-                        {componentToShow === "review" && <ReviewComponent courseId={courseId} />}
-                        {componentToShow === "resource" && <ResourceComponent lectureId={lectureId} />}
+                        <div>
+                            {componentToShow === "overview" && <OverviewComponent courseId={courseId} />}
+                            {componentToShow === "review" && <ReviewComponent courseId={courseId} />}
+                            {componentToShow === "resource" && <ResourceComponent lectureId={lectureId} />}
+                        </div>
                     </div>
                 </div>
                 <div className="w-1/4 border-l-2">

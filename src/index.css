@@ -15,3 +15,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+  --font-stack-heading: 'DM Sans', -apple-system, BlinkMacSystemFont, Roboto, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --font-stack-text: 'DM Sans', 'SF Pro Text', -apple-system, BlinkMacSystemFont, Roboto, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-stack-heading);
+}
+
+p, span, div {
+  font-family: var(--font-stack-text);
+}
+
+
+.default-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; /* Adjust the size as needed */
+  height: 40px; /* Adjust the size as needed */
+  border-radius: 50%;
+  background-color: #7f8c8d; /* Background color for the avatar */
+  color: #ffffff; /* Text color */
+  font-size: 18px; /* Adjust the font size as needed */
+  font-weight: bold;
+}
