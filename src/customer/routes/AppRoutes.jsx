@@ -12,7 +12,7 @@ import GithubLanding from "../pages/GithubLanding";
 import GoogleLanding from "../pages/GoogleLanding";
 import Dashboard from "../../admin/pages/Dashboard";
 import AdminLogin from "../../admin/pages/AdminLogin";
-import AdminCourse from "../../admin/pages/AdminCourse";
+import AdminAddCourse from "../../admin/pages/AdminAddCourse";
 import Students from "../../admin/pages/Students";
 import Analytics from "../../admin/pages/Analytics";
 import NotFound from "../pages/NotFound";
@@ -63,7 +63,7 @@ const AppRoutes = () => {
       <Route path="/admin/add-course" element={<AdminAddCourse />} />
       <Route path="/admin/add-course/add-chapter" element={<AdminAddChapter/>} />
       <Route path="/admin/add-course/add-chapter/add-lecture" element={<AdminAddLecture/>} />
-      <Route path="/admin/course" element={<AdminCourse />} />
+      <Route path="/admin/course" element={<AdminAddCourse />} />
       <Route path="/admin/students" element={<Students />} />
       <Route path="/admin/analytics" element={<Analytics />} />
 
