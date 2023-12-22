@@ -6,11 +6,24 @@ import useWishlistStore from '../../stores/useWishlistStore';
 
 const CourseCard = ({ course }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const addToWishlist = useWishlistStore((state) => state.addToWishlist);
+  const { addToWishlist, removeFromWishlist, wishlist } = useWishlistStore(state => ({
+    addToWishlist: state.addToWishlist,
+    removeFromWishlist: state.removeFromWishlist,
+    wishlist: state.wishlist
+  }));
+  const isCourseInWishlist = wishlist.some(item => item.id === course.id);
 
-  const handleAddToWishlist = () => {
-    addToWishlist(course);
+  const toggleWishlist = async () => {
+    if (isCourseInWishlist) {
+      await removeFromWishlist(course.id);
+    } else {
+      await addToWishlist(course);
+    }
   };
+
+  const wishlistButtonStyles = isCourseInWishlist
+    ? "bg-purple-500 text-black hover:bg-blue-600"
+    : "bg-transparent hover:bg-gray-100 text-gray-800";
 
   return (
     <div className="flex flex-col max-w-[15rem] relative group"
@@ -51,11 +64,12 @@ const CourseCard = ({ course }) => {
         </div>
         <div className="flex justify-between items-center">
           <button
-            className="text-sm bg-transparent min-w-[20rem] hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-            onClick={handleAddToWishlist}
+            className={`text-sm bg-transparent min-w-[20rem] hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow ${wishlistButtonStyles}`}
+            onClick={toggleWishlist}
           >
-            <span className="hidden sm:inline">Add to Wishlist</span>
-            <span className="sm:hidden">❤️</span>
+            {isCourseInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
+            {/* <span className="hidden sm:inline">Add to Wishlist</span>
+            <span className="sm:hidden">❤️</span> */}
           </button>
         </div>
       </div>
