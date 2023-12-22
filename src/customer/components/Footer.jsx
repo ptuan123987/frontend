@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'; 
 const Footer = () => {
   return (
-    <footer className="fixed inset-x-0 bottom-0 bg-zinc-900 text-white px-6 md:px-12 pt-10 text-sm text-center">
+    <footer className=" mt-[100px] inset-x-0 bottom-0 bg-zinc-900 text-white px-6 md:px-12 pt-10 text-sm text-center">
       <div className="container mx-auto mb-12">
         <div className="grid grid-cols-12">
           {/* Column 1 */}

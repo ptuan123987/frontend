@@ -13,6 +13,7 @@ import {
   UilSignOutAlt,
 } from "@iconscout/react-unicons";
 import { useNavigate } from "react-router-dom";
+import AuthService from "../../customer/services/AuthService";
 
 
 const Sidebar = () => {
@@ -56,7 +57,10 @@ const Sidebar = () => {
 
     navigate("/admin/analytics");
   }
-
+  const logout = () => {
+    AuthService.logout();
+    navigate("/admin/login")
+  };
 
   return (
     <>
@@ -109,7 +113,7 @@ const Sidebar = () => {
 
           {/* signoutIcon */}
           <div className="menuItem">
-            <UilSignOutAlt />
+            <UilSignOutAlt onClick={logout}/>
           </div>
         </div>
     </motion.div>

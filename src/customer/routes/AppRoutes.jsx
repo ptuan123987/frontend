@@ -21,6 +21,8 @@ import ForgotPassword from "../pages/ForgotPassword";
 import LecturePage from "../pages/lecture/LecturePage";
 import AuthService from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
+import AdminAddChapter from "../../admin/pages/AdminAddChapter";
+import AdminAddLecture from "../../admin/pages/AdminAddLecture";
 
 const AppRoutes = () => {
   const navigate = useNavigate();
@@ -48,25 +50,25 @@ const AppRoutes = () => {
 
       <Route path="/callback/github/*" element={<GithubLanding />} />
       <Route path="/callback/google/*" element={<GoogleLanding />} />
+      <Route path="/course/:courseId/chapter/:chapterId/lecture/:lectureId" element={<LecturePage />} />
       
       {/* User route */}
       <Route path="/change-password" element={<ChangePassword />} />
       <Route path="/profile" element={<Profile />} />
       <Route path= "/my-learning" element={<MyLearning/>} />
       <Route path="/wishlist" element={<Wishlist />} />
-      <Route path="*" element={<NotFound />} />
       <Route path= ""/>
-
-
-
 
       <Route path="/admin/login" element={<AdminLogin />}></Route>
       <Route path="/admin" element={<Dashboard />} />
       <Route path="/admin/add-course" element={<AdminAddCourse />} />
+      <Route path="/admin/add-course/add-chapter" element={<AdminAddChapter/>} />
+      <Route path="/admin/add-course/add-chapter/add-lecture" element={<AdminAddLecture/>} />
       <Route path="/admin/students" element={<Students />} />
       <Route path="/admin/analytics" element={<Analytics />} />
 
-      <Route path="/course/:courseId/chapter/:chapterId/lecture/:lectureId" element={<LecturePage />} />
+      <Route path="*" element={<NotFound />} />
+
     </Routes>
   );
 };

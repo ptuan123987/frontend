@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import AdminLayout from "../components/AdminLayout";
 import MainDash from "../components/MainDash/MainDash";
-import CourseForm from "../components/Form/CourseForm";
 import CategoriesService from "../../customer/services/CategoriesService";
 import useCategoriesStore from "../../customer/stores/useCategoriesStore";
 import CourseService from "../../customer/services/CourseService";
+import SuccessModal from "../../customer/components/modal/SuccessModal";
+import useCourseStore from "../../customer/stores/useCourseStore";
 const AdminAddCourse = () => {
+  const navigate = useNavigate();
+
   const { categories, setCategories } = useCategoriesStore();
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubcategoryId, setSelectedSubcategoryId ] = useState(null);
+  const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(null);
 
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [author, setAuthor] = useState("");
+  const [thumbnail, setThumbnail] = useState(null);
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const setCourse = useCourseStore((state) => state.setCourse);
+
 
   useEffect(() => {
     const parentCategories = async () => {
@@ -32,47 +42,48 @@ const AdminAddCourse = () => {
 
   useEffect(() => {}, [categories]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
   useEffect(() => {
     console.log("Selected Category ID:", selectedCategoryId);
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-  
-      try {
-        // Check if both category and subcategory are selected
-        if (selectedCategoryId && selectedSubcategoryId) {
-          const courseData = {
-            category_ids: [selectedCategoryId, selectedSubcategoryId],
-            title,
-            description,
-            price,
-            author,
-          };
-  
-          const response = await CourseService.createCourse(courseData);
-  
-          console.log("Course created successfully:", response);
-  
-          // Optionally, reset the form fields
-          setTitle("");
-          setDescription("");
-          setPrice("");
-          setAuthor("");
-        } else {
-          console.error("Please select both category and subcategory");
-        }
-      } catch (error) {
-        console.error("Error creating course:", error.message);
-      }
-    };
-  
-    
   }, [selectedCategoryId]);
-  
-  
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (selectedCategoryId && selectedSubcategoryId) {
+      const courseData = {
+        category_ids: [selectedCategoryId, selectedSubcategoryId],
+        title,
+        description,
+        price,
+        author,
+        thumbnail: thumbnail,
+      };
+      console.log(courseData);
+
+      CourseService.createCourse(courseData).then(
+        (response) => {
+          console.log("Course created successfully:", response);
+          setShowSuccessModal(true);
+          setCourse(response);
+          setTimeout(() => {
+            navigate('/admin/add-course/add-chapter')
+          }, 500);
+        },
+        (error) => {
+          console.error("Error creating course:", error);
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+
+          setErrorMessage(resMessage);
+        }
+      );
+    }
+  };
+
   const handleCategoryChange = (e) => {
     const categoryId = parseInt(e.target.value);
     const selectedCategory = categories.find(
@@ -92,12 +103,11 @@ const AdminAddCourse = () => {
     setSelectedSubcategoryId(subcategoryId);
   };
 
-
   return (
     <AdminLayout>
       <div className="MainDash bg-gray-100 p-6 rounded-md">
-        <h3 className="text-center">Form Add New Course</h3>
-        <form>
+        <h3 className="text-center">Step 1: Form Add New Course</h3>
+        <form onSubmit={handleSubmit}>
           <div className="form-group mb-4">
             <label htmlFor="categories" className="block mb-2 font-bold">
               Categories
@@ -117,7 +127,11 @@ const AdminAddCourse = () => {
             <label htmlFor="subcategories" className="block mb-2 font-bold">
               Sub Categories
             </label>
-            <select id="subcategories" className="w-full border p-2" onChange={handleSubcategoryChange}>
+            <select
+              id="subcategories"
+              className="w-full border p-2"
+              onChange={handleSubcategoryChange}
+            >
               {selectedCategory &&
                 selectedCategory.subcategories.map((subcategory) => (
                   <option key={subcategory.id} value={subcategory.id}>
@@ -181,6 +195,30 @@ const AdminAddCourse = () => {
             <p className="text-xs text-gray-700">Require Full Name</p>
           </div>
 
+          <div className="form-group mb-4">
+            <label htmlFor="thumbnail" className="block mb-1">
+              Thumbnail (Image)
+            </label>
+            <input
+              type="file"
+              id="thumbnail"
+              accept="image/*"
+              onChange={(e) => setThumbnail(e.target.files[0])}
+            />
+            <p className="text-xs text-gray-700">
+              (Optional) Choose a thumbnail for the course.
+            </p>
+          </div>
+          {errorMessage && (
+            <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+          )}
+
+          {showSuccessModal && (
+            <SuccessModal onClick={() => setShowSuccessModal(false)}>
+              <h2>Success!</h2>
+              <p>Course created successfully.</p>
+            </SuccessModal>
+          )}
           <div className="flex justify-end mt-3">
             <button
               type="submit"

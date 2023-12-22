@@ -16,6 +16,7 @@ const AdminLogin = () => {
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -35,6 +36,7 @@ const AdminLogin = () => {
           error.toString();
 
         setErrorMessage(resMessage);
+        console.log(error);
         console.log(errorMessage);
       }
     );
