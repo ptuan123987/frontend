@@ -46,14 +46,18 @@ const Sidebar = () => {
     
     navigate("/admin/add-chapter");
   }
-  function moveToStudents() {
+  function moveToLecture() {
     setSelected(3);
+    navigate("/admin/add-lecture");
+  }
+  function moveToStudents() {
+    setSelected(4);
 
     navigate("/admin/students");
   }
 
   function moveToAnalytics() {
-    setSelected(4);
+    setSelected(5);
 
     navigate("/admin/analytics");
   }
@@ -97,9 +101,15 @@ const Sidebar = () => {
             <UilPackage />
             <span>Chapter</span>
           </div>
+
+           {/* Products */}
+           <div  className={selected === 3 ? "menuItem active" : "menuItem"} onClick={moveToLecture}>
+            <UilPackage />
+            <span>Lecture</span>
+          </div>
           
           {/* Students */}
-          <div  className={selected === 3 ? "menuItem active" : "menuItem"} onClick={moveToStudents}>
+          <div  className={selected === 4 ? "menuItem active" : "menuItem"} onClick={moveToStudents}>
             <UilUsersAlt />
             <span>Students</span>
           </div>
@@ -107,7 +117,7 @@ const Sidebar = () => {
 
           {/* Analytics */}
           <div
-          className={selected === 4 ? "menuItem active" : "menuItem"} onClick={moveToAnalytics}>
+          className={selected === 5 ? "menuItem active" : "menuItem"} onClick={moveToAnalytics}>
             <UilChart />
             <span>Analytics</span>
           </div>
