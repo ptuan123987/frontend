@@ -66,5 +66,4 @@ const CoursesSlide = ({categoryId}) => {
         </div>
     );
 };
-
 export default CoursesSlide;

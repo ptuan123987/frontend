@@ -122,7 +122,6 @@ const searchCourseByName = async (searchTerm) => {
     return response.data.data;
 };
 
-
 const CourseService = {
   createCourse,
   createChapter,

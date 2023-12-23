@@ -39,7 +39,6 @@ const SearchBar = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
-
             {searchTerm && (
                 <div className="mt-1 p-0 pl-4 pr-4 border border-stone-200 bg-gray-50">
                     <ul className="divide-y divide-gray-300">

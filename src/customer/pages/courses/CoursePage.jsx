@@ -203,7 +203,6 @@ const CoursesPage = () => {
 
         {/* -- FEATURE COURSE -- */}
         <p className="text-xl font-bold text-gray-700">Featured courses</p>
-
         {/* -- POPULAR TOPIC -- */}
         <div className='my-6'>
           <p className="text-xl font-bold text-gray-700">Popular topics</p>
