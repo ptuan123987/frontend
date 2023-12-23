@@ -100,10 +100,29 @@ const createLecture = async ({
   }
 };
 
+const getCoursesBySubCategoryId = async (id) => {
+  return axios.get(API_URL + `api/categories/${id}/courses`).then(async (res) => {
+    return res.data.data;
+  });
+}
+
+const getChaptersByCourseId = async (id) => {
+  return axios.get(API_URL + `api/courses/${id}/chapters`).then (async (res) => {
+    return res.data.data;
+  });
+}
+const getLecturesByChapterId = async () => {
+  return axios.get(API_URL + ``).then(async (res) => {
+    return res.data.data;
+  })
+};
+
 const CourseService = {
   createCourse,
   createChapter,
   createLecture,
+  getCoursesBySubCategoryId,
+  getChaptersByCourseId,
 };
 
 export default CourseService;

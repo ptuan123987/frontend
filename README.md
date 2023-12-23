@@ -1,3 +1,14 @@
+##  Video demo
+
+To embed a video in this README, you can use the standard HTML `<video>` tag.
+
+```html
+<video width="100%" controls>
+  <source src="../../" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

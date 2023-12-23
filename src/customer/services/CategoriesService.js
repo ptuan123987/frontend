@@ -34,8 +34,6 @@ const filterSubCategories = async () => {
       const filter = categories.filter(
         (element) => element.parent_category !== null
       );
-
-
       return filter;
     } else {
       console.log("Categories is not an array.");
@@ -44,6 +42,8 @@ const filterSubCategories = async () => {
     console.error("Error fetching categories:", error);
   }
 };
+
+
 
 const CategoriesService = {
   getAllCategories,

@@ -23,6 +23,8 @@ import AuthService from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
 import AdminAddChapter from "../../admin/pages/AdminAddChapter";
 import AdminAddLecture from "../../admin/pages/AdminAddLecture";
+import AdminAddChapterExistCourse from "../../admin/pages/AdminAddChapterExistCourse";
+import AdminAddLectureExistChapter from "../../admin/pages/AdminAddLectureExistChapter";
 
 const AppRoutes = () => {
   const navigate = useNavigate();
@@ -59,10 +61,14 @@ const AppRoutes = () => {
       <Route path="/wishlist" element={<Wishlist />} />
 
       <Route path="/admin/login" element={<AdminLogin />}></Route>
+
+      {/* Admin route */}
       <Route path="/admin" element={<Dashboard />} />
       <Route path="/admin/add-course" element={<AdminAddCourse />} />
       <Route path="/admin/add-course/add-chapter" element={<AdminAddChapter/>} />
       <Route path="/admin/add-course/add-chapter/add-lecture" element={<AdminAddLecture/>} />
+      <Route path="/admin/add-chapter" element={<AdminAddChapterExistCourse/>} />
+      <Route path="/admin/add-lecture" element={<AdminAddLectureExistChapter/>}/>
       <Route path="/admin/course" element={<AdminAddCourse />} />
       <Route path="/admin/students" element={<Students />} />
       <Route path="/admin/analytics" element={<Analytics />} />

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import Input1 from "../../customer/components/forms/Input1";
 import Button3 from "../../customer/components/buttons/Button3";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,33 +17,33 @@ const AdminLogin = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
-    AuthService.login(email, password).then(
-      () => {
+  
+    try {
+      await AuthService.login(email, password);
+  
+      const res = await AuthService.profile();
+      const userRole = res.data.role;
+  
+      if (userRole === "admin") {
         setShowSuccessModal(true);
+  
         setTimeout(() => {
           navigate("/admin");
         }, 1500);
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        setErrorMessage(resMessage);
-        console.log(error);
-        console.log(errorMessage);
+      } else {
+        window.location.reload();
       }
-    );
-
-    AuthService.profile().then((res) => {
-      console.log(res);
-    });
+    } catch (error) {
+      const resMessage =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+  
+      setErrorMessage(resMessage);
+      console.error("Error during login:", error);
+    }
   };
 
   return (
