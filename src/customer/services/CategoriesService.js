@@ -7,6 +7,12 @@ const getAllCategories = () => {
   });
 };
 
+const getCategoryById = ( {categoryId} ) => {
+  return axios.get(API_URL + `api/categories/${categoryId}`).then(async (res) => {
+    return res.data.data;
+  });
+};
+
 const filterParentCategories = async () => {
   try {
     const categories = await CategoriesService.getAllCategories();
@@ -43,11 +49,10 @@ const filterSubCategories = async () => {
   }
 };
 
-
-
 const CategoriesService = {
   getAllCategories,
   filterParentCategories,
-  filterSubCategories
+  filterSubCategories,
+  getCategoryById
 };
 export default CategoriesService;
