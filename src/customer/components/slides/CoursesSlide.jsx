@@ -5,6 +5,7 @@ import AuthService from "../../services/AuthService";
 import CategoriesService from "../../services/CategoriesService";
 import axios from "axios";
 import Button1 from "../buttons/Button1";
+import {Link} from "@mui/material";
 
 const CoursesSlide = ({categoryId}) => {
     const [courseData, setCourseData] = useState([]); // State để lưu trữ dữ liệu khóa học từ backend
@@ -62,7 +63,9 @@ const CoursesSlide = ({categoryId}) => {
                     <CourseCard key={course.id} course={course}/> // Truyền dữ liệu khóa học vào CourseCard qua props
                 ))}
             </Slide>
-            <Button1>Explore Category {category?.name}</Button1>
+            <Link to={`/category/${categoryId}`}>
+                <Button1>Explore Category {category?.name}</Button1>
+            </Link>
         </div>
     );
 };
