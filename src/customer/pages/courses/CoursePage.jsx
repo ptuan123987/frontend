@@ -6,14 +6,14 @@ import CourseDescription from "./CourseDescription";
 
 const CoursesPage = () => {
   const { courseId } = useParams();
+    const randomCategoryId = Math.floor(Math.random() * 22) + 1;
 
-  return (
+    return (
     <Layout>
       <div className="container mx-auto p-6">
         <CourseDescription courseId={courseId}/>
-
         <div className="mt-16">
-          <CoursesSlide categoryId={courseId} />
+          <CoursesSlide categoryId={randomCategoryId} />
         </div>
       </div>
     </Layout>

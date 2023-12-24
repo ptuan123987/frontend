@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import AuthService from "../../services/AuthService";
-import {Link} from 'react-router-dom';
+import useWishlistStore from "../../stores/useWishlistStore";
 
 const ChapterList = ({courseId, setChapterData}) => {
     const [chapters, setChapters] = useState([]);
@@ -79,6 +79,35 @@ const Accordion = ({title, content, onClickLecture}) => {
 const CourseDescription = ({courseId}) => {
     const [courseInfo, setCourseInfo] = useState(null);
     const [chapterData, setChapterData] = useState([]);
+    const { addToWishlist, removeFromWishlist, wishlist } = useWishlistStore(state => ({
+        addToWishlist: state.addToWishlist,
+        removeFromWishlist: state.removeFromWishlist,
+        wishlist: state.wishlist
+    }));
+    const isCourseInWishlist = wishlist.some(item => item.id === courseId);
+
+    const toggleWishlist = async () => {
+        if (isCourseInWishlist) {
+            await removeFromWishlist(courseId);
+        } else {
+            if (courseInfo && courseInfo.data) {
+                const { data } = courseInfo;
+                const course = {
+                    id: courseId,
+                    description: data.description || '',
+                    author: data.author || '',
+                    price: data.price || 0,
+                    thumbnail_url: data.thumbnail_url || '',
+                    title: data.title || ''
+                };
+                await addToWishlist(course);
+            }
+        }
+    };
+
+    const wishlistButtonStyles = isCourseInWishlist
+        ? "bg-red-500 text-white hover:bg-red-700"
+        : "bg-pink-500 hover:bg-pink-700 text-white";
 
     const handleLectureClick = (chapterId, lectureId) => {
         const lectureUrl = `/course/${courseId}/chapter/${chapterId}/lecture/${lectureId}`;
@@ -140,8 +169,11 @@ const CourseDescription = ({courseId}) => {
                                 >
                                     Start Now
                                 </button>
-                                <button className="bg-pink-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                    Add to wishlist
+                                <button
+                                    className={`font-bold py-2 px-4 rounded ${wishlistButtonStyles}`}
+                                    onClick={toggleWishlist}
+                                >
+                                    {isCourseInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
                                 </button>
                             </div>
                         </div>
