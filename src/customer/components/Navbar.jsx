@@ -9,6 +9,7 @@ import MyLearning from "../pages/user/MyLearning";
 import SearchBar from "./SearchBar";
 import CategoriesService from "../services/CategoriesService";
 import CourseService from "../services/CourseService";
+import {Link} from 'react-router-dom';
 
 const Navbar = () => {
   const [categories, setCategories] = useState([null]);
@@ -254,13 +255,13 @@ const Navbar = () => {
         )}
 
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between p-2 md:p-4">
-          <a onClick={moveToHome} to="/" className="flex items-center">
+          <Link to="/" className="flex items-center">
             <img
               src="https://www.udemy.com/staticx/udemy/images/v7/logo-udemy.svg"
               className="h-8"
               alt="Logo"
             />
-          </a>
+          </Link>
         </div>
 
         <div
@@ -446,11 +447,11 @@ const Navbar = () => {
                     Get your team access to over 22,000 top Udemy courses,
                     anytime, anywhere.
                   </p>
-                  <a href="#">
+                  <Link to="/notfound">
                     <Button2 className="!mb-0 w-full">
                       Try Udemy Business
                     </Button2>
-                  </a>
+                  </Link>
                 </Popover>
               )}
             </div>
@@ -470,9 +471,9 @@ const Navbar = () => {
                     Turn what you know into an opportunity and reach millions
                     around the world.
                   </p>
-                  <a href="#">
+                  <Link to="/notfound">
                     <Button2 className="!mb-0 w-full">Learn more</Button2>
-                  </a>
+                  </Link>
                 </Popover>
               )}
             </div>

@@ -50,7 +50,7 @@ const AppRoutes = () => {
       {/*   */}
       {/* <Route path="/course/:categoryName" element={<CoursePage />} />
       <Route path="/course/:categoryName/:subCategoryName" element={<CoursePage />} /> */}
-      <Route path="/topic/:topicName" element={<CoursePage />} />
+      {/*<Route path="/topic/:topicName" element={<CoursePage />} />*/}
 
       {/* <Route path= "/categories/:id/courses" element={CoursesPage}/> */}
 
