@@ -102,14 +102,14 @@ const Navbar = () => {
     }
   };
 
-  const handleTopicClick = async (id) => {
-    try {
-      const courses = await CourseService.getTopicsByCategoryId(id);
-      navigate(`/category/${id}`, { state: { courses } });
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-    }
-  };
+  // const handleTopicClick = async (id) => {
+  //   try {
+  //     const courses = await CourseService.getTopicsByCategoryId(id);
+  //     navigate(`/category/${id}`, { state: { courses } });
+  //   } catch (error) {
+  //     console.error('Error fetching categories:', error);
+  //   }
+  // };
   
   const initials = useUserStore((state) => state.getInitials());
   console.log(initials);
@@ -195,7 +195,7 @@ const Navbar = () => {
                   <ul className="text-gray-900">
                     <li className="group relative block">
                       <a
-                        href=""
+                        href="#"
                         className="py-2 px-4 inline-block cursor-pointer"
                         onClick={moveToProfile}
                       >
@@ -205,7 +205,7 @@ const Navbar = () => {
                     </li>
                     <li className="group relative block">
                       <a
-                        href=""
+                        href="#"
                         className="py-2 px-4 inline-block cursor-pointer"
                         onClick={MyLearning}
                       >
@@ -293,7 +293,7 @@ const Navbar = () => {
                     >
                       <div className="flex items-center justify-between w-full hover:text-purple-600">
                         <a
-                          href={category.a}
+                          href="#"
                           onClick={(e) => {
                             e.preventDefault(); 
                             handleItemClick(category.id, 'category'); 
@@ -598,7 +598,7 @@ const Navbar = () => {
                     </li>
                     <li className="group relative block">
                       <a
-                        href=""
+                        href="#"
                         className="py-2 px-4 inline-block cursor-pointer"
                       >
                         My Cart
