@@ -46,9 +46,13 @@ const AppRoutes = () => {
       <Route path="/signup" element={<Signup />} />
 
       {/* Categories route */}
-      <Route path="/course/:categoryName" element={<CoursePage />} />
-      <Route path="/course/:categoryName/:subCategoryName" element={<CoursePage />} />
+      {/* {/*  */}
+      {/*   */}
+      {/* <Route path="/course/:categoryName" element={<CoursePage />} />
+      <Route path="/course/:categoryName/:subCategoryName" element={<CoursePage />} /> */}
       <Route path="/topic/:topicName" element={<CoursePage />} />
+
+      {/* <Route path= "/categories/:id/courses" element={CoursesPage}/> */}
 
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/response-password-reset/*" element={<ResetPassword />} />

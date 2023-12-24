@@ -61,11 +61,26 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await AuthService.profile();
+        setUserData(response.data);
+        console.log(response.data);
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  useEffect(() => {
     const fetchCategories = async () => {
       try {
         const data = await CategoriesService.filterParentCategories();
-        console.log(data);
         setCategories(data); 
+        console.log(data);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
