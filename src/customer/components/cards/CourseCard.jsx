@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import StarRating from '../star_rating/StarRating';
+// import StarRating from '../star_rating/StarRating';
 import useWishlistStore from '../../stores/useWishlistStore';
 
 const CourseCard = ( { course } ) => {

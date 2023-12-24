@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import AuthService from "../../services/AuthService";
 import useWishlistStore from "../../stores/useWishlistStore";
-import {Link} from 'react-router-dom';
 
 const ChapterList = ({courseId, setChapterData}) => {
     const [chapters, setChapters] = useState([]);
