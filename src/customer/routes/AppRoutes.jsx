@@ -25,6 +25,7 @@ import AdminAddChapter from "../../admin/pages/AdminAddChapter";
 import AdminAddLecture from "../../admin/pages/AdminAddLecture";
 import AdminAddChapterExistCourse from "../../admin/pages/AdminAddChapterExistCourse";
 import AdminAddLectureExistChapter from "../../admin/pages/AdminAddLectureExistChapter";
+import AdminEditCourse from "../../admin/pages/AdminEditCourse";
 
 const AppRoutes = () => {
   const navigate = useNavigate();
@@ -72,8 +73,9 @@ const AppRoutes = () => {
       <Route path="/admin/course" element={<AdminAddCourse />} />
       <Route path="/admin/students" element={<Students />} />
       <Route path="/admin/analytics" element={<Analytics />} />
-
+      <Route path="/admin/edit-course" element={<AdminEditCourse/>}/>
       <Route path="/course/:courseId" element={<CoursePage />} />
+      
       <Route path="*" element={<NotFound />} />
 
     </Routes>

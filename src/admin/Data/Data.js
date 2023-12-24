@@ -70,7 +70,7 @@ export const cardsData = [
 export const UpdatesData = [
   {
     img: img1,
-    name: "Andrew Thomas",
+    name: "Hoàng Đình Trung",
     noti: "has ordered Apple smart watch 2500mh battery.",
     time: "25 seconds ago",
   },

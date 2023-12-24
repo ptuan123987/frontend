@@ -29,10 +29,7 @@ const AdminAddChapterExistCourse = () => {
   
   
   const [title, setTitle] = useState("");
-  const [video, setVideo] = useState(null);
-  const [thumbnailImg, setThumbnailImg] = useState(null);
-
-  const [resources, setResources] = useState([{ title: "", link: "" }]);
+ 
 
 
 
