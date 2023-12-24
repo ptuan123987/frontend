@@ -6,6 +6,7 @@ import AuthService from "../../customer/services/AuthService";
 import Button1 from "./buttons/Button1";
 import useUserStore from "../stores/useUserStore";
 import MyLearning from "../pages/user/MyLearning";
+import SearchBar from "./SearchBar";
 import CategoriesService from "../services/CategoriesService";
 import CourseService from "../services/CourseService";
 
@@ -92,29 +93,15 @@ const Navbar = () => {
         navigate(`/course/${encodeURIComponent(name)}`);
         break;
       case 'subcategory':
-        // I need to have both category and subcategory name for this route
         navigate(`/course/${encodeURIComponent(parentName)}/${encodeURIComponent(name)}`);
         break;
       case 'topic':
         navigate(`/topic/${encodeURIComponent(name)}`);
         break;
       default:
-        // Handle error or default case
     }
   };
   
-//   const handleCategoryClick = (categoryName) => {
-//   navigate(`/course/${categoryName}`);
-// };
-
-// const handleSubCategoryClick = (categoryName, subCategoryName) => {
-//   navigate(`/course/${categoryName}/${subCategoryName}`);
-// };
-
-// const handleTopicClick = (topicName) => {
-//   navigate(`/topic/${topicName}`);
-// };
-
   const initials = useUserStore((state) => state.getInitials());
   console.log(initials);
 
@@ -425,13 +412,7 @@ const Navbar = () => {
                 ></path>
               </svg>
             </div>
-            <input
-              type="search"
-              id="default-search"
-              class="block h-full w-full p-0 pl-12 text-gray-900 border border-stone-900 bg-gray-50 rounded-full outline-none focus:outline-none"
-              placeholder="Search for anything"
-              required
-            />
+            <SearchBar />
           </div>
 
           <div className="flex flex-col md:flex-row md:items-center gap-4">
@@ -637,5 +618,4 @@ const Navbar = () => {
     </nav>
   );
 };
-
 export default Navbar;
