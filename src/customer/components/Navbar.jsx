@@ -16,7 +16,7 @@ const Navbar = () => {
 
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeSubCategory, setActiveSubCategory] = useState(null);
-  const [activeTopic, setActiveTopic] = useState(null);
+  // const [activeTopic, setActiveTopic] = useState(null);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { userData, setUserData } = useUserStore();
@@ -31,13 +31,13 @@ const Navbar = () => {
   const handleMouseEnter = (categoryId, subCategoryId, topicId) => {
     setActiveCategory(categoryId);
     setActiveSubCategory(subCategoryId);
-    setActiveTopic(topicId);
+    // setActiveTopic(topicId);
   };
 
   const handleMouseLeave = () => {
     setActiveCategory(null);
     setActiveSubCategory(null);
-    setActiveTopic(null);
+    // setActiveTopic(null);
   };
 
   function moveToLogin() {
@@ -93,27 +93,21 @@ const Navbar = () => {
     console.log(userData);
   }, [userData]);
 
-  // const handleItemClick = async (name) => {
-  //   try {
-  //     const courses = await CourseService.getCoursesBySubCategoryId(id);
-  //     navigate('/courses', { state: { courses } });
-  //   } catch (error) {
-  //     console.error('Failed to fetch courses', error);
-  //   }
-  // };
+  const handleItemClick = async (id) => {
+    try {
+      const courses = await CourseService.getCoursesBySubCategoryId(id);
+      navigate(`/category/${id}`, { state: { courses } });
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
 
-  const handleItemClick = (name, type, parentName) => {
-    switch (type) {
-      case 'category':
-        navigate(`/course/${encodeURIComponent(name)}`);
-        break;
-      case 'subcategory':
-        navigate(`/course/${encodeURIComponent(parentName)}/${encodeURIComponent(name)}`);
-        break;
-      case 'topic':
-        navigate(`/topic/${encodeURIComponent(name)}`);
-        break;
-      default:
+  const handleTopicClick = async (id) => {
+    try {
+      const courses = await CourseService.getTopicsByCategoryId(id);
+      navigate(`/category/${id}`, { state: { courses } });
+    } catch (error) {
+      console.error('Error fetching categories:', error);
     }
   };
   
@@ -302,7 +296,7 @@ const Navbar = () => {
                           href={category.a}
                           onClick={(e) => {
                             e.preventDefault(); 
-                            handleItemClick(category.name, 'category'); 
+                            handleItemClick(category.id, 'category'); 
                           }}
                           className="flex items-center justify-between w-full py-3 px-4 hover:text-purple-600"
                         >
@@ -347,13 +341,13 @@ const Navbar = () => {
                                       href={subCategory.a}
                                       onClick={(e) => {
                                         e.preventDefault();
-                                        handleItemClick(subCategory.name, 'subcategory', category.name);
+                                        handleItemClick(subCategory.id, 'subcategory');
                                       }}
                                       className="flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:text-purple-600"
                                     >
                                       {subCategory.name}
                                     </a>
-                                    {subCategory.topics && (
+                                    {/* {subCategory.topics && (
                                       <svg
                                         aria-hidden="true"
                                         className="w-4 h-4"
@@ -367,10 +361,10 @@ const Navbar = () => {
                                           clipRule="evenodd"
                                         ></path>
                                       </svg>
-                                    )}
+                                    )} */}
                                   </div>
                                   {/* -- SUBSUBCATEGORY / TOPIC -- */}
-                                  {subCategory.topics && 
+                                  {/* {subCategory.topics && 
                                     activeTopic === subCategory.id &&
                                     (
                                       <div className="absolute left-full top-0 mt-1 py-1 w-48 md:w-64 bg-white shadow-lg z-20">
@@ -384,7 +378,7 @@ const Navbar = () => {
                                                   href={topic.a}
                                                   onClick={(e) => {
                                                     e.preventDefault();
-                                                    handleItemClick(topic.name, 'topic');
+                                                    handleTopicClick(topic.id, 'topic');
                                                   }}
                                                   className="block px-4 py-2 text-sm text-gray-700 hover:text-purple-600 hover:bg-gray-100"
                                                 >
@@ -395,7 +389,7 @@ const Navbar = () => {
                                           )}
                                         </ul>
                                       </div>
-                                    )}
+                                    )} */}
                                 </li>
                               ))}
                             </ul>
