@@ -71,19 +71,19 @@ export const UpdatesData = [
   {
     img: img1,
     name: "Hoàng Đình Trung",
-    noti: "has ordered Apple smart watch 2500mh battery.",
-    time: "25 seconds ago",
+    noti: "has added course ReactJs to wishlist.",
+    time: "25 minitues ago",
   },
   {
     img: img2,
-    name: "James Bond",
-    noti: "has received Samsung gadget for charging battery.",
+    name: "Đặng Hữu Tấn",
+    noti: "has added course PHP to wishlist.",
     time: "30 minutes ago",
   },
   {
     img: img3,
-    name: "Iron Man",
-    noti: "has ordered Apple smart watch, samsung Gear 2500mh battery.",
+    name: "Nguyễn Minh Vũ",
+    noti: "has added course marketing to wishlist..",
     time: "2 hours ago",
   },
 ];

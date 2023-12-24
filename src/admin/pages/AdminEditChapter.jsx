@@ -7,24 +7,26 @@ import useCategoriesStore from "../../customer/stores/useCategoriesStore";
 import CourseService from "../../customer/services/CourseService";
 import SuccessModal from "../../customer/components/modal/SuccessModal";
 import useCourseStore from "../../customer/stores/useCourseStore";
-const AdminEditCourse = () => {
+
+const AdminEditChapter = () => {
   const navigate = useNavigate();
 
   const { categories, setCategories } = useCategoriesStore();
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState(null);
-
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [author, setAuthor] = useState("");
-  const [thumbnail, setThumbnail] = useState(null);
-
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const [courses, setCourses] = useState([]);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const [chapters, setChapters] = useState([]);
+  const [selectedChapterId, setSelectedChapterId] = useState(null);
+  const [selectedChapter, setSelectedChapter] = useState(null);
+
+  const [lectures, setLectures] = useState([]);
+  const [selectedLectureId, setSelectedLectureId] = useState([]);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     const parentCategories = async () => {
@@ -33,7 +35,7 @@ const AdminEditCourse = () => {
         setCategories(categories);
         console.log(categories);
       } catch (error) {
-        console.error("Error fetching user profile:", error);
+        console.error("Error fetching categories:", error);
       }
     };
 
@@ -46,14 +48,6 @@ const AdminEditCourse = () => {
     console.log("Selected Category ID:", selectedCategoryId);
   }, [selectedCategoryId]);
 
-  useEffect(() => {
-    if (courses.length === 1) {
-      const defaultCourseId = courses[0].id;
-      setSelectedCourseId(defaultCourseId);
-      console.log(selectedCourseId);
-    }
-  }, [courses]);
-
   const getCourseByCategoriesId = async () => {
     try {
       const courses = await CourseService.getCoursesBySubCategoryId(
@@ -64,8 +58,61 @@ const AdminEditCourse = () => {
       console.log("Error Fetching ");
     }
   };
+  const getChapterByCourseId = async () => {
+    try {
+      const chapters = await CourseService.getChaptersByCourseId(
+        selectedCourseId
+      );
+      setChapters(chapters);
 
- 
+      // Assuming lectures are available in the chapters response
+      if (chapters.length > 0) {
+        setSelectedChapter(chapters[0]);
+      }
+    } catch (error) {
+      console.log("Error Fetching Chapters:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedSubcategoryId) {
+      getCourseByCategoriesId(selectedSubcategoryId);
+    }
+  }, [selectedSubcategoryId]);
+  useEffect(() => {
+    if (selectedCourseId) {
+      getChapterByCourseId(selectedCourseId);
+      console.log("Selected Course ID:", selectedCourseId);
+    }
+  }, [selectedCourseId]);
+
+  useEffect(() => {
+    if (courses.length === 1) {
+      const defaultCourseId = courses[0].id;
+      setSelectedCourseId(defaultCourseId);
+
+      try {
+        const chapters = CourseService.getChaptersByCourseId(defaultCourseId);
+        setChapters(chapters);
+      } catch (error) {
+        console.log("Error fetching chapters:", error);
+      }
+    }
+  }, [courses]);
+
+  useEffect(() => {
+    if (chapters.length === 1) {
+      const defaultChapterId = chapters[0].id;
+      setSelectedChapterId(defaultChapterId);
+      setSelectedChapter(chapters[0]);
+
+      setTitle(chapters[0].title || "");
+
+      if (chapters[0].lectures.length > 0) {
+        setSelectedLectureId([chapters[0].lectures[0].id]);
+      }
+    }
+  }, [chapters]);
 
   const handleCategoryChange = (e) => {
     const categoryId = parseInt(e.target.value);
@@ -80,85 +127,78 @@ const AdminEditCourse = () => {
     console.log("Selected Category ID:", selectedCategoryId);
   };
 
-  useEffect(() => {
-    console.log("Selected Category ID:", selectedCategoryId);
-  }, [selectedCategoryId]);
-
-  useEffect(() => {
-    if (courses.length === 1) {
-      const defaultCourseId = courses[0].id;
-      setSelectedCourseId(defaultCourseId);
-    }
-  }, [courses]);
-
-  const handleSubcategoryChange = async (e) => {
+  const handleSubcategoryChange = (e) => {
     const subcategoryId = parseInt(e.target.value);
     console.log("Selected Subcategory ID:", subcategoryId);
     setSelectedSubcategoryId(subcategoryId);
-
-    // Get the courses for the selected subcategory
-    await getCourseByCategoriesId();
-
-    if (courses.length === 1) {
-      setSelectedCourseId(courses[0].id);
-    } else {
-      setSelectedCourseId(null);
-    }
   };
 
-  const handleCourseChange = (e) => {
+  const handleCourseChange = async (e) => {
     const courseId = parseInt(e.target.value);
     console.log("Selected Course ID:", courseId);
     setSelectedCourseId(courseId);
+    setSelectedChapterId(null);
 
-    if (courseId) {
-      const selectedCourse = courses.find((course) => course.id === courseId);
-
-      if (selectedCourse) {
-        setTitle(selectedCourse.title || "");
-        setDescription(selectedCourse.description || "");
-        setPrice(selectedCourse.price || "");
-        setAuthor(selectedCourse.author || "");
-        // Add more fields if needed
-      }
+    try {
+      const chapters = await CourseService.getChaptersByCourseId(courseId);
+      setChapters(chapters);
+    } catch (error) {
+      console.log("Error fetching chapters:", error);
     }
+  };
+
+  const handleChapterChange = (e) => {
+    const chapterId = parseInt(e.target.value);
+    const selectedChapter = chapters.find(
+      (chapter) => chapter.id === chapterId
+    );
+
+    setSelectedChapter(selectedChapter);
+    setSelectedChapterId(chapterId);
+
+    if (selectedChapter) {
+      setTitle(selectedChapter.title || "");
+    }
+    console.log("Chapter Selected : " + selectedChapter.id);
+
+    setSelectedLectureId([]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-      const courseData = {
-        course_id: selectedCourseId,
-        title,
-        description,
-        price,
-        author,
-        thumbnail: thumbnail,
-      };
-      console.log(courseData);
 
-      CourseService. editCourse(courseData).then(
-        (response) => {
-          console.log("Course edited successfully:", response);
-          setShowSuccessModal(true);
-        },
-        (error) => {
-          console.error("Error edited course:", error);
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+    if (!title) {
+      setErrorMessage("Title is required");
+      return;
+    }
 
-          setErrorMessage(resMessage);
-        }
-      );
+    const chapterData = {
+      course_id: selectedChapter.id,
+      title,
+    };
+    console.log(chapterData);
+
+    try {
+      const response = await CourseService.editChapter(chapterData);
+      console.log("Chapter created successfully:", response);
+      setShowSuccessModal(true);
+      // setTimeout();
+    } catch (error) {
+      const resMessage =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      setErrorMessage(resMessage);
+    }
   };
 
   return (
     <AdminLayout>
       <div className="MainDash bg-gray-100 p-6 rounded-md">
-        <h3 className="text-center"> Form Update Course</h3>
+        <h3 className="text-center">Form Update Chapter</h3>
         <form onSubmit={handleSubmit}>
           <div className="form-group mb-4">
             <label htmlFor="categories" className="block mb-2 font-bold">
@@ -210,6 +250,26 @@ const AdminEditCourse = () => {
                 </select>
               </div>
             )}
+
+            {/* Display Chapters dropdown if a course is selected */}
+            {chapters.length > 0 && (
+              <div>
+                <label htmlFor="chapters" className="block mb-2 font-bold">
+                  Chapters
+                </label>
+                <select
+                  id="chapters"
+                  className="w-full border p-2"
+                  onChange={handleChapterChange}
+                >
+                  {chapters.map((chapter) => (
+                    <option key={chapter.id} value={chapter.id}>
+                      {chapter.title} {chapter.id}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
 
           <div className="form-group mb-4">
@@ -225,61 +285,6 @@ const AdminEditCourse = () => {
             />
           </div>
 
-          <div className="form-group mb-4">
-            <label htmlFor="description" className="block mb-1">
-              Description
-            </label>
-            <textarea
-              id="description"
-              className="w-full border p-2"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            ></textarea>
-            <p className="text-xs text-gray-700">
-              Description for courses (require)
-            </p>
-          </div>
-          <div className="form-group mb-4">
-            <label htmlFor="title" className="block mb-1">
-              Price ($$)
-            </label>
-            <input
-              type="number"
-              id="title"
-              className="w-full border p-2"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-            <p className="text-xs text-gray-700">(require numberic ) $</p>
-          </div>
-          <div className="form-group mb-4">
-            <label htmlFor="title" className="block mb-1">
-              Author
-            </label>
-            <input
-              type="text"
-              id="title"
-              className="w-full border p-2"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
-            />
-            <p className="text-xs text-gray-700">Require Full Name</p>
-          </div>
-
-          <div className="form-group mb-4">
-            <label htmlFor="thumbnail" className="block mb-1">
-              Thumbnail (Image)
-            </label>
-            <input
-              type="file"
-              id="thumbnail"
-              accept="image/*"
-              onChange={(e) => setThumbnail(e.target.files[0])}
-            />
-            <p className="text-xs text-gray-700">
-              (Optional) Choose a thumbnail for the course.
-            </p>
-          </div>
           {errorMessage && (
             <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
           )}
@@ -287,7 +292,7 @@ const AdminEditCourse = () => {
           {showSuccessModal && (
             <SuccessModal onClick={() => setShowSuccessModal(false)}>
               <h2>Success!</h2>
-              <p>Course updated successfully.</p>
+              <p>Chapter updated successfully.</p>
             </SuccessModal>
           )}
           <div className="flex justify-end mt-3">
@@ -296,7 +301,7 @@ const AdminEditCourse = () => {
               className="bg-gray-800 text-white p-2 font-bold px-5 py-3"
               onClick={handleSubmit}
             >
-              Update Course
+              Update Chapter
             </button>
           </div>
         </form>
@@ -304,4 +309,4 @@ const AdminEditCourse = () => {
     </AdminLayout>
   );
 };
-export default AdminEditCourse;
+export default AdminEditChapter;

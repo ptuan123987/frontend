@@ -29,7 +29,9 @@ const AdminAddChapterExistCourse = () => {
   
   
   const [title, setTitle] = useState("");
- 
+  const moveToEditChapter = () =>{
+    navigate("/admin/edit-chapter");
+  }
 
 
 
@@ -201,6 +203,9 @@ const AdminAddChapterExistCourse = () => {
   return (
     <AdminLayout>
       <div className="MainDash bg-gray-100 p-6 rounded-md">
+      <a href="" className="text-blue-500 text-right block mb-1" onClick={moveToEditChapter}>
+          Do You Want To Update Chapter? <span className="ml-1">&rarr;</span>
+        </a>
         <h3 className="text-center">Form Add New Chapter</h3>
         <form onSubmit={handleSubmit}>
           <div className="form-group mb-4">

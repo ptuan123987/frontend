@@ -35,6 +35,24 @@ const login = (email, password) => {
     });
 };
 
+const loginAdmin = (email, password) => {
+  return axios
+    .post(API_URL + "/api/admin/login", {
+      email,
+      password,
+    })
+    .then((response) => {
+      console.log(response);
+      const { admin_token, refresh_token } = response.data.data;
+
+      console.log(admin_token);
+      console.log(refresh_token);
+      localStorage.setItem("admin_token", admin_token);
+      localStorage.setItem("refresh_token", refresh_token);
+      return response;
+    });
+};
+
 const getCurrentAccessToken = () => {
     return localStorage.getItem('access_token');
 };
@@ -49,8 +67,21 @@ const profile = () => {
   });
 };
 
+
+const isUser = async () => {
+  try {
+    const response = await profile();
+    const { role } = response.data;
+
+    return role === 'user';
+  } catch (error) {
+    console.error("Error checking user status:", error);
+    return false;
+  }
+};
 const logout = () => {
   localStorage.removeItem("access_token");
+  localStorage.removeItem("admin_token");
   localStorage.removeItem("refresh_token");
 };
 
@@ -124,16 +155,42 @@ const changePassword = (oldPassword, newPassword) => {
     });
 };
 
+const isLoggedIn = () => {
+  const access_token = localStorage.getItem("access_token");
+
+  return !!access_token; 
+};
+
+const isAdmin = async () => {
+  try {
+    if (!isLoggedIn()) {
+      return false; 
+    }
+
+    const response = await profile();
+    const role = response.data.role;
+
+    return role === 'admin';
+  } catch (error) {
+    console.error("Error checking admin status:", error);
+    return false;
+  }
+};
 const AuthService = {
   register,
   login,
+  loginAdmin,
   profile,
   logout,
   forgotPassword,
   resetPassword,
   editProfile,
   changePassword,
-  getCurrentAccessToken
+  getCurrentAccessToken,
+  isAdmin,
+  isUser,
+  isLoggedIn,
+
 };
 
 export default AuthService;

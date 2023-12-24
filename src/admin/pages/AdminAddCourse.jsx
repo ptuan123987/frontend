@@ -24,7 +24,9 @@ const AdminAddCourse = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const setCourse = useCourseStore((state) => state.setCourse);
-
+  const moveToEditCourse = () =>{
+    navigate("/admin/edit-course");
+  }
 
   useEffect(() => {
     const parentCategories = async () => {
@@ -66,7 +68,7 @@ const AdminAddCourse = () => {
           setShowSuccessModal(true);
           setCourse(response);
           setTimeout(() => {
-            navigate('/admin/add-course/add-chapter')
+            navigate("/admin/add-course/add-chapter");
           }, 500);
         },
         (error) => {
@@ -106,7 +108,11 @@ const AdminAddCourse = () => {
   return (
     <AdminLayout>
       <div className="MainDash bg-gray-100 p-6 rounded-md">
+        <a href="" className="text-blue-500 text-right block mb-1" onClick={moveToEditCourse}>
+          Do You Want To Update Course? <span className="ml-1">&rarr;</span>
+        </a>
         <h3 className="text-center">Step 1: Form Add New Course</h3>
+
         <form onSubmit={handleSubmit}>
           <div className="form-group mb-4">
             <label htmlFor="categories" className="block mb-2 font-bold">

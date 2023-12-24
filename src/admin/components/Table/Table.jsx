@@ -13,10 +13,11 @@ function createData(name, trackingId, date, status) {
 }
 
 const rows = [
-  createData("Lasania Chiken Fri", 18908424, "2 March 2022", "Approved"),
-  createData("Big Baza Bang ", 18908424, "2 March 2022", "Pending"),
-  createData("Mouth Freshner", 18908424, "2 March 2022", "Approved"),
-  createData("Cupcake", 18908421, "2 March 2022", "Delivered"),
+  createData("Hoàng Đình Trung", 12, "25 December 12", "Approved"),
+  createData("Đặng Hữu Tấn ", 18, "25 December 12", "Pending"),
+  createData("Nguyễn Minh Vũ", 19, "25 December 12", "Approved"),
+  createData("Dương Đức Quân", 8, "25 December 12", "Delivered"),
+  createData("Phan Văn Tuấn", 2, "25 December 12", "Delivered"),
 ];
 
 
@@ -45,8 +46,8 @@ const makeStyle=(status)=>{
 
 export default function BasicTable() {
   return (
-      <div className="Table">
-      <h3>Recent Orders</h3>
+      <div className="Table mt-[50px]">
+      <h3>Recent Students</h3>
         <TableContainer
           component={Paper}
           style={{ boxShadow: "0px 13px 20px 0px #80808029" }}

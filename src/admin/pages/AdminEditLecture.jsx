@@ -8,7 +8,7 @@ import CourseService from "../../customer/services/CourseService";
 import SuccessModal from "../../customer/components/modal/SuccessModal";
 import useCourseStore from "../../customer/stores/useCourseStore";
 
-const AdminAddLectureExistChapter = () => {
+const AdminEditLecture = () => {
   const navigate = useNavigate();
 
   const { categories, setCategories } = useCategoriesStore();
@@ -25,20 +25,12 @@ const AdminAddLectureExistChapter = () => {
   const [selectedLectureId, setSelectedLectureId] = useState([]);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  
-  
-  
+
   const [title, setTitle] = useState("");
   const [video, setVideo] = useState(null);
   const [thumbnailImg, setThumbnailImg] = useState(null);
 
   const [resources, setResources] = useState([{ title: "", link: "" }]);
-
-  const moveToEditLecture = () =>{
-    navigate("/admin/edit-lecture");
-  }
-
-
 
   useEffect(() => {
     const parentCategories = async () => {
@@ -77,7 +69,6 @@ const AdminAddLectureExistChapter = () => {
       );
       setChapters(chapters);
 
-      // Assuming lectures are available in the chapters response
       if (chapters.length > 0) {
         setSelectedChapter(chapters[0]);
       }
@@ -102,11 +93,9 @@ const AdminAddLectureExistChapter = () => {
     if (courses.length === 1) {
       const defaultCourseId = courses[0].id;
       setSelectedCourseId(defaultCourseId);
-  
+
       try {
-        const chapters = CourseService.getChaptersByCourseId(
-          defaultCourseId
-        );
+        const chapters = CourseService.getChaptersByCourseId(defaultCourseId);
         setChapters(chapters);
       } catch (error) {
         console.log("Error fetching chapters:", error);
@@ -115,18 +104,26 @@ const AdminAddLectureExistChapter = () => {
   }, [courses]);
 
   useEffect(() => {
-    if (chapters.length === 1) {
-      const defaultChapterId = chapters[0].id;
-      setSelectedChapterId(defaultChapterId);
+    if (chapters.length > 0) {
       setSelectedChapter(chapters[0]);
-  
-      if (chapters[0].lectures.length > 0) {
-        setSelectedLectureId([chapters[0].lectures[0].id]);
-      }
     }
   }, [chapters]);
-  
 
+  useEffect(() => {
+    if (selectedChapter && selectedChapter.lectures.length === 1) {
+      const defaultLectureId = selectedChapter.lectures[0].id;
+      setSelectedLectureId([defaultLectureId]);
+
+      // Auto-populate lecture details in the form
+      const defaultLecture = selectedChapter.lectures.find(
+        (lecture) => lecture.id === defaultLectureId
+      );
+
+      if (defaultLecture) {
+        setTitle(defaultLecture.title);
+      }
+    }
+  }, [selectedChapter]);
 
   const handleCategoryChange = (e) => {
     const categoryId = parseInt(e.target.value);
@@ -169,11 +166,25 @@ const AdminAddLectureExistChapter = () => {
 
     setSelectedChapter(selectedChapter);
     setSelectedChapterId(chapterId);
-    setSelectedLectureId([]); 
+    setSelectedLectureId([]);
     // Reset selected lectures when a new chapter is selected
     console.log("Selected Chapter ID:", selectedChapter.id);
   };
 
+  const handleLectureChange = (e) => {
+    const lectureId = parseInt(e.target.value);
+
+    const selectedLecture = selectedChapter.lectures.find(
+      (lecture) => lecture.id === lectureId
+    );
+
+    if (selectedLecture) {
+      setSelectedLectureId([lectureId]);
+
+      console.log(selectedLecture.id);
+      setTitle(selectedLecture.title);
+    }
+  };
 
   const handleAddResource = () => {
     setResources([...resources, { title: "", link: "" }]);
@@ -191,12 +202,11 @@ const AdminAddLectureExistChapter = () => {
     setResources(updatedResources);
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const lectureData = {
-      chapter_id: selectedChapter.id,
+      lecture_id: selectedLectureId,
       title,
       video,
       thumbnailImg,
@@ -204,9 +214,9 @@ const AdminAddLectureExistChapter = () => {
     };
     console.log(lectureData);
 
-    CourseService.createLecture(lectureData).then(
+    CourseService.editLecture(lectureData).then(
       (response) => {
-        console.log("Lecture created successfully:", response);
+        console.log("Lecture updated successfully:", response);
         setShowSuccessModal(true);
       },
       (error) => {
@@ -221,14 +231,10 @@ const AdminAddLectureExistChapter = () => {
       }
     );
   };
-
   return (
     <AdminLayout>
       <div className="MainDash bg-gray-100 p-6 rounded-md">
-      <a href="" className="text-blue-500 text-right block mb-1" onClick={moveToEditLecture}>
-          Do You Want To Update Lecture? <span className="ml-1">&rarr;</span>
-        </a>
-        <h3 className="text-center">Form Add New Chapter</h3>
+        <h3 className="text-center">Form Update Lecture</h3>
         <form onSubmit={handleSubmit}>
           <div className="form-group mb-4">
             <label htmlFor="categories" className="block mb-2 font-bold">
@@ -310,9 +316,7 @@ const AdminAddLectureExistChapter = () => {
                 <select
                   id="lectures"
                   className="w-full border p-2"
-                  onChange={(e) =>
-                    setSelectedLectureId([parseInt(e.target.value)])
-                  }
+                  onChange={handleLectureChange}
                 >
                   {selectedChapter.lectures.map((lecture) => (
                     <option key={lecture.id} value={lecture.id}>
@@ -426,7 +430,7 @@ const AdminAddLectureExistChapter = () => {
           {showSuccessModal && (
             <SuccessModal onClick={() => setShowSuccessModal(false)}>
               <h2>Success!</h2>
-              <p>Lecture created successfully.</p>
+              <p>Lecture updated successfully.</p>
             </SuccessModal>
           )}
           <div className="flex justify-end mt-3">
@@ -435,7 +439,7 @@ const AdminAddLectureExistChapter = () => {
               className="bg-gray-800 text-white p-2 font-bold px-5 py-3"
               onClick={handleSubmit}
             >
-              Create Lecture
+              Update Lecture
             </button>
           </div>
         </form>
@@ -443,4 +447,4 @@ const AdminAddLectureExistChapter = () => {
     </AdminLayout>
   );
 };
-export default AdminAddLectureExistChapter;
+export default AdminEditLecture;
