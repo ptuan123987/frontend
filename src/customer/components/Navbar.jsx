@@ -6,6 +6,7 @@ import AuthService from "../../customer/services/AuthService";
 import Button1 from "./buttons/Button1";
 import useUserStore from "../stores/useUserStore";
 import MyLearning from "../pages/user/MyLearning";
+import SearchBar from "./SearchBar";
 const Navbar = () => {
   const Categories = [
     {
@@ -862,13 +863,7 @@ const Navbar = () => {
                 ></path>
               </svg>
             </div>
-            <input
-              type="search"
-              id="default-search"
-              class="block h-full w-full p-0 pl-12 text-gray-900 border border-stone-900 bg-gray-50 rounded-full outline-none focus:outline-none"
-              placeholder="Search for anything"
-              required
-            />
+            <SearchBar />
           </div>
 
           <div className="flex flex-col md:flex-row md:items-center gap-4">
@@ -1074,5 +1069,4 @@ const Navbar = () => {
     </nav>
   );
 };
-
 export default Navbar;

@@ -167,6 +167,8 @@ const Home = () => {
   const navigate = useNavigate();
   const appName = "Udemy";
   console.log(fakeCategories);
+  const CategoriesId = [1, 2];
+
   return (
     <Layout>
       <section>
@@ -190,34 +192,14 @@ const Home = () => {
         </Carousel>
       </section>
 
-      <section className="p-5 mb-5">
-        {fakeCategories.map((category, index) => {
-          const categoryId = index + 1; // Tăng categoryId mỗi lần lặp
-
-          return (
-              <div key={category.id}>
-                <h2 className="text-3xl font-extrabold font-SuisseWorks mb-3">
-                  A broad selection of courses in {category.title}
-                </h2>
-                <p className="text-xl font-light">
-                  Choose from over {category.courses.length} online video courses
-                  with new additions published every month
-                </p>
-                <div className="mb-1">
-                  <ul
-                      className="flex flex-wrap -mb-px text-base font-bold text-center"
-                      role="tablist"
-                  >
-                    {category.title}
-                  </ul>
-                </div>
-                <div className="">
-                  <CoursesSlide categoryId={String(categoryId)} />
-                  <Button1>Explore {category.title}</Button1>
-                </div>
+      <section className="p-5 mb-5 w-5/6 mx-auto my-8">
+        {CategoriesId.map((categoryId) => (
+            <div key={categoryId}>
+              <div className="">
+                <CoursesSlide categoryId={categoryId} />
               </div>
-          );
-        })}
+            </div>
+        ))}
       </section>
 
       <section className="px-5 md:px-44 pt-16 md:py-16">

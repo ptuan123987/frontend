@@ -117,12 +117,18 @@ const getLecturesByChapterId = async () => {
   })
 };
 
+const searchCourseByName = async (searchTerm) => {
+    const response = await axios.get(API_URL + `api/search/courses?searchTerm=${searchTerm}&page_num=1&page_size=10`);
+    return response.data.data;
+};
+
 const CourseService = {
   createCourse,
   createChapter,
   createLecture,
   getCoursesBySubCategoryId,
   getChaptersByCourseId,
+  searchCourseByName
 };
 
 export default CourseService;
