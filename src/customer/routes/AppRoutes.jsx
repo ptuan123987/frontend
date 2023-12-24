@@ -4,6 +4,7 @@ import Login from "../pages/auth/Login";
 import Signup from "../pages/auth/Signup";
 import Home from "../pages/Home";
 import CoursePage from "../pages/courses/CoursePage";
+import CourseList from "../pages/courses/CourseList";
 import Profile from "../pages/user/Profile";
 import ChangePassword from "../pages/user/ChangePassword";
 import MyLearning from "../pages/user/MyLearning";
@@ -46,13 +47,7 @@ const AppRoutes = () => {
       <Route path="/signup" element={<Signup />} />
 
       {/* Categories route */}
-      {/* {/*  */}
-      {/*   */}
-      {/* <Route path="/course/:categoryName" element={<CoursePage />} />
-      <Route path="/course/:categoryName/:subCategoryName" element={<CoursePage />} /> */}
-      {/*<Route path="/topic/:topicName" element={<CoursePage />} />*/}
-
-      {/* <Route path= "/categories/:id/courses" element={CoursesPage}/> */}
+      <Route path="/category/:categoryId" element={<CourseList />} />
 
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/response-password-reset/*" element={<ResetPassword />} />
