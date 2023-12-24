@@ -48,10 +48,6 @@ const AppRoutes = () => {
 
       {/* Categories route */}
       <Route path="/category/:categoryId" element={<CourseList />} />
-      
-      {/* <Route path="/topic/:topicName" element={<CoursePage />} /> */}
-
-      {/* <Route path= "/topic/:topicId" element={<CourseList />}/> */}
 
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/response-password-reset/*" element={<ResetPassword />} />
