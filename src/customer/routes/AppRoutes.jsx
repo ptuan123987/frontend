@@ -45,19 +45,21 @@ const AppRoutes = () => {
       <Route path="/signup" element={<Signup />} />
 
       {/* Categories route */}
-      <Route path="/development" element={<CoursePage />} />
-      <Route path="/business" element={<CoursePage />} />
-      <Route path="/forgot-password" element={<ForgotPassword/>}/>
-      <Route path="/response-password-reset/*"element={<ResetPassword/>} />
+      <Route path="/course/:categoryName" element={<CoursePage />} />
+      <Route path="/course/:categoryName/:subCategoryName" element={<CoursePage />} />
+      <Route path="/topic/:topicName" element={<CoursePage />} />
+
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/response-password-reset/*" element={<ResetPassword />} />
 
       <Route path="/callback/github/*" element={<GithubLanding />} />
       <Route path="/callback/google/*" element={<GoogleLanding />} />
       <Route path="/course/:courseId/chapter/:chapterId/lecture/:lectureId" element={<LecturePage />} />
-      
+
       {/* User route */}
       <Route path="/change-password" element={<ChangePassword />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path= "/my-learning" element={<MyLearning/>} />
+      <Route path="/my-learning" element={<MyLearning />} />
       <Route path="/wishlist" element={<Wishlist />} />
 
       <Route path="/admin/login" element={<AdminLogin />}></Route>
@@ -65,10 +67,10 @@ const AppRoutes = () => {
       {/* Admin route */}
       <Route path="/admin" element={<Dashboard />} />
       <Route path="/admin/add-course" element={<AdminAddCourse />} />
-      <Route path="/admin/add-course/add-chapter" element={<AdminAddChapter/>} />
-      <Route path="/admin/add-course/add-chapter/add-lecture" element={<AdminAddLecture/>} />
-      <Route path="/admin/add-chapter" element={<AdminAddChapterExistCourse/>} />
-      <Route path="/admin/add-lecture" element={<AdminAddLectureExistChapter/>}/>
+      <Route path="/admin/add-course/add-chapter" element={<AdminAddChapter />} />
+      <Route path="/admin/add-course/add-chapter/add-lecture" element={<AdminAddLecture />} />
+      <Route path="/admin/add-chapter" element={<AdminAddChapterExistCourse />} />
+      <Route path="/admin/add-lecture" element={<AdminAddLectureExistChapter />} />
       <Route path="/admin/course" element={<AdminAddCourse />} />
       <Route path="/admin/students" element={<Students />} />
       <Route path="/admin/analytics" element={<Analytics />} />

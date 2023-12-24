@@ -6,491 +6,16 @@ import AuthService from "../../customer/services/AuthService";
 import Button1 from "./buttons/Button1";
 import useUserStore from "../stores/useUserStore";
 import MyLearning from "../pages/user/MyLearning";
-const Navbar = () => {
-  const Categories = [
-    {
-      id: 1,
-      title: "Development",
-      a: "/development",
-      subCategories: [
-        {
-          id: "1-1",
-          title: "Web Development",
-          a: "/web-development",
-          subSubCategories: [
-            {
-              id: "1-1-1",
-              title: "JavaScript",
-              a: "/javacript",
-            },
-            {
-              id: "1-1-2",
-              title: "React JS",
-              a: "/reactjs",
-            },
-            {
-              id: "1-1-3",
-              title: "Angular",
-              a: "/angular",
-            },
-          ],
-        },
-        {
-          id: "1-2",
-          title: "Data Science",
-          a: "/data-science",
-          subSubCategories: [
-            {
-              id: "1-2-1",
-              title: "Python",
-              a: "/python",
-            },
-            {
-              id: "1-2-2",
-              title: "Machine Learning",
-              a: "/machine-learning",
-            },
-            {
-              id: "1-2-3",
-              title: "Deep Learning",
-              a: "/deep-learning",
-            },
-            {
-              id: "1-2-4",
-              title: "Artificial Intelligence",
-              a: "/artificial-intelligence",
-            },
-          ],
-        },
-        {
-          id: "1-3",
-          title: "Mobile Development",
-          a: "/mobile-development",
-          subSubCategories: [
-            {
-              id: "1-3-1",
-              title: "Google Flutter",
-              a: "/google-flutter",
-            },
-            {
-              id: "1-3-2",
-              title: "iOS Development",
-              a: "/ios-development",
-            },
-            {
-              id: "1-3-3",
-              title: "Android Development",
-              a: "/android-development",
-            },
-            {
-              id: "1-3-4",
-              title: "React Native",
-              a: "/react-native",
-            },
-          ],
-        },
-        {
-          id: "1-4",
-          title: "Programming Languages",
-          a: "/programming-languages",
-          subSubCategories: [
-            {
-              id: "1-4-1",
-              title: "Python",
-              a: "/python",
-            },
-            {
-              id: "1-4-2",
-              title: "Java",
-              a: "/java",
-            },
-          ],
-        },
-        {
-          id: "1-5",
-          title: "Game Development",
-          a: "/game-development",
-        },
-        {
-          id: "1-6",
-          title: "Database Design",
-          a: "/database-design",
-        },
-        {
-          id: "1-7",
-          title: "Software Testing",
-          a: "/software-testing",
-        },
-        {
-          id: "1-8",
-          title: "Software Engineering",
-          a: "/software-engineering",
-        },
-        {
-          id: "1-9",
-          title: "Software Development Tools",
-          a: "/software-developement-tools",
-        },
-        {
-          id: "1-10",
-          title: "No-Code Developement",
-          a: "/no-code-developement",
-        },
-      ],
-    },
-    {
-      id: 2,
-      title: "Business",
-      a: "/business",
-      subCategories: [
-        {
-          id: "2-1",
-          title: "Entrepreneurship",
-          a: "/entrepreneurship",
-          subSubCategories: [
-            {
-              id: "2-1-1",
-              title: "Freelancing",
-              a: "/freelancing",
-            },
-            {
-              id: "2-1-2",
-              title: "Business Strategy",
-              a: "/business-strategy",
-            },
-            {
-              id: "2-1-3",
-              title: "Startup",
-              a: "/startup",
-            },
-            {
-              id: "2-1-4",
-              title: "Business Plan",
-              a: "/business-plan",
-            },
-          ],
-        },
-        {
-          id: "2-2",
-          title: "Communication",
-          a: "/communication",
-        },
-        {
-          id: "2-3",
-          title: "Management",
-          a: "/management",
-        },
-        {
-          id: "2-4",
-          title: "Sales",
-          a: "/sales",
-        },
-        {
-          id: "2-5",
-          title: "Business Strategy",
-          a: "/business-strategy",
-        },
-        {
-          id: "2-6",
-          title: "Operations",
-          a: "/operations",
-        },
-        {
-          id: "2-7",
-          title: "Project Management",
-          a: "/project-management",
-        },
-        {
-          id: "2-8",
-          title: "Business Law",
-          a: "/business-law",
-        },
-        {
-          id: "2-9",
-          title: "Human Resources",
-          a: "/human-resources",
-        },
-        {
-          id: "2-10",
-          title: "Industry",
-          a: "/industry",
-        },
-      ],
-    },
-    {
-      id: 3,
-      title: "Finance & Accounting",
-      a: "/finance-accounting",
-      subCategories: [
-        {
-          id: "3-1",
-          title: "Accounting",
-          a: "/accounting",
-        },
-        {
-          id: "3-2",
-          title: "Compliance",
-          a: "/compliance",
-        },
-        {
-          id: "3-3",
-          title: "Economics",
-          a: "/economics",
-        },
-        {
-          id: "3-4",
-          title: "Finance",
-          a: "/finance",
-        },
-        {
-          id: "3-5",
-          title: "Monney Management Tools",
-          a: "/money-management-tools",
-        },
-      ],
-    },
-    {
-      id: 4,
-      title: "IT & Software",
-      a: "/it-software",
-      subCategories: [
-        {
-          id: "4-1",
-          title: "IT Certifications",
-          a: "/it-certification",
-        },
-        {
-          id: "4-2",
-          title: "Network & Security",
-          a: "/network-security",
-        },
-        {
-          id: "4-3",
-          title: "Hardware",
-          a: "/hardware",
-        },
-        {
-          id: "4-4",
-          title: "Operating Systems & Servers",
-          a: "/operating-systems-servers",
-        },
-        {
-          id: "4-5",
-          title: "Other IT & Software",
-          a: "/other-it-software",
-        },
-      ],
-    },
-    {
-      id: 5,
-      title: "Office Productivity",
-      a: "/office-productivity",
-      subCategories: [
-        {
-          id: "5-1",
-          title: "Microsoft",
-          a: "/microsoft",
-        },
-        {
-          id: "5-2",
-          title: "Apple",
-          a: "/apple",
-        },
-        {
-          id: "5-3",
-          title: "Google",
-          a: "/google",
-        },
-        {
-          id: "5-4",
-          title: "SAP",
-          a: "/sap",
-        },
-        {
-          id: "5-5",
-          title: "Oracle",
-          a: "/oracle",
-        },
-        {
-          id: "5-6",
-          title: "Other Office Productivity",
-          a: "/other-office-productivity",
-        },
-      ],
-    },
-    {
-      id: 6,
-      title: "Personal Development",
-      a: "/personal-development",
-      subCategories: [
-        {
-          id: "6-1",
-          title: "Personal Transformation",
-          a: "/personal-transformation",
-        },
-        {
-          id: "6-2",
-          title: "Personal Productivity",
-          a: "/personal-productivity",
-        },
-      ],
-    },
-    {
-      id: 7,
-      title: "Design",
-      a: "/design",
-      subCategories: [
-        {
-          id: "7-1",
-          title: "Web Design",
-          a: "/web-design",
-        },
-        {
-          id: "7-2",
-          title: "Design Tools",
-          a: "/design-tools",
-        },
-        {
-          id: "7-3",
-          title: "Game Design",
-          a: "/game-design",
-        },
-      ],
-    },
-    {
-      id: 8,
-      title: "Marketing",
-      a: "/marketing",
-      subCategories: [
-        {
-          id: "8-1",
-          title: "Digital Marketing",
-          a: "/digital-marketing",
-        },
-        {
-          id: "8-2",
-          title: "Search Engine Optimization",
-          a: "/search-engine-optimization",
-        },
-        {
-          id: "8-3",
-          title: "Social Media Marketing",
-          a: "/social-media-marketing",
-        },
-        {
-          id: "8-4",
-          title: "Branding",
-          a: "/branding",
-        },
-      ],
-    },
-    {
-      id: 9,
-      title: "Lifestyle",
-      a: "/lifestyle",
-      subCategories: [
-        {
-          id: "9-1",
-          title: "Arts & Crafts",
-          a: "/arts-crafts",
-        },
-        {
-          id: "9-2",
-          title: "Beauty & Makeup",
-          a: "/beauty-makeup",
-        },
-        {
-          id: "9-3",
-          title: "Food & Beverage",
-          a: "/food-beverage",
-        },
-      ],
-    },
-    {
-      id: 10,
-      title: "Photography & Video",
-      a: "/photography-video",
-      subCategories: [
-        {
-          id: "10-1",
-          title: "Digital Photography",
-          a: "/digital-photography",
-        },
-        {
-          id: "10-2",
-          title: "Photography",
-          a: "/photography",
-        },
-        {
-          id: "10-3",
-          title: "Video Design",
-          a: "/video-design",
-        },
-      ],
-    },
-    {
-      id: 11,
-      title: "Health & Fitness",
-      a: "/health-fitness",
-      subCategories: [
-        {
-          id: "11-1",
-          title: "Fitness",
-          a: "/fitness",
-        },
-        {
-          id: "11-2",
-          title: "Sports",
-          a: "/sports",
-        },
-        {
-          id: "11-3",
-          title: "Yoga",
-          a: "/yoga",
-        },
-      ],
-    },
-    {
-      id: 12,
-      title: "Music",
-      a: "/music",
-      subCategories: [
-        {
-          id: "12-1",
-          title: "Instruments",
-          a: "/instruments",
-        },
-        {
-          id: "12-2",
-          title: "Vocal",
-          a: "/vocal",
-        },
-      ],
-    },
-    {
-      id: 13,
-      title: "Teaching & Academics",
-      a: "/teaching-academics",
-      subCategories: [
-        {
-          id: "13-1",
-          title: "Engineering",
-          a: "/engineering",
-        },
-        {
-          id: "13-2",
-          title: "Humanities",
-          a: "/humanities",
-        },
-      ],
-    },
-  ];
+import CategoriesService from "../services/CategoriesService";
+import CourseService from "../services/CourseService";
 
+const Navbar = () => {
+  const [categories, setCategories] = useState([null]);
   const navigate = useNavigate();
 
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeSubCategory, setActiveSubCategory] = useState(null);
-  const [activeSubSubCategory, setActiveSubSubCategory] = useState(null);
+  const [activeTopic, setActiveTopic] = useState(null);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { userData, setUserData } = useUserStore();
@@ -502,16 +27,16 @@ const Navbar = () => {
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
   };
-  const handleMouseEnter = (categoryId, subCategoryId, subSubCategoryId) => {
+  const handleMouseEnter = (categoryId, subCategoryId, topicId) => {
     setActiveCategory(categoryId);
     setActiveSubCategory(subCategoryId);
-    setActiveSubSubCategory(subSubCategoryId);
+    setActiveTopic(topicId);
   };
 
   const handleMouseLeave = () => {
     setActiveCategory(null);
     setActiveSubCategory(null);
-    setActiveSubSubCategory(null);
+    setActiveTopic(null);
   };
 
   function moveToLogin() {
@@ -535,24 +60,62 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
+    const fetchCategories = async () => {
       try {
-        const response = await AuthService.profile();
-        setUserData(response.data);
-        setIsLoggedIn(true);
+        const data = await CategoriesService.filterParentCategories();
+        console.log(data);
+        setCategories(data); 
       } catch (error) {
-        console.error("Error fetching user profile:", error);
+        console.error("Error fetching categories:", error);
       }
     };
 
-    fetchUserProfile();
-  }, [setUserData]);
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     console.log(userData);
   }, [userData]);
 
-   const initials = useUserStore((state) => state.getInitials());
+  // const handleItemClick = async (name) => {
+  //   try {
+  //     const courses = await CourseService.getCoursesBySubCategoryId(id);
+  //     navigate('/courses', { state: { courses } });
+  //   } catch (error) {
+  //     console.error('Failed to fetch courses', error);
+  //   }
+  // };
+
+  const handleItemClick = (name, type, parentName) => {
+    switch (type) {
+      case 'category':
+        navigate(`/course/${encodeURIComponent(name)}`);
+        break;
+      case 'subcategory':
+        // I need to have both category and subcategory name for this route
+        navigate(`/course/${encodeURIComponent(parentName)}/${encodeURIComponent(name)}`);
+        break;
+      case 'topic':
+        navigate(`/topic/${encodeURIComponent(name)}`);
+        break;
+      default:
+        // Handle error or default case
+    }
+  };
+  
+//   const handleCategoryClick = (categoryName) => {
+//   navigate(`/course/${categoryName}`);
+// };
+
+// const handleSubCategoryClick = (categoryName, subCategoryName) => {
+//   navigate(`/course/${categoryName}/${subCategoryName}`);
+// };
+
+// const handleTopicClick = (topicName) => {
+//   navigate(`/topic/${topicName}`);
+// };
+
+  const initials = useUserStore((state) => state.getInitials());
   console.log(initials);
 
   const logout = () => {
@@ -705,7 +268,7 @@ const Navbar = () => {
           <div
             className="relative"
             onMouseEnter={() => handleMouseEnter("categories")}
-            onMouseLeave={handleMouseLeave}
+            // onMouseLeave={handleMouseLeave}
           >
             <button
               className="hover:text-purple-600 m-4"
@@ -723,14 +286,9 @@ const Navbar = () => {
               // >
               <div className="absolute w-32 md:w-64 z-10 bg-white rounded-lg shadow-lg">
                 <ul className="text-gray-900">
-                  {Categories.map((category) => (
+                  {categories.map((category) => (
                     <li
                       key={category.id}
-                      // data-dropdown-toggle={`subCategory${category.id}Dropdown`}
-                      // data-dropdown-placement="right-start"
-                      // data-dropdown-trigger="hover"
-                      // data-dropdown-offset-distance="13"
-                      // data-dropdown-offset-skidding="-9"
                       className="relative"
                       onMouseEnter={() =>
                         handleMouseEnter("categories", category.id)
@@ -740,11 +298,15 @@ const Navbar = () => {
                       <div className="flex items-center justify-between w-full hover:text-purple-600">
                         <a
                           href={category.a}
+                          onClick={(e) => {
+                            e.preventDefault(); 
+                            handleItemClick(category.name, 'category'); 
+                          }}
                           className="flex items-center justify-between w-full py-3 px-4 hover:text-purple-600"
                         >
-                          {category.title}
+                          {category.name}
                         </a>
-                        {category.subCategories && (
+                        {category.subcategories && (
                           <svg
                             aria-hidden="true"
                             className="w-4 h-4"
@@ -761,11 +323,12 @@ const Navbar = () => {
                         )}
                       </div>
                       {/* -- SUBCATEGORY -- */}
-                      {category.subCategories &&
-                        activeSubCategory === category.id && (
+                      {category.subcategories &&
+                      activeSubCategory === category.id &&
+                        (
                           <div className="absolute left-full top-0 mt-1 w-48 md:w-64 bg-white shadow-lg z-10">
                             <ul>
-                              {category.subCategories.map((subCategory) => (
+                              {category.subcategories.map((subCategory) => (
                                 <li
                                   key={subCategory.id}
                                   className="relative"
@@ -776,16 +339,19 @@ const Navbar = () => {
                                       subCategory.id
                                     )
                                   }
-                                  onMouseLeave={handleMouseLeave}
                                 >
                                   <div className="flex items-center justify-between w-full py-1 hover:text-purple-600">
                                     <a
                                       href={subCategory.a}
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        handleItemClick(subCategory.name, 'subcategory', category.name);
+                                      }}
                                       className="flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:text-purple-600"
                                     >
-                                      {subCategory.title}
+                                      {subCategory.name}
                                     </a>
-                                    {subCategory.subSubCategories && (
+                                    {subCategory.topics && (
                                       <svg
                                         aria-hidden="true"
                                         className="w-4 h-4"
@@ -801,29 +367,26 @@ const Navbar = () => {
                                       </svg>
                                     )}
                                   </div>
-                                  {/* -- SUBSUBCATEGORY -- */}
-                                  {subCategory.subSubCategories &&
-                                    activeSubSubCategory === subCategory.id && (
+                                  {/* -- SUBSUBCATEGORY / TOPIC -- */}
+                                  {subCategory.topics && 
+                                    activeTopic === subCategory.id &&
+                                    (
                                       <div className="absolute left-full top-0 mt-1 py-1 w-48 md:w-64 bg-white shadow-lg z-20">
                                         <ul>
-                                          {subCategory.subSubCategories.map(
-                                            (subSubCategory) => (
+                                          {subCategory.topics.map(
+                                            (topic) => (
                                               <li
-                                                key={subSubCategory.id}
-                                                onMouseEnter={() =>
-                                                  handleMouseEnter(
-                                                    "subCategories",
-                                                    subCategory.id,
-                                                    subSubCategory.id
-                                                  )
-                                                }
-                                                onMouseLeave={handleMouseLeave}
+                                                key={topic.id}
                                               >
                                                 <a
-                                                  href={subSubCategory.a}
+                                                  href={topic.a}
+                                                  onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleItemClick(topic.name, 'topic');
+                                                  }}
                                                   className="block px-4 py-2 text-sm text-gray-700 hover:text-purple-600 hover:bg-gray-100"
                                                 >
-                                                  {subSubCategory.title}
+                                                  {topic.name}
                                                 </a>
                                               </li>
                                             )
@@ -955,7 +518,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* loggedOutSection */}
+          {/* -- LOGOUT SECTION -- */}
           {!isLoggedIn && (
             <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-1 w-full md:w-auto ">
               <button
@@ -995,7 +558,7 @@ const Navbar = () => {
             </div>
           )}
 
-          {/* loggedInSection */}
+          {/* -- LOGIN SECTION -- */}
           {isLoggedIn && (
             <div
               class="relative "
