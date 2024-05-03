@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AuthService from "../../services/AuthService";
+import { API_URL } from '../../../Constants';
 
 const OverviewComponent = ({ courseId }) => {
     const [courseInfo, setCourseInfo] = useState(null);
@@ -8,7 +9,7 @@ const OverviewComponent = ({ courseId }) => {
         const fetchCourseInfo = async () => {
             try {
                 const accessToken = AuthService.getCurrentAccessToken();
-                const response = await fetch(`https://api-study.salyr.online/api/courses/${courseId}`, {
+                const response = await fetch(API_URL + `api/courses/${courseId}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

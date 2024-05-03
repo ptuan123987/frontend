@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 const useCourseStore = create((set) => ({
-  course: null,
+  course: [],
   setCourse: (newCourse) => set({ course: newCourse }),
 }));
 

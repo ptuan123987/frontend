@@ -6,6 +6,7 @@ import CategoriesService from "../../services/CategoriesService";
 import axios from "axios";
 import Button1 from "../buttons/Button1";
 import {Link} from "@mui/material";
+import { API_URL } from '../../../Constants';
 
 const CoursesSlide = ({categoryId}) => {
     const [courseData, setCourseData] = useState([]); // State để lưu trữ dữ liệu khóa học từ backend
@@ -16,7 +17,7 @@ const CoursesSlide = ({categoryId}) => {
         const fetchCourseInfo = async () => {
             try {
                 const accessToken = AuthService.getCurrentAccessToken();
-                const response = await axios.get(`https://api-study.salyr.online/api/categories/${categoryId}/courses`, {
+                const response = await axios.get(API_URL + `api/categories/${categoryId}/courses`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`
@@ -60,7 +61,7 @@ const CoursesSlide = ({categoryId}) => {
             </p>
             <Slide>
                 {courseData.slice(0, 10).map((course) => (
-                    <CourseCard key={course.id} course={course}/> // Truyền dữ liệu khóa học vào CourseCard qua props
+                    <CourseCard key={course.id} course={course}/> 
                 ))}
             </Slide>
             <Link to={`/category/${categoryId}`}>

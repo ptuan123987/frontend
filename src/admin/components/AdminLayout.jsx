@@ -9,7 +9,6 @@ function AdminLayout({ children }) {
       <div className="AppGlass">
         <Sidebar/>
         {children}
-       
         <RightSide/>
       </div>
     </div>

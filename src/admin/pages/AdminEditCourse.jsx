@@ -65,8 +65,6 @@ const AdminEditCourse = () => {
     }
   };
 
- 
-
   const handleCategoryChange = (e) => {
     const categoryId = parseInt(e.target.value);
     const selectedCategory = categories.find(
@@ -96,7 +94,6 @@ const AdminEditCourse = () => {
     console.log("Selected Subcategory ID:", subcategoryId);
     setSelectedSubcategoryId(subcategoryId);
 
-    // Get the courses for the selected subcategory
     await getCourseByCategoriesId();
 
     if (courses.length === 1) {
@@ -115,44 +112,45 @@ const AdminEditCourse = () => {
       const selectedCourse = courses.find((course) => course.id === courseId);
 
       if (selectedCourse) {
-        setTitle(selectedCourse.title || "");
-        setDescription(selectedCourse.description || "");
-        setPrice(selectedCourse.price || "");
-        setAuthor(selectedCourse.author || "");
-        // Add more fields if needed
+          setTitle(selectedCourse.title || "");
+          setDescription(selectedCourse.description || "");
+          setPrice(selectedCourse.price || "");
+          setAuthor(selectedCourse.author || "");
+          setThumbnail(selectedCourse.thumbnail || "");
       }
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-      const courseData = {
-        course_id: selectedCourseId,
-        title,
-        description,
-        price,
-        author,
-        thumbnail: thumbnail,
-      };
-      console.log(courseData);
+    const courseData = {
+      course_id: selectedCourseId,
+      title,
+      description,
+      price,
+      author,
+      thumbnail: thumbnail,
+    };
 
-      CourseService. editCourse(courseData).then(
-        (response) => {
-          console.log("Course edited successfully:", response);
-          setShowSuccessModal(true);
-        },
-        (error) => {
-          console.error("Error edited course:", error);
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+    console.log(courseData);
 
-          setErrorMessage(resMessage);
-        }
-      );
+    CourseService.editCourse(courseData).then(
+      (response) => {
+        console.log("Course edited successfully:", response);
+        setShowSuccessModal(true);
+      },
+      (error) => {
+        console.error("Error edited course:", error);
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setErrorMessage(resMessage);
+      }
+    );
   };
 
   return (

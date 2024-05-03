@@ -4,6 +4,7 @@ import css from "./Review.module.css";
 import SearchInput from "./SearchInput";
 import ReviewContent from "./ReviewContent";
 import SelectDropdown from "./SelectDropdown";
+import { API_URL } from "../../../Constants";
 
 const ReviewComponent = ( {courseId} ) => {
     const [reviewInfo, setReviewInfo] = useState(null);
@@ -20,7 +21,7 @@ const ReviewComponent = ( {courseId} ) => {
         const fetchReviewInfo = async () => {
             try {
                 const accessToken = AuthService.getCurrentAccessToken(); // Lấy access token từ AuthService
-                const response = await fetch(`https://api-study.salyr.online/api/courses/${courseId}/reviews?pageNum=1&pageSize=15`, {
+                const response = await fetch(API_URL + `api/courses/${courseId}/reviews?pageNum=1&pageSize=15`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

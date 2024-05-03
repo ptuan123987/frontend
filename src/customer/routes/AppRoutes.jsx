@@ -29,8 +29,8 @@ import AdminAddLectureExistChapter from "../../admin/pages/AdminAddLectureExistC
 import AdminEditCourse from "../../admin/pages/AdminEditCourse";
 import AdminEditChapter from "../../admin/pages/AdminEditChapter";
 import AdminEditLecture from "../../admin/pages/AdminEditLecture";
-
-
+import PaymentLanding from "../pages/user/PaymentLanding";
+import ReactLoading from 'react-loading';
 
 
 const UserRoute = ({ element }) => {
@@ -39,34 +39,57 @@ const UserRoute = ({ element }) => {
   return isLoggedIn ? element : <Navigate to="/" />;
 };
 
+// const PaymentSuccessRoute = ({element} => {
+
+// })
+
+const AdminRoute = ({ element }) => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    AuthService.profile().then(user => {
+      setCurrentUser(user);
+      setIsLoading(false);
+    }).catch(error => {
+      console.error("Error fetching user profile:", error);
+      setCurrentUser(null);
+      setIsLoading(false);
+    });
+  }, []);
+
+  if (isLoading) {
+    return <div className=" flex fixed left-[50%] top-[50%] transform  w-full h-full">
+    <ReactLoading type="spin" color="#000" height={50} width={50} />
+    </div>;
+  }
+
+  if (!currentUser || !currentUser.data || currentUser.data.role !== 'admin') {
+    return <Navigate to="/" />;
+  }
+  
+  return element;
+};
+
 const AppRoutes = () => {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("access_token");
-  function moveToAdminLogin() {
-    navigate("/admin/login");
-  }
 
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-
-      {/* Categories route */}
-      <Route path="/category/:categoryId" element={<CourseList />} />
-
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/response-password-reset/*" element={<ResetPassword />} />
-
       <Route path="/callback/github/*" element={<GithubLanding />} />
       <Route path="/callback/google/*" element={<GoogleLanding />} />
-
       <Route
         path="/course/:courseId/chapter/:chapterId/lecture/:lectureId"
-        element={ <UserRoute element={<LecturePage />  }/>}
+        element={<UserRoute element={<LecturePage />} />}
       />
-      {/* User route */}
+       <Route path="/category/:categoryId" element={<CourseList />} />
       <Route
         path="/change-password"
         element={<UserRoute element={<ChangePassword />} />}
@@ -77,36 +100,23 @@ const AppRoutes = () => {
         element={<UserRoute element={<MyLearning />} />}
       />
       <Route path="/wishlist" element={<UserRoute element={<Wishlist />} />} />
-
-
-      {/* Admin route */}
-      <Route path="/admin/login" element={<AdminLogin />}></Route>
-
-      <Route path="/admin" element={<UserRoute element={<Dashboard />} />} />
-
-      <Route path="/admin/add-course" element={<AdminAddCourse />} />
       <Route
-        path="/admin/add-course/add-chapter"
-        element={<AdminAddChapter />}
+        path="/user/check-out/success/*"
+        element={<UserRoute element={<PaymentLanding />} />}
       />
-      <Route
-        path="/admin/add-course/add-chapter/add-lecture"
-        element={<AdminAddLecture />}
-      />
-      <Route
-        path="/admin/add-chapter"
-        element={<AdminAddChapterExistCourse />}
-      />
-      <Route
-        path="/admin/add-lecture"
-        element={<AdminAddLectureExistChapter />}
-      />
-      <Route path="/admin/course" element={<AdminAddCourse />} />
-      <Route path="/admin/students" element={<Students />} />
-      <Route path="/admin/analytics" element={<Analytics />} />
-      <Route path="/admin/edit-course" element={<AdminEditCourse />} />
-      <Route path="/admin/edit-chapter" element={<AdminEditChapter />} />
-      <Route path="/admin/edit-lecture" element={<AdminEditLecture />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/dashboard" element={<AdminRoute element={<Dashboard />} />} />
+      <Route path="/admin/add-course" element={<AdminRoute element={<AdminAddCourse />} />} />
+      <Route path="/admin/add-course/add-chapter" element={<AdminRoute element={<AdminAddChapter />} />} />
+      <Route path="/admin/add-course/add-chapter/add-lecture" element={<AdminRoute element={<AdminAddLecture />} />} />
+      <Route path="/admin/add-chapter" element={<AdminRoute element={<AdminAddChapterExistCourse />} />} />
+      <Route path="/admin/add-lecture" element={<AdminRoute element={<AdminAddLectureExistChapter />} />} />
+      <Route path="/admin/course" element={<AdminRoute element={<AdminAddCourse />} />} />
+      <Route path="/admin/students" element={<AdminRoute element={<Students />} />} />
+      <Route path="/admin/analytics" element={<AdminRoute element={<Analytics />} />} />
+      <Route path="/admin/edit-course" element={<AdminRoute element={<AdminEditCourse />} />} />
+      <Route path="/admin/edit-chapter" element={<AdminRoute element={<AdminEditChapter />} />} />
+      <Route path="/admin/edit-lecture" element={<AdminRoute element={<AdminEditLecture />} />} />
 
       <Route path="/course/:courseId" element={<CoursePage />} />
       <Route path="*" element={<NotFound />} />

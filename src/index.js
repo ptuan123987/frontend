@@ -11,17 +11,6 @@ root.render(
      <Router>
           <Routes>
             <Route path="/*" element={<AppRoutes />} />
-            {/* <Route
-              path=""
-            />
-            <Route
-              path="/login"
-              element={
-                <div>
-                  nigga
-                </div>
-              }
-            /> */}
           </Routes>
           
       </Router>

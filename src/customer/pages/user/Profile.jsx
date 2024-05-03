@@ -40,9 +40,9 @@ const Profile = () => {
         console.log(response);
         setShowSuccessModal(true);
 
-        setTimeout(() => {
-            window.location.reload(); 
-        }, 1500);
+        // setTimeout(() => {
+        //     window.location.reload(); 
+        // }, 1500);
 
       },
       (error) => {

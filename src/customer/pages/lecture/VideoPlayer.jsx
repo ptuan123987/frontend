@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
+import { API_URL } from '../../../Constants';
 
 const VideoPlayer = ({ lectureId }) => {
     const [videoUrl, setVideoUrl] = useState(null);
@@ -8,7 +9,7 @@ const VideoPlayer = ({ lectureId }) => {
     useEffect(() => {
         const fetchVideoData = async () => {
             try {
-                const response = await fetch(`https://api-study.salyr.online/api/lectures/${lectureId}`);
+                const response = await fetch(API_URL + `api/lectures/${lectureId}`);
                 if (response.ok) {
                     const data = await response.json();
                     if (data && data.data && data.data.video && data.data.video.url) {

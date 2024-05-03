@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import AuthService from "../../services/AuthService";
 import useWishlistStore from "../../stores/useWishlistStore";
+import { API_URL } from '../../../Constants';
 
 const ChapterList = ({courseId, setChapterData}) => {
     const [chapters, setChapters] = useState([]);
@@ -9,7 +10,7 @@ const ChapterList = ({courseId, setChapterData}) => {
         const fetchChapters = async () => {
             try {
                 const accessToken = AuthService.getCurrentAccessToken();
-                const response = await fetch(`https://api-study.salyr.online/api/courses/${courseId}/chapters`, {
+                const response = await fetch(API_URL + `api/courses/${courseId}/chapters`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -35,7 +36,7 @@ const ChapterList = ({courseId, setChapterData}) => {
         fetchChapters();
     }, [courseId, setChapterData]);
 
-    return null; // Không render gì ra ngoài, vì chỉ cần lưu dữ liệu xuống
+    return null; 
 };
 
 const Accordion = ({title, content, onClickLecture}) => {
@@ -111,7 +112,7 @@ const CourseDescription = ({courseId}) => {
 
     const handleLectureClick = (chapterId, lectureId) => {
         const lectureUrl = `/course/${courseId}/chapter/${chapterId}/lecture/${lectureId}`;
-        window.location.href = lectureUrl; // Điều hướng tới lecture
+        window.location.href = lectureUrl; 
     };
 
     const handleStartButtonClick = () => {
@@ -123,11 +124,15 @@ const CourseDescription = ({courseId}) => {
         }
     };
 
+    const toggleCheckout = () => {
+        
+    }
+
     useEffect(() => {
         const fetchCourseInfo = async () => {
             try {
                 const accessToken = AuthService.getCurrentAccessToken();
-                const response = await fetch(`https://api-study.salyr.online/api/courses/${courseId}`, {
+                const response = await fetch(API_URL + `api/courses/${courseId}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -153,14 +158,22 @@ const CourseDescription = ({courseId}) => {
         <div className="space-y-8 flex flex-col">
             <div>
                 {courseInfo ? (
-                    <div className="bg-black text-white p-4 rounded-md shadow-md">
+                    <div className="bg-black text-white p-4 rounded-md shadow-md"
+                    // style={{ backgroundImage: `url(${courseInfo.data.thumbnail_url})`, backgroundSize: 'cover', backgroundPosition: 'center',   filter: 'blur(5px)', color: 'white',}}
+                    >
                         <h1 className="text-3xl font-bold my-4 font-serif text-white">{courseInfo.data.title}</h1>
                         <p className="text-xl font-bold text-white">{courseInfo.data.description}</p>
                         <div className="flex justify-between items-end mt-4 border-t-2">
                             <div className="text-gray-200 font-semibold">
-                                <p>Price: ${courseInfo.data.price}</p>
-                                <p>Author: {courseInfo.data.author}</p>
-                                <p>Total Video Duration: {courseInfo.data.total_video_duration} hours</p>
+                                Price:
+                            <p className="mb-3 font-UdemySansBold font-black">
+                                <span className="text-sm font-light align-text-top">đ</span>{' '}
+                                {courseInfo.data.price}{' '}
+                                <span className="line-through text-gray-400 text-sm font-normal ms-1">
+                                </span>
+                            </p>
+                            <p>Author: {courseInfo.data.author}</p>
+                            <p>Total Video Duration: {courseInfo.data.total_video_duration} hours</p>
                             </div>
                             <div className="flex space-x-4">
                                 <button

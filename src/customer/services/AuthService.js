@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_URL } from "../../Constants";
-
+const ADMIN = 'admin';
+const USER = 'user';
 const register = (display_name, email, password) => {
   return axios
     .post(API_URL + "api/auth/register", {
@@ -9,7 +10,6 @@ const register = (display_name, email, password) => {
       password,
     })
     .then((response) => {
-      console.log(response);
       return response.data;
     })
     .catch((error) => {
@@ -27,10 +27,9 @@ const login = (email, password) => {
       console.log(response);
       const { access_token, refresh_token } = response.data.data;
 
-      console.log(access_token);
-      console.log(refresh_token);
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("refresh_token", refresh_token);
+      localStorage.setItem("token_expiration", Date.now() / 1000 + 3600);
       return response;
     });
 };
@@ -44,9 +43,6 @@ const loginAdmin = (email, password) => {
     .then((response) => {
       console.log(response);
       const { admin_token, refresh_token } = response.data.data;
-
-      console.log(admin_token);
-      console.log(refresh_token);
       localStorage.setItem("admin_token", admin_token);
       localStorage.setItem("refresh_token", refresh_token);
       return response;
@@ -68,17 +64,6 @@ const profile = () => {
 };
 
 
-const isUser = async () => {
-  try {
-    const response = await profile();
-    const { role } = response.data;
-
-    return role === 'user';
-  } catch (error) {
-    console.error("Error checking user status:", error);
-    return false;
-  }
-};
 const logout = () => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("admin_token");
@@ -157,25 +142,50 @@ const changePassword = (oldPassword, newPassword) => {
 
 const isLoggedIn = () => {
   const access_token = localStorage.getItem("access_token");
-
-  return !!access_token; 
+  const token_expiration = localStorage.getItem("token_expiration");
+  const currentTime = Math.floor(Date.now() / 1000); 
+  return access_token && token_expiration && currentTime <= token_expiration;
 };
+const role = async() => {
+  try {
+    if (!isLoggedIn()) {
+      return false; 
+    }
+    const response = await profile();
+    const role = response.data.role;
+    return role ;
+  } catch (error) {
+    console.error("Error checking role status:", error);
+    return false;
+  }
+}
 
 const isAdmin = async () => {
   try {
     if (!isLoggedIn()) {
       return false; 
     }
-
     const response = await profile();
     const role = response.data.role;
-
-    return role === 'admin';
+    return role === ADMIN;
   } catch (error) {
     console.error("Error checking admin status:", error);
     return false;
   }
 };
+
+const isUser = async () => {
+  try {
+    const response = await profile();
+    const role  = response.data.role;
+
+    return role === USER;
+  } catch (error) {
+    console.error("Error checking user status:", error);
+    return false;
+  }
+};
+
 const AuthService = {
   register,
   login,
@@ -190,7 +200,7 @@ const AuthService = {
   isAdmin,
   isUser,
   isLoggedIn,
-
+  role
 };
 
 export default AuthService;

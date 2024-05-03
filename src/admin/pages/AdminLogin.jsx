@@ -15,8 +15,6 @@ const AdminLogin = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-
-
   const handleSubmit = async (event) => {
     event.preventDefault();
   
@@ -30,7 +28,7 @@ const AdminLogin = () => {
         setShowSuccessModal(true);
   
         setTimeout(() => {
-          navigate("/admin");
+          navigate("admin/dashboard");
         }, 1500);
       } else {
         window.location.reload();

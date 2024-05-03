@@ -21,8 +21,6 @@ const filterParentCategories = async () => {
       const filter = categories.filter(
         (element) => element.parent_category === null
       );
-
-
       return filter;
     } else {
       console.log("Categories is not an array.");

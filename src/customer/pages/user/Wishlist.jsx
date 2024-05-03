@@ -1,37 +1,50 @@
-import React, { useEffect } from 'react';
-import Layout from "../../components/Layout";
+import React, { useState, useEffect } from 'react';
+import Layout from '../../components/Layout';
 import CourseCard from '../../components/cards/CourseCard';
+import CardItem from '../../components/cards/CardItem'
 import useWishlistStore from '../../stores/useWishlistStore';
+import ReactLoading from 'react-loading';
 
 const Wishlist = () => {
-    // USING LOCAL STORAGE
-    const wishlistCourses = useWishlistStore(state => state.wishlist);
+  const { wishlist, fetchWishlist } = useWishlistStore((state) => ({
+    wishlist: state.wishlist,
+    fetchWishlist: state.fetchWishlist,
+  }));
+  const [isLoading, setIsLoading] = useState(true);
 
-    // USING API
-    // const { wishlistCourses, fetchWishlist } = useWishlistStore((state) => ({
-    //     wishlist: state.wishlist,
-    //     fetchWishlist: state.fetchWishlist
-    //   }));
-    // useEffect(() => {
-    //     fetchWishlist();
-    // }, [fetchWishlist]);
+  useEffect(() => {
+    fetchWishlist().then(() => {
+      setIsLoading(false);
+    });
+  }, [fetchWishlist]);
 
-    return (
-        <Layout>
-            <div className="container mx-auto p-6">
-                <h1 className="text-4xl font-bold text-center my-8">My Wishlist</h1>
-                <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                    {wishlistCourses?.length > 0 ? (
-                        wishlistCourses.map((course) => (
-                            <CourseCard key={course.id} course={course} />
-                        ))
-                    ) : (
-                        <p className='text-2xl text-center p-50'>No courses in wishlist. <button><a href="/" className="text-blue-600 font-bold text-xl">Browse course now.</a></button></p>
-                    )}
-                </div>
+  return (
+    <Layout>
+      <div className="container mx-auto p-6">
+        <h1 className="text-4xl font-bold text-center my-8">My Wishlist</h1>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          {isLoading ? (
+            <div className=" flex fixed left-[50%] transform  w-full h-full">
+              <ReactLoading type="spin" color="#000" height={50} width={50} />
             </div>
-        </Layout>
-    );
+          ) : wishlist?.length > 0 ? (
+            wishlist.map((course) => (
+              <CourseCard key={course.course.id} course={course.course} className="" />
+            ))
+          ) : (
+            <p className="text-2xl text-center p-50">
+              No courses in wishlist.{' '}
+              <button>
+                <a href="/" className="text-blue-600 font-bold text-xl">
+                  Browse course now.
+                </a>
+              </button>
+            </p>
+          )}
+        </div>
+      </div>
+    </Layout>
+  );
 };
 
 export default Wishlist;

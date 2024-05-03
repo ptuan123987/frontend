@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useEffect } from 'react';
 import Layout from "../components/Layout";
 import Slide from "../components/slides/Slides";
 import Carousel from "../components/carousels/Carousels";
 import CarouselControls from "../components/carousels/CarouselControls";
-import Card1 from "../components/cards/Card1";
 import CoursesSlide from "../components/slides/CoursesSlide";
 import Button2 from "../components/buttons/Button2";
 import Button1 from "../components/buttons/Button1";
 import {useNavigate} from "react-router-dom";
 import {Link} from 'react-router-dom';
-
+import useWishlistStore from "../stores/useWishlistStore";
+import Wishlist from './user/Wishlist';
 const carouselItems = [
     {
         imgSrc: "assets/images/carousel-1.jpg",
@@ -42,7 +42,14 @@ const carouselItems = [
 const Home = () => {
     const navigate = useNavigate();
     const appName = "Udemy";
-    const CategoriesId = [1, 2];
+    const CategoriesId = [2,3,10];
+    const { fetchWishlist } = useWishlistStore((state) => ({
+        fetchWishlist: state.fetchWishlist
+    }));
+
+    useEffect(() => {
+        fetchWishlist();
+    }, [fetchWishlist]);
 
     return (
         <Layout>
@@ -146,7 +153,9 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section>      
+            
+
         </Layout>
     );
 };

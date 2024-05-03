@@ -5,6 +5,7 @@ import Button2 from "./buttons/Button2";
 import AuthService from "../../customer/services/AuthService";
 import Button1 from "./buttons/Button1";
 import useUserStore from "../stores/useUserStore";
+import useCategoriesStore from "../stores/useCategoriesStore";
 import MyLearning from "../pages/user/MyLearning";
 import SearchBar from "./SearchBar";
 import CategoriesService from "../services/CategoriesService";
@@ -12,15 +13,13 @@ import CourseService from "../services/CourseService";
 import {Link} from 'react-router-dom';
 
 const Navbar = () => {
-  const [categories, setCategories] = useState([null]);
+  const {categories, setCategories} = useCategoriesStore();
+  const { userData, setUserData } = useUserStore();
   const navigate = useNavigate();
-
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeSubCategory, setActiveSubCategory] = useState(null);
-  // const [activeTopic, setActiveTopic] = useState(null);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { userData, setUserData } = useUserStore();
+  const isLoggedIn = AuthService.isLoggedIn();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
@@ -32,13 +31,11 @@ const Navbar = () => {
   const handleMouseEnter = (categoryId, subCategoryId, topicId) => {
     setActiveCategory(categoryId);
     setActiveSubCategory(subCategoryId);
-    // setActiveTopic(topicId);
   };
 
   const handleMouseLeave = () => {
     setActiveCategory(null);
     setActiveSubCategory(null);
-    // setActiveTopic(null);
   };
 
   function moveToLogin() {
@@ -61,39 +58,29 @@ const Navbar = () => {
     navigate('/wishlist');
   };
 
+  const fetchCategories = async () => {
+    try {
+      const data = await CategoriesService.filterParentCategories();
+      setCategories(data); 
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+  const fetchUserProfile = async () => {
+    try {
+      const response = await AuthService.profile();
+      setUserData(response.data);
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
+  
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await AuthService.profile();
-        setUserData(response.data);
-        console.log(response.data);
-        setIsLoggedIn(true);
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-      }
-    };
-
     fetchUserProfile();
-  }, []);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await CategoriesService.filterParentCategories();
-        setCategories(data); 
-        console.log(data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
-
+ 
   const handleItemClick = async (id) => {
     try {
       const courses = await CourseService.getCoursesBySubCategoryId(id);
@@ -102,18 +89,8 @@ const Navbar = () => {
       console.error('Error fetching categories:', error);
     }
   };
-
-  // const handleTopicClick = async (id) => {
-  //   try {
-  //     const courses = await CourseService.getTopicsByCategoryId(id);
-  //     navigate(`/category/${id}`, { state: { courses } });
-  //   } catch (error) {
-  //     console.error('Error fetching categories:', error);
-  //   }
-  // };
   
   const initials = useUserStore((state) => state.getInitials());
-  console.log(initials);
 
   const logout = () => {
     AuthService.logout();
@@ -265,7 +242,6 @@ const Navbar = () => {
           <div
             className="relative"
             onMouseEnter={() => handleMouseEnter("categories")}
-            // onMouseLeave={handleMouseLeave}
           >
             <button
               className="hover:text-purple-600 m-4"
@@ -277,13 +253,9 @@ const Navbar = () => {
             </button>
             {/* -- CATEGORIES -- */}
             {activeCategory === "categories" && (
-              // <Popover
-              //   target="categories"
-              //   className="text-sm text-gray-500 h-5/6 w-32 md:w-64 bg-white rounded-lg shadow-lg z-1"
-              // >
               <div className="absolute w-32 md:w-64 z-10 bg-white rounded-lg shadow-lg">
                 <ul className="text-gray-900">
-                  {categories.map((category) => (
+                  {categories && categories.map((category) => (
                     <li
                       key={category.id}
                       className="relative"
@@ -348,49 +320,7 @@ const Navbar = () => {
                                     >
                                       {subCategory.name}
                                     </a>
-                                    {/* {subCategory.topics && (
-                                      <svg
-                                        aria-hidden="true"
-                                        className="w-4 h-4"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          fillRule="evenodd"
-                                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                          clipRule="evenodd"
-                                        ></path>
-                                      </svg>
-                                    )} */}
                                   </div>
-                                  {/* -- SUBSUBCATEGORY / TOPIC -- */}
-                                  {/* {subCategory.topics && 
-                                    activeTopic === subCategory.id &&
-                                    (
-                                      <div className="absolute left-full top-0 mt-1 py-1 w-48 md:w-64 bg-white shadow-lg z-20">
-                                        <ul>
-                                          {subCategory.topics.map(
-                                            (topic) => (
-                                              <li
-                                                key={topic.id}
-                                              >
-                                                <a
-                                                  href={topic.a}
-                                                  onClick={(e) => {
-                                                    e.preventDefault();
-                                                    handleTopicClick(topic.id, 'topic');
-                                                  }}
-                                                  className="block px-4 py-2 text-sm text-gray-700 hover:text-purple-600 hover:bg-gray-100"
-                                                >
-                                                  {topic.name}
-                                                </a>
-                                              </li>
-                                            )
-                                          )}
-                                        </ul>
-                                      </div>
-                                    )} */}
                                 </li>
                               ))}
                             </ul>
@@ -400,7 +330,6 @@ const Navbar = () => {
                   ))}
                 </ul>
               </div>
-              // </Popover>
             )}
           </div>
 
@@ -576,12 +505,14 @@ const Navbar = () => {
                     >
                       <span>{initials}</span>
                     </div>
-                    <div className="flex flex-col items-start text-sm ">
-                      <p className="font-UdemySansBold">
-                        {userData.display_name}
-                      </p>
-                      <p className="text-neutral-500">{userData.email}</p>
-                    </div>
+                    <div className="flex flex-col items-start text-sm">
+                    {userData && (
+                      <>
+                        <p className="font-UdemySansBold">{userData.display_name}</p>
+                        <p className="text-neutral-500">{userData.email}</p>
+                      </>
+                    )}
+                  </div>
                   </div>
                   <hr />
                   <ul className="space-y-2 text-zinc-800 hover:[&>*]:text-violet-700 px-2">
