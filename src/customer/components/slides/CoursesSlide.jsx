@@ -5,7 +5,7 @@ import AuthService from "../../services/AuthService";
 import CategoriesService from "../../services/CategoriesService";
 import axios from "axios";
 import Button1 from "../buttons/Button1";
-import {Link} from "@mui/material";
+import { Link } from 'react-router-dom';
 import { API_URL } from '../../../Constants';
 
 const CoursesSlide = ({categoryId}) => {
