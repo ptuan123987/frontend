@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { API_URL } from '../../../Constants';
 
 const CoursesSlide = ({categoryId}) => {
-    const [courseData, setCourseData] = useState([]); // State để lưu trữ dữ liệu khóa học từ backend
+    const [courseData, setCourseData] = useState([]);
     const [error, setError] = useState(null);
     const [category, setCategory] = useState(null);
 
@@ -24,7 +24,7 @@ const CoursesSlide = ({categoryId}) => {
                     }
                 });
                 if (response.status === 200) {
-                    setCourseData(response.data.data); // Lưu dữ liệu khóa học vào state
+                    setCourseData(response.data.data); 
                     console.log('Fetched Course Info:', response.data);
                 } else {
                     setError('Failed to fetch course information');

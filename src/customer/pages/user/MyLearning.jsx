@@ -80,7 +80,7 @@ const MyLearning = () => {
                     </div>
                 ) : paidCourses?.length > 0 ? (
                     paidCourses.map((course) => (
-                        <CourseCard key={course.id} course={course} className="" />
+                        <CourseCard key={course.id} course={course} />
 
                     ))
                 ) : (

@@ -28,7 +28,7 @@ const AdminLogin = () => {
         setShowSuccessModal(true);
   
         setTimeout(() => {
-          navigate("admin/dashboard");
+          navigate("/admin/dashboard");
         }, 1500);
       } else {
         window.location.reload();
@@ -50,7 +50,6 @@ const AdminLogin = () => {
         Log in to admin {appName} account
       </h1>
       <div className="flex flex-col gap-2">
-        {/* Form for email and password */}
         <form className="flex flex-col gap-2">
           <Input1
             label="Email"
@@ -64,7 +63,6 @@ const AdminLogin = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {/* Display error message if it exists */}
           {errorMessage && (
             <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
           )}

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../../Constants";
+import { ToastContainer, toast } from 'react-toastify';
 
 const createCourse = async ({
   category_ids,
@@ -230,6 +231,40 @@ const editLecture = async ({
     throw error;
   }
 };
+const checkPaidCourse = async (course_id) => {
+  try {
+    const access_token = localStorage.getItem("access_token");
+  
+    const response = await axios.get(
+      API_URL + `api/check-paid-course/${course_id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+  
+    return response.data;
+  } catch (error) {
+    toast.info(" Course not paid. You would like to buy now this course ? Click Buy Now");
+  }
+}
+const acceptCourse = async(course_id) => {
+    const access_token = localStorage.getItem("access_token");
+  
+    const response = await axios.post(
+      API_URL + `api/accept-course`,
+      {
+        course_id : course_id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    return response.data;
+}
 
 const CourseService = {
   createCourse,
@@ -241,6 +276,8 @@ const CourseService = {
   editCourse,
   editChapter,
   editLecture,
+  checkPaidCourse,
+  acceptCourse
 };
 
 export default CourseService;

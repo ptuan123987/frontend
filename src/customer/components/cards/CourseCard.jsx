@@ -5,20 +5,42 @@ import useUserStore from '../../stores/useUserStore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CheckoutService } from '../../services/CheckoutService';
+import usePaidCourseStore from '../../stores/usePaidCourseStore';
+import ReactLoading from 'react-loading';
 const CourseCard = ({ course }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isCourseInWishlist, setIsCourseInWishlist] = useState(false);
+  const [isCoursePaid, setIsCoursePaid] = useState(false);
+  const [isLoadingPaidStatus, setIsLoadingPaidStatus] = useState(true);
+
   const { addToWishlist, removeFromWishlist, wishlist } = useWishlistStore(state => ({
     addToWishlist: state.addToWishlist,
     removeFromWishlist: state.removeFromWishlist,
     wishlist: state.wishlist
   }));
+
   const userId = useUserStore(state => state.userData?.id);
 
   useEffect(() => {
     setIsCourseInWishlist(wishlist.some(item => item.course && item.course.id === course.id));
   }, [wishlist]);
 
+  useEffect(() => {
+    const fetchPaidCourse = async () => {
+      try {
+        setIsLoadingPaidStatus(true);
+        await usePaidCourseStore.getState().fetchPaidCourse();
+        const paidCourses = usePaidCourseStore.getState().paidCourses;
+        const isPaid = paidCourses.some(paidCourse => paidCourse.id === course.id);
+        setIsCoursePaid(isPaid);
+      } catch (error) {
+        console.error('Error fetching paid courses:', error);
+      } finally {
+        setIsLoadingPaidStatus(false);
+      }
+    };
+    fetchPaidCourse();
+  }, [course.id]);
 
   const toggleWishlist = async () => {
     if (isCourseInWishlist) {
@@ -46,7 +68,7 @@ const CourseCard = ({ course }) => {
       window.location.href = payUrl;
     } catch (error) {
       console.error("Error occurred during checkout:", error);
-    }
+    }                                     
   }
 
   const wishlistButtonStyles = isCourseInWishlist
@@ -76,6 +98,10 @@ const CourseCard = ({ course }) => {
             <span className="line-through text-gray-400 text-sm font-normal ms-1">
             </span>
           </p>
+          <p className="mb-3 font-UdemySansBold font-black">
+            {course.user_count}{' '}
+            <span className="text-sm font-light align-text-top">Participants</span>{' '}
+          </p>
         </div>
       </Link>
 
@@ -86,18 +112,28 @@ const CourseCard = ({ course }) => {
             <p className="text-sm mb-8">{course.description}</p>
           </div>
           <div className="flex justify-between items-center gap-4 ">
-            <button
-              className={`text-sm bg-transparent min-w-[8rem] hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow`}
-              onClick={() => checkOut(course)}
-            >
-              Buy Now
-            </button>
+            {isLoadingPaidStatus ? (
+              <div className="text-sm text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                <ReactLoading type="spin" color="#000" height={50} width={50} />
+              </div>
+            ) : isCoursePaid ? ( 
+              <Link to={`/course/${course.id}`} className={`text-sm text-center bg-transparent min-w-[8rem] hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow`}>
+                Start Now
+              </Link>
+            ) : (
+              <button
+                className={`text-sm text-center bg-transparent min-w-[8rem] hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow`}
+                onClick={() => checkOut(course)}
+              >
+                Buy Now
+              </button>
+            )}
             <button
               className={`text-sm bg-transparent min-w-[10rem] hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow ${wishlistButtonStyles}`}
               onClick={toggleWishlist}
             >
               {isCourseInWishlist ? 'Remove Wishlist' : 'Add Wishlist'}
-              <span className="sm:hidden">❤️</span>
+              <span className="sm:hidden">❤️</span> 
             </button>
           </div>
         </div>

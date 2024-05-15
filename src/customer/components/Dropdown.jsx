@@ -1,6 +1,6 @@
 import React from "react";
 
-const Dropdown = ({ children }) => {
+const Dropdown = ({ children,selected }) => {
   return (
     <div
       className="z-50 hidden bg-white divide-y divide-gray-100 

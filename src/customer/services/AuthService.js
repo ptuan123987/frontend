@@ -29,7 +29,7 @@ const login = (email, password) => {
 
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("refresh_token", refresh_token);
-      localStorage.setItem("token_expiration", Date.now() / 1000 + 3600);
+      localStorage.setItem("token_expiration", Date.now() / 1000 + 3600 *12);
       return response;
     });
 };

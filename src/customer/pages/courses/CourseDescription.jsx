@@ -1,7 +1,217 @@
-import React, {useEffect, useState} from 'react';
-import AuthService from "../../services/AuthService";
-import useWishlistStore from "../../stores/useWishlistStore";
+import React, { useEffect, useState } from 'react';
+import AuthService from '../../services/AuthService';
+import useWishlistStore from '../../stores/useWishlistStore';
 import { API_URL } from '../../../Constants';
+import { CheckoutService } from '../../services/CheckoutService';
+import useUserStore from '../../stores/useUserStore';
+import WishlistService from '../../services/WishListService';
+import CourseService from '../../services/CourseService';
+import ReactLoading from 'react-loading';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+const CourseDescription = ({ courseId }) => {
+    const [courseInfo, setCourseInfo] = useState(null);
+    const [chapterData, setChapterData] = useState([]);
+    const [isCourseInWishlist, setIsCourseInWishlist] = useState(false);
+    const [isCoursePaid, setIsCoursePaid] = useState(false);
+    const [isCheckingPaymentStatus,setIsCheckingPaymentStatus] = useState(false);
+    const [isLoading, setIsLoading] = useState(true); 
+    const { addToWishlist, removeFromWishlist, wishlist } = useWishlistStore((state) => ({
+        addToWishlist: state.addToWishlist,
+        removeFromWishlist: state.removeFromWishlist,
+        wishlist: state.wishlist,
+    }));
+    const userId = useUserStore(state => state.userData?.id);
+
+    const toggleWishlist = async () => {
+        if (isCourseInWishlist) {
+            await removeFromWishlist(courseId);
+            setIsCourseInWishlist(false);
+            successRemoved();
+        } else {
+            if (courseInfo && courseInfo.data) {
+                const { data } = courseInfo;
+                const course = {
+                    id: courseId,
+                    description: data.description || '',
+                    author: data.author || '',
+                    price: data.price || 0,
+                    thumbnail_url: data.thumbnail_url || '',
+                    title: data.title || '',
+                };
+                await addToWishlist(course);
+                setIsCourseInWishlist(true); 
+                successAdded();
+            }
+        }
+    };
+    const handleLectureClick = (chapterId, lectureId) => {
+        const lectureUrl = `/course/${courseId}/chapter/${chapterId}/lecture/${lectureId}`;
+        window.location.href = lectureUrl;
+    };
+
+    const handleStartButtonClick = async () => {
+        await CourseService.acceptCourse(courseId)
+        if (chapterData.length > 0 && chapterData[0].lectures.length > 0) {
+            const firstChapter = chapterData[0];
+            const firstLecture = firstChapter.lectures[0];
+            const lectureUrl = `/course/${courseId}/chapter/${firstChapter.id}/lecture/${firstLecture.id}`;
+            window.location.href = lectureUrl;
+        }
+    };
+    const successAdded = () => toast.success("Added To Wishlist!");
+    const successRemoved = () => toast.success("Removed To Wishlist!")
+    
+    useEffect(() => {
+        async function fetchCourseInfoAndCheckStatus() {
+            setIsLoading(true);
+            try {
+                const accessToken = AuthService.getCurrentAccessToken();
+                const response = await axios.get(API_URL + `api/courses/${courseId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+    
+                if (response.status === 200) {
+                    const data = response.data;
+                    setCourseInfo(data);
+                } else {
+                    console.error('Failed to fetch course information');
+                }
+    
+                const isInWishlist = await WishlistService.checkCourseInWishList(courseId);
+                setIsCourseInWishlist(isInWishlist);
+                const isPaid = await CourseService.checkPaidCourse(courseId);
+                setIsCoursePaid(isPaid);
+            } catch (error) {
+                console.error('Error fetching or checking course information:', error);
+            } finally {
+                setIsCheckingPaymentStatus(false);
+                setIsLoading(false); 
+            }
+        }
+    
+        fetchCourseInfoAndCheckStatus();
+    }, [courseId]);;
+
+    useEffect(() => {
+        async function checkCoursePaidStatus() {
+            try {
+                setIsCheckingPaymentStatus(true);
+
+                const isPaid = await CourseService.checkPaidCourse(courseId);
+                setIsCoursePaid(isPaid);
+            } catch (error) {
+                console.error('Error checking course payment status:', error);
+            } finally {
+                setIsCheckingPaymentStatus(false);
+            }
+        }
+
+        checkCoursePaidStatus();
+    }, [courseId]);
+
+    
+    const checkOut = async (courseInfo) => {
+        try {
+            const res = await CheckoutService.MomoCheckoutCourse(courseInfo.price, userId, courseInfo.id);
+            const payUrl = res.data.payUrl;
+            console.log(payUrl);
+            window.location.href = payUrl;
+            console.log(courseInfo.price, userId, courseInfo.id);
+        } catch (error) {
+          console.error("Error occurred during checkout:", error);
+        }                                     
+      }
+
+    if (isLoading) {
+        return  (
+            <div className="relative mb-[50px]">
+                <div className="flex absolute inset-0 items-center justify-center m-10 ">
+                    <ReactLoading type="spin" color="#000" height={50} width={50} />
+                </div>
+            </div>
+        )
+    }
+
+    return (
+        <div className="relative space-y-8 flex flex-col">
+            <div>
+                {courseInfo ? (
+                    <div className="bg-black text-white p-4 rounded-md shadow-md">
+                        <h1 className="text-3xl font-bold my-4 font-serif text-white">{courseInfo.data.title}</h1>
+                        <p className="text-xl font-bold text-white">{courseInfo.data.description}</p>
+                        <div className="flex justify-between items-end mt-4 border-t-2">
+                            <div className="text-gray-200 font-semibold">
+                                Price:
+                                <p className="mb-3 font-UdemySansBold font-black">
+                                    <span className="text-sm font-light align-text-top">đ</span> {courseInfo.data.price}{' '}
+                                    <span className="line-through text-gray-400 text-sm font-normal ms-1"></span>
+                                </p>
+                                <p>Author: {courseInfo.data.author}</p>
+                                <p>Total Video Duration: {courseInfo.data.total_video_duration} hours</p>
+                                <p>{courseInfo.data.user_count} Participants</p>
+                            </div>
+                            <div className="flex space-x-4">
+                                {isCoursePaid ? (
+                                    <button
+                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                        onClick={handleStartButtonClick}
+                                    >
+                                        Start Now
+                                    </button>
+                                ) : (
+                                    <button
+                                        className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded`}
+                                        onClick={() => checkOut(courseInfo.data)}
+                                    >
+                                        Buy Now
+                                    </button>
+                                )}
+                              <button
+                                className={`font-bold py-2 px-4 rounded ${!isCourseInWishlist ? 'bg-pink-500 hover:bg-pink-700 text-white' : 'bg-red-500 text-white hover:bg-red-700'}`}
+                                onClick={toggleWishlist}
+                            >
+                                {isCourseInWishlist  ? 'Remove from Wishlist' : 'Add to Wishlist'}
+                            </button>
+
+
+                             
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="relative mb-[50px]">
+                        <div className="flex absolute inset-0 items-center justify-center m-10 ">
+                            <ReactLoading type="spin" color="#000" height={50} width={50} />
+                        </div>
+                    </div>
+                )}
+            </div>
+            <div className=" p-4 rounded-md border-2">
+                <h2 className="text-xl font-bold
+                    mb-2 border-b-2 border-black">Course content</h2>
+                     <ChapterList courseId={courseId} setChapterData={setChapterData} />
+                <div className="space-y-2 mt-4">
+                    {chapterData.map((chapter, index) => (
+                        <Accordion
+                            key={index}
+                            title={chapter.title}
+                            content={chapter.lectures}
+                            onClickLecture={(chapterId, lectureId) => handleLectureClick(chapterId, lectureId)}
+                        />
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default CourseDescription;
+
 
 const ChapterList = ({courseId, setChapterData}) => {
     const [chapters, setChapters] = useState([]);
@@ -22,7 +232,7 @@ const ChapterList = ({courseId, setChapterData}) => {
                     const data = await response.json();
                     if (data && data.data) {
                         setChapters(data.data);
-                        setChapterData(data.data); // Lưu data của chapter xuống
+                        setChapterData(data.data); 
                         console.log('Fetched chapters:', data.data);
                     }
                 } else {
@@ -56,7 +266,6 @@ const Accordion = ({title, content, onClickLecture}) => {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                 >
-                    {/* ... */}
                 </svg>
             </button>
             <div
@@ -76,137 +285,3 @@ const Accordion = ({title, content, onClickLecture}) => {
         </div>
     );
 };
-
-const CourseDescription = ({courseId}) => {
-    const [courseInfo, setCourseInfo] = useState(null);
-    const [chapterData, setChapterData] = useState([]);
-    const { addToWishlist, removeFromWishlist, wishlist } = useWishlistStore(state => ({
-        addToWishlist: state.addToWishlist,
-        removeFromWishlist: state.removeFromWishlist,
-        wishlist: state.wishlist
-    }));
-    const isCourseInWishlist = wishlist.some(item => item.id === courseId);
-
-    const toggleWishlist = async () => {
-        if (isCourseInWishlist) {
-            await removeFromWishlist(courseId);
-        } else {
-            if (courseInfo && courseInfo.data) {
-                const { data } = courseInfo;
-                const course = {
-                    id: courseId,
-                    description: data.description || '',
-                    author: data.author || '',
-                    price: data.price || 0,
-                    thumbnail_url: data.thumbnail_url || '',
-                    title: data.title || ''
-                };
-                await addToWishlist(course);
-            }
-        }
-    };
-
-    const wishlistButtonStyles = isCourseInWishlist
-        ? "bg-red-500 text-white hover:bg-red-700"
-        : "bg-pink-500 hover:bg-pink-700 text-white";
-
-    const handleLectureClick = (chapterId, lectureId) => {
-        const lectureUrl = `/course/${courseId}/chapter/${chapterId}/lecture/${lectureId}`;
-        window.location.href = lectureUrl; 
-    };
-
-    const handleStartButtonClick = () => {
-        if (chapterData.length > 0 && chapterData[0].lectures.length > 0) {
-            const firstChapter = chapterData[0];
-            const firstLecture = firstChapter.lectures[0];
-            const lectureUrl = `/course/${courseId}/chapter/${firstChapter.id}/lecture/${firstLecture.id}`;
-            window.location.href = lectureUrl;
-        }
-    };
-
-    const toggleCheckout = () => {
-        
-    }
-
-    useEffect(() => {
-        const fetchCourseInfo = async () => {
-            try {
-                const accessToken = AuthService.getCurrentAccessToken();
-                const response = await fetch(API_URL + `api/courses/${courseId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`
-                    }
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    setCourseInfo(data);
-                    console.log('Fetched Lecture Info:', data);
-                } else {
-                    console.error('Failed to fetch lecture information');
-                }
-            } catch (error) {
-                console.error('Error fetching lecture information:', error);
-            }
-        };
-
-        fetchCourseInfo();
-    }, [courseId]);
-
-    return (
-        <div className="space-y-8 flex flex-col">
-            <div>
-                {courseInfo ? (
-                    <div className="bg-black text-white p-4 rounded-md shadow-md"
-                    // style={{ backgroundImage: `url(${courseInfo.data.thumbnail_url})`, backgroundSize: 'cover', backgroundPosition: 'center',   filter: 'blur(5px)', color: 'white',}}
-                    >
-                        <h1 className="text-3xl font-bold my-4 font-serif text-white">{courseInfo.data.title}</h1>
-                        <p className="text-xl font-bold text-white">{courseInfo.data.description}</p>
-                        <div className="flex justify-between items-end mt-4 border-t-2">
-                            <div className="text-gray-200 font-semibold">
-                                Price:
-                            <p className="mb-3 font-UdemySansBold font-black">
-                                <span className="text-sm font-light align-text-top">đ</span>{' '}
-                                {courseInfo.data.price}{' '}
-                                <span className="line-through text-gray-400 text-sm font-normal ms-1">
-                                </span>
-                            </p>
-                            <p>Author: {courseInfo.data.author}</p>
-                            <p>Total Video Duration: {courseInfo.data.total_video_duration} hours</p>
-                            </div>
-                            <div className="flex space-x-4">
-                                <button
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                    onClick={handleStartButtonClick}
-                                >
-                                    Start Now
-                                </button>
-                                <button
-                                    className={`font-bold py-2 px-4 rounded ${wishlistButtonStyles}`}
-                                    onClick={toggleWishlist}
-                                >
-                                    {isCourseInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <p>Loading...</p>
-                )}
-            </div>
-            <div className="p-4 rounded-md border-2">
-                <h2 className="text-xl font-bold mb-2 border-b-2 border-black">Course content</h2>
-                <ChapterList courseId={courseId} setChapterData={setChapterData}/>
-                <div className="space-y-2 mt-4">
-                    {chapterData.map((chapter, index) => (
-                        <Accordion key={index} title={chapter.title} content={chapter.lectures}
-                                   onClickLecture={(chapterId, lectureId) => handleLectureClick(chapterId, lectureId)}/>
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
-};
-
-export default CourseDescription;

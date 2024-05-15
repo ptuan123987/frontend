@@ -26,7 +26,6 @@ const useWishlistStore = create((set) => ({
     }
   },
 
-  // Hàm addToWishlist với debounce
   addToWishlist: async (course) => {
     try {
       const response = await axios.post(API_URL + `api/user/wishlists`,{
@@ -55,7 +54,6 @@ const useWishlistStore = create((set) => ({
     }
   },
 }), {
-  // Thực hiện debounce cho các hàm trong store
   name: "useWishlistStore",
   effects: (set, get) => ({
     fetchWishlist: debounce(get().fetchWishlist, debounceTime),

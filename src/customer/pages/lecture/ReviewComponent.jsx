@@ -1,96 +1,113 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState,useRef } from "react";
 import AuthService from "../../services/AuthService";
 import css from "./Review.module.css";
 import SearchInput from "./SearchInput";
 import ReviewContent from "./ReviewContent";
 import SelectDropdown from "./SelectDropdown";
-import { API_URL } from "../../../Constants";
+import { API_URL, access_token } from "../../../Constants";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const ReviewComponent = ( {courseId} ) => {
-    const [reviewInfo, setReviewInfo] = useState(null);
-    const [filter, setFilter] = useState({
-        searchFilter: "",
-        drpFilter: {
-        key: "All Ratings",
-        value: "All Ratings",
+const ReviewComponent = ({ courseId }) => {
+  const [reviewInfo, setReviewInfo] = useState(null);
+  const [content, setContent] = useState("");
+  const [rating, setRating] = useState(0);
+  const textareaRef = useRef(null);
+  useEffect(() => {
+    fetchReviewInfo();
+  }, [courseId]);
+
+  const fetchReviewInfo = async () => {
+    try {
+      const accessToken = AuthService.getCurrentAccessToken();
+      const response = await fetch(API_URL + `api/courses/${courseId}/reviews`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
-    });
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setReviewInfo(data.data);
+        console.log("Fetched Review Info:", data);
+      } else {
+        console.error("Failed to fetch Review information");
+      }
+    } catch (error) {
+      console.error("Error fetching Review information:", error);
+    }
+  };
 
-    console.log(reviewInfo);
-    useEffect(() => {
-        const fetchReviewInfo = async () => {
-            try {
-                const accessToken = AuthService.getCurrentAccessToken(); // Lấy access token từ AuthService
-                const response = await fetch(API_URL + `api/courses/${courseId}/reviews?pageNum=1&pageSize=15`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}` // Sử dụng access token từ AuthService
-                    }
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    setReviewInfo(data.data);
-                    console.log('Fetched Review Info:', data); // Logging fetched data
-                } else {
-                    console.error('Failed to fetch Review information');
-                }
-            } catch (error) {
-                console.error('Error fetching Review information:', error);
-            }
-        };
+  const handleRatingChange = (e) => {
+    setRating(e.target.value);
+  };
 
-        fetchReviewInfo();
-    }, [courseId]);
+  const handleContentChange = (e) => {
+    setContent(e.target.value);
+  };
 
-    const filterHandler = (e) => {
-        setFilter((p) => {
-        return {
-            ...p,
-            searchFilter: e.target.value,
-        };
-        });
-    };
-
-    const drpFilterOptions = [
+  const submitComment = async () => {
+    try {
+      const response = await axios.post(
+        `${API_URL}api/user/course-reviews`,
         {
-        key: "All Ratings",
-        value: "All Ratings",
+          rating: rating,
+          content: content,
+          course_id: courseId,
         },
         {
-        key: "Five Stars",
-        value: "Five Stars",
-        },
-    ];
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+      console.log("Comment submitted successfully:", response.data);
+      fetchReviewInfo();
+      toast.success("Review Success!")
+      setContent("");
+      setRating(0);
+    } catch (error) {
+      toast.error("Error Sent Review")
+      console.error("Error submitting comment:", error);
+    }
+  };
 
-    return (
+  return (
     <div className={css.outerDiv}>
-      {/* <div className={css.ratingsBox}>
-        <div className={css.ttl}>Student feedback</div>
-        <RatingsView data={ratingsdata} />
-      </div> */}
       <div className={css.reviewBox}>
         <div className={css.ttl}>Reviews</div>
         <div className={css.filters}>
           <span className={css.inptFilter}>
-            <SearchInput
-              state={filter.searchFilter}
-              onChange={filterHandler}
-              placeholderTxt="Search reviews"
-              iconPosition="right"
+            <textarea
+              className={`w-full h-32 p-2 border rounded focus:outline-none focus:border-blue-500 resize-none ${css.textarea}`}
+              value={content}
+              onChange={handleContentChange}
+              placeholder="Leave a comment..."
             />
           </span>
-          <span className={css.drpFilter}>
-            <SelectDropdown
-              id="drpFilter"
-              label="Filter ratings"
-              filterType="drpFilter"
-              defaultValue={filter.drpFilter}
-              value={filter.drpFilter}
-              setValue={setFilter}
-              options={drpFilterOptions}
-            />
-          </span>
+          <div className="flex justify-between items-center flex-col gap-10">
+            <span className={css.ratingSelect}>
+              <select
+                className={`border rounded p-2 focus:outline-none focus:border-blue-500 ${css.select} `}
+                value={rating}
+                onChange={handleRatingChange}
+              >
+                <option value={0}>Select rating</option>
+                <option value={1}>1 star</option>
+                <option value={2}>2 stars</option>
+                <option value={3}>3 stars</option>
+                <option value={4}>4 stars</option>
+                <option value={5}>5 stars</option>
+              </select>
+            </span>
+            <button
+              className="bg-blue-500 text-white font-bold py-2 px-4 rounded ml-2"
+              onClick={submitComment}
+            >
+              Comment
+            </button>
+          </div>
         </div>
         {reviewInfo?.map((review) => {
           return (
@@ -103,4 +120,5 @@ const ReviewComponent = ( {courseId} ) => {
     </div>
   );
 };
+
 export default ReviewComponent;

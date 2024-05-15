@@ -30,9 +30,9 @@ const Signup = () => {
     const strengthMessageContainer = passwordStrengthNodeList[4];
 
     const analyzeRegex = {
-      length: password.length >= 8, // Check if the length is at least 8 characters
-      hasNumber: /\d/.test(password), // Check if there is at least one digit
-      hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password), // Check for special characters
+      length: password.length >= 8,
+      hasNumber: /\d/.test(password), 
+      hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password),
     };
 
     const strengthMessages = [

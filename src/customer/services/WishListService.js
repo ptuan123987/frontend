@@ -40,9 +40,23 @@ const getAllWishlist = async() => {
         throw error;
     }
 }
+const checkCourseInWishList = async(course_id) => {
+    try {
+        const response = await axios.get(API_URL + `api/check-course-wishlist/${course_id}`, 
+        { 
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+        },});
+        console.log(response.data);
+        return response.data.is_in_wishlist;
+    } catch (error) {
+        throw error;
+    }
+}
 const WishListService = {
     addCourseToWishlist,
     removeCourseToWishlist,
-    getAllWishlist
+    getAllWishlist,
+    checkCourseInWishList
 }
 export default WishListService;

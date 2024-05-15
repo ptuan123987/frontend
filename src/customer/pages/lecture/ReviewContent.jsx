@@ -5,15 +5,15 @@ import starIcon from "../../../icon/star.png";
 
 import css from "./ReviewContent.module.css"
 
-const ReviewContent = (props) => {
+const ReviewContent = (review) => {
   const {
     id,
     user: { display_name, img } = {},
     rating = 0,
     content,
-    date: created_at = new Date(),
-  } = props.data;
-  console.log(props.data );
+    date: created_at = review.data.created_at,
+  } = review.data;
+  console.log(review.data );
   const [liked, setLiked] = useState("");
 
   const likeHandler = (value) => {

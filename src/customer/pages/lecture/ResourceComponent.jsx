@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import AuthService from '../../services/AuthService';
 import { API_URL } from '../../../Constants';
+import LectureService from '../../services/LectureService';
+import ReactLoading from 'react-loading';
 
 const ResourceComponent = ({ lectureId }) => {
     const [resourceInfo, setResourceInfo] = useState(null);
@@ -8,34 +10,22 @@ const ResourceComponent = ({ lectureId }) => {
     useEffect(() => {
         const fetchResourceInfo = async () => {
             try {
-                const accessToken = AuthService.getCurrentAccessToken();
-                const response = await fetch(API_URL + `api/lectures/${lectureId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    setResourceInfo(data);
-                    console.log('Fetched resources Info:', data);
-                } else {
-                    console.error('Failed to fetch resources information');
-                }
+                const res = await LectureService.getLecture(lectureId);
+                setResourceInfo(res);
+                console.log('Fetched resources Info:', res);
+               
             } catch (error) {
                 console.error('Error fetching resources information:', error);
             }
         };
-
         fetchResourceInfo();
     }, [lectureId]);
 
     return (
-        <div>
+        <div className='relative'>
             {resourceInfo ? (
                 <div className="grid gap-4 mt-4">
-                    {resourceInfo.data.resources.map((resource, index) => (
+                    {resourceInfo.resources.map((resource, index) => (
                         <div key={index} className="border p-4">
                             <p className="font-bold">Title: {resource.title}</p>
                             <p>
@@ -48,7 +38,9 @@ const ResourceComponent = ({ lectureId }) => {
                     ))}
                 </div>
             ) : (
-                <p>Loading...</p>
+                <div className="flex absolute inset-0 items-center justify-center mt-20 ">
+                        <ReactLoading type="spin" color="#000" height={50} width={50} />
+                </div>
             )}
         </div>
     );

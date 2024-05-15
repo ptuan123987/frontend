@@ -12,9 +12,6 @@ const CoursesPage = () => {
     <Layout>
       <div className="container mx-auto p-6">
         <CourseDescription courseId={courseId}/>
-        <div className="mt-16">
-          <CoursesSlide categoryId={randomCategoryId} />
-        </div>
       </div>
     </Layout>
   );

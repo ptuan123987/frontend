@@ -7,7 +7,6 @@ import ReviewComponent from "./ReviewComponent";
 import LectureSidebar from "./LectureSidebar";
 import VideoPlayer from "./VideoPlayer";
 import ResourceComponent from "./ResourceComponent";
-
 const LectureNavBar = ({ handleButtonClick, activeButton }) => {
     const buttons = [
         { label: "Overview", id: "overview" },
@@ -45,7 +44,9 @@ const LecturePage = () =>  {
     return (
         <Layout>
             <div className="flex w-full">
+           
                 <div className="w-3/4">
+                    
                     <div className="flex items-center justify-center">
                         <VideoPlayer lectureId={lectureId}/>
                     </div>

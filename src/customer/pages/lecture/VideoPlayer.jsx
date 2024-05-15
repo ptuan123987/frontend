@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
-import { API_URL } from '../../../Constants';
+import { API_URL,access_token } from '../../../Constants';
+import axios from 'axios';
+import LectureService from '../../services/LectureService';
 
 const VideoPlayer = ({ lectureId }) => {
     const [videoUrl, setVideoUrl] = useState(null);
     const [thumbnailUrl, setThumbnailUrl] = useState(null);
-
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         const fetchVideoData = async () => {
             try {
-                const response = await fetch(API_URL + `api/lectures/${lectureId}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data && data.data && data.data.video && data.data.video.url) {
-                        setVideoUrl(data.data.video.url);
-                        setThumbnailUrl(data.data.video.thumbnail_url);
-                        console.log('Fetched video URL:', data.data.video.url);
-                        console.log('Fetched thumbnail URL:', data.data.video.thumbnail_url);
-                    }
-                } else {
-                    console.error('Failed to fetch video data');
+                const data = await LectureService.getLecture(lectureId); 
+                if (data && data.video && data.video.url) {
+                    setVideoUrl(data.video.url);
+                    setThumbnailUrl(data.video.thumbnail_url);
+                    console.log('Fetched video URL:', data.video.url);
+                    console.log('Fetched thumbnail URL:', data.video.thumbnail_url);
                 }
             } catch (error) {
                 console.error('Error fetching video data:', error);
+            } finally {
+                setIsLoading(false); 
             }
         };
-
         fetchVideoData();
     }, [lectureId]);
 

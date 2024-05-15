@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { API_URL ,access_token } from "../../../Constants";
 import ReactLoading from 'react-loading';
+import { ToastContainer, toast } from 'react-toastify';
 const PaymentLanding = () => {
   const [searchParams] = useSearchParams();
   const token= searchParams.get("token");
@@ -25,6 +26,7 @@ const PaymentLanding = () => {
           }
         );
         console.log(response.data);
+        toast.success("Course is paid!")
        navigate("/my-learning");
       } catch (error) {
         console.error("Error fetching payment URL:", error);

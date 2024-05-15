@@ -34,7 +34,7 @@ const Sidebar = () => {
 
   function moveToDashboard() {
     setSelected(0);
-    navigate("/admin");
+    navigate("/admin/dashboard");
   } 
   function moveToCourse() {
     setSelected(1);
