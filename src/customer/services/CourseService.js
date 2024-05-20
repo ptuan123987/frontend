@@ -246,7 +246,6 @@ const checkPaidCourse = async (course_id) => {
   
     return response.data;
   } catch (error) {
-    toast.info(" Course not paid. You would like to buy now this course ? Click Buy Now");
   }
 }
 const acceptCourse = async(course_id) => {
@@ -263,6 +262,7 @@ const acceptCourse = async(course_id) => {
         },
       }
     );
+    console.log(course_id);
     return response.data;
 }
 

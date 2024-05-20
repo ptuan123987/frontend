@@ -7,11 +7,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CheckoutService } from '../../services/CheckoutService';
 import usePaidCourseStore from '../../stores/usePaidCourseStore';
 import ReactLoading from 'react-loading';
+import Modal from '../modal/Modal';
+import momoImage from '../../pages/checkout/momo1.png';
+import vietQrImage from '../../pages/checkout/vietqr1.png';
+
 const CourseCard = ({ course }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isCourseInWishlist, setIsCourseInWishlist] = useState(false);
   const [isCoursePaid, setIsCoursePaid] = useState(false);
   const [isLoadingPaidStatus, setIsLoadingPaidStatus] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { addToWishlist, removeFromWishlist, wishlist } = useWishlistStore(state => ({
     addToWishlist: state.addToWishlist,
@@ -60,9 +65,9 @@ const CourseCard = ({ course }) => {
   const successAdded = () => toast.success("Added To Wishlist!");
   const successRemoved = () => toast.success("Removed To Wishlist!")
 
-  const checkOut = async (course) => {
+  const checkOutMomo = async (course) => {
     try {
-      const res = await CheckoutService.MomoCheckoutCourse(course.price, userId, course.id);
+      const res = await CheckoutService.MomoCheckoutCourse(course.price, [course.id]);
       const payUrl = res.data.payUrl;
       console.log(payUrl);
       window.location.href = payUrl;
@@ -70,6 +75,20 @@ const CourseCard = ({ course }) => {
       console.error("Error occurred during checkout:", error);
     }                                     
   }
+  const checkOutVietQr = async (course) => {
+    try {
+      const res = await CheckoutService.VietQrCheckoutCourse(course.price,[course.id]);
+      const payUrl = res.data.payUrl;
+      console.log(payUrl);
+      window.location.href = payUrl;
+    } catch (error) {
+      console.error("Error occurred during checkout:", error);
+    }                                     
+  }
+
+  const handleCheckout = () => {
+    setIsModalOpen(true);  
+  };
 
   const wishlistButtonStyles = isCourseInWishlist
     ? "bg-purple-500 text-black hover:bg-blue-600"
@@ -123,7 +142,7 @@ const CourseCard = ({ course }) => {
             ) : (
               <button
                 className={`text-sm text-center bg-transparent min-w-[8rem] hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow`}
-                onClick={() => checkOut(course)}
+                onClick={() => handleCheckout()}
               >
                 Buy Now
               </button>
@@ -137,6 +156,31 @@ const CourseCard = ({ course }) => {
             </button>
           </div>
         </div>
+      )}
+      {isModalOpen && (
+        <Modal setOpenModal={setIsModalOpen}>
+            <div className="title text-2xl font-bold mb-4 text-black">
+            <h1>Confirm Checkout</h1>
+          </div>
+          <div className="body text-sm mb-4 li leading-8 text-black">
+            <p>Are you sure you want to checkout the selected items?</p>
+          </div>
+          <div className="footer gap-10">
+            <p>Choose Payment Types:</p>
+            <img 
+              src={momoImage} 
+              alt="momo" 
+              className="w-32 h-32 cursor-pointer" 
+              onClick={() => checkOutMomo(course)}
+            />
+            <img 
+              src={vietQrImage} 
+              alt="vietqr" 
+              className="w-32 h-32 cursor-pointer" 
+              onClick={() => checkOutVietQr(course)}
+            />
+          </div>
+        </Modal>
       )}
     </div>
   );

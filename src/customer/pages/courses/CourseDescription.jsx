@@ -10,6 +10,10 @@ import ReactLoading from 'react-loading';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import Modal from '../../components/modal/Modal';
+import momoImage from '../../pages/checkout/momo1.png';
+import vietQrImage from '../../pages/checkout/vietqr1.png';
+
 const CourseDescription = ({ courseId }) => {
     const [courseInfo, setCourseInfo] = useState(null);
     const [chapterData, setChapterData] = useState([]);
@@ -17,6 +21,8 @@ const CourseDescription = ({ courseId }) => {
     const [isCoursePaid, setIsCoursePaid] = useState(false);
     const [isCheckingPaymentStatus,setIsCheckingPaymentStatus] = useState(false);
     const [isLoading, setIsLoading] = useState(true); 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const { addToWishlist, removeFromWishlist, wishlist } = useWishlistStore((state) => ({
         addToWishlist: state.addToWishlist,
         removeFromWishlist: state.removeFromWishlist,
@@ -62,6 +68,10 @@ const CourseDescription = ({ courseId }) => {
     };
     const successAdded = () => toast.success("Added To Wishlist!");
     const successRemoved = () => toast.success("Removed To Wishlist!")
+
+    const handleCheckout = () => {
+        setIsModalOpen(true);  
+    };
     
     useEffect(() => {
         async function fetchCourseInfoAndCheckStatus() {
@@ -115,17 +125,26 @@ const CourseDescription = ({ courseId }) => {
     }, [courseId]);
 
     
-    const checkOut = async (courseInfo) => {
+    const checkOutMomo = async (course) => {
         try {
-            const res = await CheckoutService.MomoCheckoutCourse(courseInfo.price, userId, courseInfo.id);
-            const payUrl = res.data.payUrl;
-            console.log(payUrl);
-            window.location.href = payUrl;
-            console.log(courseInfo.price, userId, courseInfo.id);
+          const res = await CheckoutService.MomoCheckoutCourse(course.price, [course.id]);
+          const payUrl = res.data.payUrl;
+          console.log(payUrl);
+          window.location.href = payUrl;
         } catch (error) {
           console.error("Error occurred during checkout:", error);
         }                                     
-      }
+    }
+    const checkOutVietQr = async (course) => {
+    try {
+        const res = await CheckoutService.VietQrCheckoutCourse(course.price, [course.id]);
+        const payUrl = res.data.payUrl;
+        console.log(payUrl);
+        window.location.href = payUrl;
+    } catch (error) {
+        console.error("Error occurred during checkout:", error);
+    }                                     
+    }
 
     if (isLoading) {
         return  (
@@ -166,7 +185,7 @@ const CourseDescription = ({ courseId }) => {
                                 ) : (
                                     <button
                                         className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded`}
-                                        onClick={() => checkOut(courseInfo.data)}
+                                        onClick={() => handleCheckout()}
                                     >
                                         Buy Now
                                     </button>
@@ -182,6 +201,30 @@ const CourseDescription = ({ courseId }) => {
                              
                             </div>
                         </div>
+                        {isModalOpen && (
+                            <Modal setOpenModal={setIsModalOpen}>
+                                <div className="title text-2xl font-bold mb-4 text-black">
+                                    <h1>Confirm Checkout</h1>
+                                </div>
+                              <div className="body text-sm mb-4 li leading-8  text-black">
+                                <p>Are you sure you want to checkout the selected items?</p>
+                              </div>
+                              <div className="footer gap-10">
+                                <img 
+                                    src={momoImage} 
+                                    alt="momo" 
+                                    className="w-32 h-32 cursor-pointer" 
+                                    onClick={() => checkOutMomo(courseInfo.data)}
+                                />
+                                <img 
+                                    src={vietQrImage} 
+                                    alt="vietqr" 
+                                    className="w-32 h-32 cursor-pointer" 
+                                    onClick={() => checkOutVietQr(courseInfo.data)}
+                                />
+                              </div>
+                            </Modal>
+                          )}
                     </div>
                 ) : (
                     <div className="relative mb-[50px]">

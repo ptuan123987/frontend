@@ -33,6 +33,7 @@ import ReactLoading from 'react-loading';
 import LectureService from "../services/LectureService";
 import EditUser from "../../admin/pages/EditUser";
 import AddUser from "../../admin/pages/AddUser";
+import Checkout from "../pages/checkout/Checkout";
 
 const UserRoute = ({ element }) => {
   const isLoggedIn = AuthService.isLoggedIn();
@@ -137,6 +138,8 @@ const AppRoutes = () => {
         path="/user/check-out/success/*"
         element={<UserRoute element={<PaymentLanding />} />}
       />
+      <Route path="/user/checkout"  element={<UserRoute element={<Checkout />} />} />
+
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/dashboard" element={<AdminRoute element={<Dashboard />} />} />
       <Route path="/admin/add-course" element={<AdminRoute element={<AdminAddCourse />} />} />

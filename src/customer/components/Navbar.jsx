@@ -57,6 +57,9 @@ const Navbar = () => {
   const moveToWishlist = () => {
     navigate('/wishlist');
   };
+  const moveToCart = () => {
+    navigate('/user/checkout')
+  }
 
   const fetchCategories = async () => {
     try {
@@ -171,27 +174,27 @@ const Navbar = () => {
                 {/* Your mobile menu content */}
                 <div className="flex justify-center h-full">
                   <ul className="text-gray-900">
-                    <li className="group relative block">
+                    <li className="group relative block" onClick={moveToProfile}>
                       <a
                         href="#"
                         className="py-2 px-4 inline-block cursor-pointer"
-                        onClick={moveToProfile}
+                        
                       >
                         Profile
                       </a>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
-                    <li className="group relative block">
+                    <li className="group relative block" onClick={moveToMyLearning}>
                       <a
                         href="#"
                         className="py-2 px-4 inline-block cursor-pointer"
-                        onClick={MyLearning}
+                       
                       >
                         My Learning
                       </a>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
-                    <li className="group relative block">
+                    <li className="group relative block" onClick={moveToCart}>
                       <a
                         href=""
                         className="py-2 px-4 inline-block cursor-pointer"
@@ -200,7 +203,7 @@ const Navbar = () => {
                       </a>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
-                    <li className="group relative block">
+                    <li className="group relative block" onClick={moveToWishlist}>
                       <a
                         href=""
                         className="py-2 px-4 inline-block cursor-pointer"
@@ -295,7 +298,7 @@ const Navbar = () => {
                       {category.subcategories &&
                       activeSubCategory === category.id &&
                         (
-                          <div className="absolute left-full top-0 mt-1 w-48 md:w-64 bg-white shadow-lg z-10">
+                          <div className="absolute left-full top-0 mt-1 w-48 md:w-64 bg-white shadow-lg z-10 cursor-pointer">
                             <ul>
                               {category.subcategories.map((subCategory) => (
                                 <li
@@ -380,7 +383,7 @@ const Navbar = () => {
             </div>
 
             <div
-              class="relative"
+              class="relative hover:pointer cursor-pointer"
               onMouseEnter={() => handleMouseEnter("teachPopover")}
               onMouseLeave={handleMouseLeave}
             >
@@ -403,9 +406,10 @@ const Navbar = () => {
           </div>
 
           <div
-            className="mx-3 relative"
+            className="mx-3 relative cursor-pointer"
             onMouseEnter={() => handleMouseEnter("cartPopover")}
             onMouseLeave={handleMouseLeave}
+            onClick={moveToCart}
           >
             <a
               to="/"
@@ -430,10 +434,9 @@ const Navbar = () => {
             {activeCategory === "cartPopover" && (
               <Popover
                 target="cartPopover"
-                className="py-5 px-16 text-center text-sm"
+                className="text-center text-sm"
               >
-                <p className="text-neutral-500  mb-5">Your cart is empty.</p>
-                <p className="text-violet-800 font-extrabold">Keep shopping</p>
+                <p className="text-neutral-500  mb-5" onClick={moveToCart}>Move To My Cart</p>
               </Popover>
             )}
           </div>
@@ -528,10 +531,11 @@ const Navbar = () => {
                       </span>
                       <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform"></div>
                     </li>
-                    <li className="group relative block">
+                    <li className="group relative block" onClick={moveToCart}>
                       <a
                         href="#"
                         className="py-2 px-4 inline-block cursor-pointer"
+
                       >
                         My Cart
                       </a>

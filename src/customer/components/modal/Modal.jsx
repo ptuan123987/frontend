@@ -1,8 +1,7 @@
-import React from 'react';
-import Button1 from '../buttons/Button1';
+import React from "react";
 import "./modal.css";
 
-const SuccessModal = ({ setOpenModal, children, onClick }) => {
+const Modal = ({ setOpenModal, children, onClick }) => {
   return (
     <div className="modalOverlay fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50" onClick={() => {
         setOpenModal(false);
@@ -21,8 +20,8 @@ const SuccessModal = ({ setOpenModal, children, onClick }) => {
                 X
             </button>
             </div>
-            <div className="modalContent">
-            {children}
+            <div className="modalContent text-center">
+                {children}
             </div>
             <div className="footer">
             <button
@@ -42,4 +41,4 @@ const SuccessModal = ({ setOpenModal, children, onClick }) => {
   );
 }
 
-export default SuccessModal;
+export default Modal;

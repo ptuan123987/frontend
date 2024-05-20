@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../../components/Layout';
 import CourseCard from '../../components/cards/CourseCard';
-import CardItem from '../../components/cards/CardItem'
+import CardItem from '../../components/cards/CartItem';
 import useWishlistStore from '../../stores/useWishlistStore';
 import ReactLoading from 'react-loading';
 

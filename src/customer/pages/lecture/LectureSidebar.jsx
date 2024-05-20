@@ -82,7 +82,7 @@ const LectureSideBar = ({ courseId }) => {
 
     const handleLectureClick = (chapterId, lectureId) => {
         const lectureUrl = `/course/${courseId}/chapter/${chapterId}/lecture/${lectureId}`;
-        window.location.href = lectureUrl; // Điều hướng tới lecture
+        window.location.href = lectureUrl; 
     };
 
     return (

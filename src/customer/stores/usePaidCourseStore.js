@@ -3,27 +3,13 @@ import { create } from "zustand";
 import { API_URL } from "../../Constants";
 import { persist } from "zustand/middleware";
 import debounce from 'lodash/debounce';
+import { toast } from "react-toastify";
 
 const access_token = localStorage.getItem("access_token");
 const debounceTime = 300;
 
-const usePaidCourseStore = create(persist((set) => ({
-    paidCourses: [],
-    addPaidCourse: async (course) => {
-        try {
-            const response = await axios.post(API_URL + 'api/user/paid-courses', {
-                course_id: course.id
-            }, {
-                headers: {
-                    Authorization: `Bearer ${access_token}`,
-                },
-            });
-            set((state) => ({ paidCourses: [...state.paidCourses, course] }));
-        } catch (error) {
-            console.error('Could not add to paid courses', error);
-        }
-    },
-    fetchPaidCourse: debounce(async (pageNum, pageSize) => {
+const usePaidCourseStore = create(persist((set) => {
+    const fetchPaidCourseDebounced = debounce(async (pageNum, pageSize) => {
         try {
             const response = await axios.get(API_URL + 'api/user/paid-courses', {
                 headers: {
@@ -35,13 +21,36 @@ const usePaidCourseStore = create(persist((set) => ({
                 },
             });
             set({ paidCourses: response.data.data || [] });
-            console.log(response.data.data)
         } catch (error) {
-            console.error('Could not fetch paid courses', error);
             set({ paidCourses: [] });
+            console.error("Failed to fetch paid courses:", error);
         }
-    }, debounceTime),
-}), {
+    }, debounceTime);
+
+    return {
+        paidCourses: [],
+        addPaidCourse: async (course) => {
+            try {
+                await axios.post(API_URL + 'api/user/paid-courses', {
+                    course_id: course.id
+                }, {
+                    headers: {
+                        Authorization: `Bearer ${access_token}`,
+                    },
+                });
+                set((state) => ({ paidCourses: [...state.paidCourses, course] }));
+            } catch (error) {
+                console.error("Error adding paid course:", error);
+            }
+        },
+        fetchPaidCourse: (pageNum, pageSize) => {
+            return new Promise((resolve, reject) => {
+                fetchPaidCourseDebounced(pageNum, pageSize);
+                resolve();
+            });
+        }
+    };
+}, {
     name: "usePaidCourseStore"
 }));
 
