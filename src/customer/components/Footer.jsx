@@ -53,7 +53,7 @@ const Footer = () => {
                 </Link>
               </p>
               <p>
-                <Link to="/notfound" className="hover:underline">
+                <Link to="/notfound" className="hover:underline"g>
                   Affiliate
                 </Link>
               </p>

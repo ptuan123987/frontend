@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../../Constants";
-const access_token = localStorage.getItem('access_token');
+const refresh_token = localStorage.getItem('refresh_token');
 const MOMO = 'momo'
 const MomoCheckoutCourse = async (amount, course_ids) => {
   try {
@@ -16,7 +16,7 @@ const MomoCheckoutCourse = async (amount, course_ids) => {
 
       const response = await axios.post(API_URL + 'api/user/check-out/momo', formData, {
           headers: {
-              'Authorization': `Bearer ${access_token}`,
+              'Authorization': `Bearer ${refresh_token}`,
               'Content-Type': 'multipart/form-data'
           },
       });
@@ -40,7 +40,7 @@ const VietQrCheckoutCourse = async (amount, course_ids) => {
 
       const response = await axios.post(API_URL + 'api/user/create-payment-link', formData, {
           headers: {
-              'Authorization': `Bearer ${access_token}`,
+              'Authorization': `Bearer ${refresh_token}`,
               'Content-Type': 'multipart/form-data'
           },
       });
