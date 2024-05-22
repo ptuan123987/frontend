@@ -163,10 +163,9 @@ const CourseCard = ({ course }) => {
             <h1>Confirm Checkout</h1>
           </div>
           <div className="body text-sm mb-4 li leading-8 text-black">
-            <p>Are you sure you want to checkout the selected items?</p>
+            <p>Choose Payment Types:</p>
           </div>
           <div className="footer gap-10">
-            <p>Choose Payment Types:</p>
             <img 
               src={momoImage} 
               alt="momo" 

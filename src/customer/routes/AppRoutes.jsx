@@ -34,6 +34,7 @@ import LectureService from "../services/LectureService";
 import EditUser from "../../admin/pages/EditUser";
 import AddUser from "../../admin/pages/AddUser";
 import Checkout from "../pages/checkout/Checkout";
+import SearchResults from "../pages/SearchResult";
 
 const UserRoute = ({ element }) => {
   const isLoggedIn = AuthService.isLoggedIn();
@@ -113,6 +114,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/search" element={ <SearchResults />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />

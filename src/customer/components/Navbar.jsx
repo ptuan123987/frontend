@@ -486,6 +486,7 @@ const Navbar = () => {
             <div
               class="relative "
               onMouseEnter={() => handleMouseEnter("profilePopover")}
+              onMouseLeave={handleMouseLeave}
             >
               <button
                 className="flex items-center justify-center w-10 h-10 rounded-full bg-black text-white font-UdemySansBold"

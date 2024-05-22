@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory,useNavigate } from 'react-router-dom';
 import CourseService from '../services/CourseService';
 
 const SearchBar = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // Reset search bar khi chuyển trang
         setSearchTerm('');
         setSearchResults([]);
     }, [location]);
@@ -30,15 +30,24 @@ const SearchBar = () => {
         return () => clearTimeout(delayDebounceFn);
     }, [searchTerm]);
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (searchTerm) {
+            navigate(`/search?query=${searchTerm}`);
+        }
+    };
+
     return (
         <div className="flex flex-col relative z-10">
-            <input
-                className="h-12 p-0 pl-8 pr-8 text-gray-900 border border-stone-900 bg-gray-100 rounded-full outline-none focus:outline-none"
-                type="text"
-                placeholder="Search for anything"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
+            <form onSubmit={handleSubmit}>
+                <input
+                    className="h-12 p-0 pl-8 pr-8 text-gray-900 border border-stone-900 bg-gray-100 rounded-full outline-none focus:outline-none w-full"
+                    type="text"
+                    placeholder="Search for anything"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </form>
             {searchTerm && (
                 <div className="mt-1 p-0 pl-4 pr-4 border border-stone-200 bg-gray-50">
                     <ul className="divide-y divide-gray-300">

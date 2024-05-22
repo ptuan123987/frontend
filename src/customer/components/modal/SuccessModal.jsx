@@ -25,16 +25,7 @@ const SuccessModal = ({ setOpenModal, children, onClick }) => {
             {children}
             </div>
             <div className="footer">
-            <button
-                onClick={() => {
-                setOpenModal(false);
-                if (onClick) onClick();
-                }}
-                id="cancelBtn"
-            >
-                Cancel
-            </button>
-            <button onClick={onClick}>Continue</button>
+            <button onClick={onClick}>Close</button>
             </div>
         </div>
         </div>
