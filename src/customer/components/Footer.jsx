@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; 
+
 const Footer = () => {
   return (
-    <footer className=" mt-[100px] inset-x-0 bottom-0 bg-zinc-900 text-white px-6 md:px-12 pt-10 text-sm text-center">
+    <footer className="mt-[100px] inset-x-0 bottom-0 bg-zinc-900 text-white px-6 md:px-12 pt-10 text-sm text-center">
       <div className="container mx-auto mb-12">
-        <div className="grid grid-cols-12">
-          {/* Column 1 */}
-          <div className="col-span-12 md:col-span-3">
+        <div className="grid grid-cols-12 gap-y-4 md:gap-y-0">
+          <div className="col-span-12 md:col-span-4">
             <div className="flex flex-col gap-y-2">
               <p>
                 <Link to="/notfound" className="hover:underline">
@@ -35,7 +35,7 @@ const Footer = () => {
               </p>
             </div>
           </div>
-          <div className="col-span-12 md:col-span-3">
+          <div className="col-span-12 md:col-span-4">
             <div className="flex flex-col gap-y-2">
               <p>
                 <Link to="/notfound" className="hover:underline">
@@ -64,7 +64,7 @@ const Footer = () => {
               </p>
             </div>
           </div>
-          <div className="col-span-12 md:col-span-3">
+          <div className="col-span-12 md:col-span-4">
             <div className="flex flex-col gap-y-2">
               <p>
                 <Link to="/notfound" className="hover:underline">
@@ -95,12 +95,15 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className=" flex flex-col md:flex-row justify-between py-8 text-sm mx-20 ">
-        <Link to="/" className=''>
-          <img src="https://www.udemy.com/staticx/udemy/images/v7/logo-udemy.svg" 
-          className="h-8 mb-5 center md:mb-0 filter invert m-auto" alt="Udemy Logo" />
+      <div className="flex flex-col md:flex-row justify-between items-center py-8 text-sm">
+        <Link to="/" className='mb-4 md:mb-0'>
+          <img 
+            src="https://www.udemy.com/staticx/udemy/images/v7/logo-udemy.svg" 
+            className="h-8 filter invert" 
+            alt="Udemy Logo" 
+          />
         </Link>
-        <span className="text-xs">© 2023 Udemy, Inc.</span>
+        <span className="text-xs">© 2024 Udemy, Inc.</span>
       </div>
     </footer>
   );
