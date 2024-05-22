@@ -19,6 +19,7 @@ const Navbar = () => {
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeSubCategory, setActiveSubCategory] = useState(null);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const isLoggedIn = AuthService.isLoggedIn();
 
   const toggleMobileMenu = () => {
@@ -36,6 +37,9 @@ const Navbar = () => {
   const handleMouseLeave = () => {
     setActiveCategory(null);
     setActiveSubCategory(null);
+  };
+  const handleTogglePopover = () => {
+    setIsPopoverOpen(!isPopoverOpen);
   };
 
   function moveToLogin() {
@@ -484,9 +488,8 @@ const Navbar = () => {
           {/* -- LOGIN SECTION -- */}
           {isLoggedIn && (
             <div
-              class="relative "
-              onMouseEnter={() => handleMouseEnter("profilePopover")}
-              onMouseLeave={handleMouseLeave}
+              class="relative"
+              onClick={handleTogglePopover}
             >
               <button
                 className="flex items-center justify-center w-10 h-10 rounded-full bg-black text-white font-UdemySansBold"
@@ -497,8 +500,10 @@ const Navbar = () => {
                 <span>{initials}</span>
               </button>
 
-              {activeCategory === "profilePopover" && (
-                <div className="absolute w-40 md:w-64 z-20 bg-white rounded-lg shadow-lg right-[0] top-[90%]">
+              {isPopoverOpen  && (
+                <div className="absolute w-40 md:w-64 z-20 bg-white rounded-lg shadow-lg right-[0] top-[95%]"
+                
+                >
                   <div className="flex items-center gap-2 p-2 text-center">
                     <div
                       className="flex items-center justify-center w-9 h-9 rounded-full
