@@ -28,6 +28,6 @@ jobs:
       - name: Delete Old Container
         run: sudo docker rm -f react-container
       - name: Run docker container
-        run: sudo docker run -d -p 3000:80 --name react-container ptuan123987/reactjs-app:latest
+        run: sudo docker run -d -p 80:80 --name react-container ptuan123987/reactjs-app:latest
 
    
