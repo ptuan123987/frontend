@@ -30,7 +30,7 @@ const Login = () => {
   async function redirectToGoogleLogin() {
     const response = await axios.get(API_URL + "api/login/google", {
       params: {
-        redirect_url: "https://study.salyr.online/callback/google",
+        redirect_url: "http://13.229.208.74/callback/google",
       },
     });
     console.log(response);
@@ -41,7 +41,7 @@ const Login = () => {
   async function redirectToGithubLogin() {
     const response = await axios.get( API_URL + "api/login/github", {
       params: {
-        redirect_url: "https://study.salyr.online/callback/github",
+        redirect_url: "http://13.229.208.74/callback/github",
       },
     });
     console.log(response);
