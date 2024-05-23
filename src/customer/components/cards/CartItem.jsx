@@ -1,20 +1,22 @@
 import React from 'react';
 import './cartItem.css';
-import WishListService from '../../services/WishListService';
-const CartItem = ({ course, isSelected, onToggleItem }) => {
+
+const CartItem = ({ course, isSelected, onToggleItem, onRemove }) => {
   const handleCartItemClick = () => {
     onToggleItem(course.id);
   };
-  const  removeWishlistCourse = (id) => {
-    WishListService.removeCourseToWishlist(id);
-  }
+
+  const handleRemoveClick = (event) => {
+    event.stopPropagation();
+    onRemove(course.id);
+  };
 
   return (
     <div
       className={`cart-item-wrapper grid grid-cols-5 gap-4 items-center p-4 border-b ${
         isSelected ? 'bg-gray-100' : ''
       }`}
-      onClick={handleCartItemClick} 
+      onClick={handleCartItemClick}
     >
       <div className='cart-item-img col-span-1 flex justify-center items-center'>
         <img src={course.thumbnail_url} alt={course.title} className='w-full h-auto' />
@@ -35,7 +37,7 @@ const CartItem = ({ course, isSelected, onToggleItem }) => {
         <button
           type='button'
           className='remove-btn text-sm text-white bg-purple-600 px-4 py-2 rounded-lg hover:bg-purple-700 transition flex items-center gap-2'
-          onClick={() => removeWishlistCourse(course.id)}
+          onClick={handleRemoveClick}
         >
           <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' className='w-5 h-5'>
             <path

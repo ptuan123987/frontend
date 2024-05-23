@@ -15,6 +15,7 @@ const addCourseToWishlist = async (courseId) => {
       }
 }
 const removeCourseToWishlist = async (id) => {
+    console.log(access_token);
     try {
         const response = await axios.delete(API_URL + `api/user/wishlists/${id}`,{
             id :id
@@ -22,7 +23,7 @@ const removeCourseToWishlist = async (id) => {
             Authorization: `Bearer ${access_token}`,
         },});
 
-        return response
+        return response;
     } catch (error) {
         throw error;
     }

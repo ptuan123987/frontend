@@ -7,12 +7,14 @@ import momoImage from './momo1.png';
 import vietQrImage from './vietqr1.png';
 import { CheckoutService } from '../../services/CheckoutService.js';
 import ReactLoading from 'react-loading';
+import { toast } from 'react-toastify';
 
 const Checkout = () => {
-  const { wishlist, fetchWishlist, total: wishlistTotal } = useWishlistStore((state) => ({
+  const { wishlist, fetchWishlist, total: wishlistTotal, removeFromWishlist } = useWishlistStore((state) => ({
     wishlist: state.wishlist,
     fetchWishlist: state.fetchWishlist,
     total: state.total,
+    removeFromWishlist: state.removeFromWishlist,
   }));
 
   const [selectedItems, setSelectedItems] = useState([]);
@@ -82,6 +84,15 @@ const Checkout = () => {
       console.error("Error occurred during checkout:", error);
     }
   };
+  const handleRemoveFromWishlist = async (id) => {
+    try {
+      await removeFromWishlist(id);
+      toast.success("Remove Course Success!");
+      await fetchWishlist(); 
+    } catch (error) {
+      console.error("Error occurred while removing from wishlist:", error);
+    }
+  };
 
   return (
     <Layout>
@@ -120,6 +131,7 @@ const Checkout = () => {
                         course={course.course} 
                         isSelected={isSelected} 
                         onToggleItem={() => handleToggleItem(id)} 
+                        onRemove={(id) => handleRemoveFromWishlist(id)}
                       />
                     );
                   })}
