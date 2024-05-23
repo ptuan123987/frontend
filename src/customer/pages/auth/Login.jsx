@@ -1,76 +1,68 @@
-import { React, useState } from "react";
-import Layout from "../../components/Layout";
-import Input1 from "../../components/forms/Input1";
-import Button3 from "../../components/buttons/Button3";
-import Button1 from "../../components/buttons/Button1";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Layout from '../../components/Layout';
+import Input1 from '../../components/forms/Input1';
+import Button3 from '../../components/buttons/Button3';
+import Button1 from '../../components/buttons/Button1';
+import AuthService from '../../services/AuthService';
+import PasswordInput from '../../components/forms/PasswordInput';
+import { API_URL } from '../../../Constants';
+import SuccessModal from '../../components/modal/SuccessModal';
 
-import axios from "axios";
-import AuthService from "../../services/AuthService";
-import PasswordInput from "../../components/forms/PasswordInput";
-import { API_URL } from "../../../Constants";
-import SuccessModal from "../../components/modal/SuccessModal";
 const Login = () => {
   const location = useLocation();
-  const appName = "Udemy";
   const navigate = useNavigate();
+  const appName = 'Udemy';
 
-  const [email, setEmail] = useState(location.state?.email || "");
-  const [password, setPassword] = useState(location.state?.password || "");
-  const [errorMessage, setErrorMessage] = useState("");
-
+  const [email, setEmail] = useState(location.state?.email || '');
+  const [password, setPassword] = useState(location.state?.password || '');
+  const [errorMessage, setErrorMessage] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  function moveToSignup() {
-    navigate("/signup");
-  }
-  function moveToForgot() {
-    navigate("/forgot-password");
-  }
 
-  async function redirectToGoogleLogin() {
-    const response = await axios.get(API_URL + "api/login/google", {
-      params: {
-        redirect_url: "http://13.229.208.74/callback/google",
-      },
-    });
-    console.log(response);
+  const moveToSignup = () => {
+    navigate('/signup');
+  };
 
-    window.location.href = response.data.login_url;
-  }
+  const moveToForgot = () => {
+    navigate('/forgot-password');
+  };
 
-  async function redirectToGithubLogin() {
-    const response = await axios.get( API_URL + "api/login/github", {
-      params: {
-        redirect_url: "http://13.229.208.74/callback/github",
-      },
-    });
-    console.log(response);
+  const redirectToGoogleLogin = async () => {
+    try {
+      const response = await axios.get(`${API_URL}api/login/google`, {
+        params: { redirect_url: 'http://13.229.208.74/callback/google' },
+      });
+      window.location.href = response.data.login_url;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    window.location.href = response.data.login_url;
-  }
+  const redirectToGithubLogin = async () => {
+    try {
+      const response = await axios.get(`${API_URL}api/login/github`, {
+        params: { redirect_url: 'http://13.229.208.74/callback/github' },
+      });
+      window.location.href = response.data.login_url;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
-    AuthService.login(email, password).then(
-      () => {
-        setShowSuccessModal(true);
-        setTimeout(() => {
-          navigate("/");
-        }, 1500);
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        setErrorMessage(resMessage);
-        console.log(errorMessage);
-      }
-    );
+    try {
+      const res = await AuthService.login(email, password);
+      setShowSuccessModal(true);
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
+    } catch (error) {
+      const resMessage = error.response?.data?.message || error.message || error.toString();
+      setErrorMessage(resMessage);
+      console.log(resMessage);
+    }
   };
 
   return (
@@ -82,36 +74,22 @@ const Login = () => {
         <div className="flex flex-col gap-2">
           {/* Google */}
           <Button1 className="w-full !font-black !text-black !text-base !mb-0">
-            <div
-              onClick={redirectToGoogleLogin}
-              className="flex items-center gap-4"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 48 48"
-                className="w-6 h-6"
-              ></svg>
+            <div onClick={redirectToGoogleLogin} className="flex items-center gap-4">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="w-6 h-6"></svg>
               <span className="font-UdemySansBold"> Continue with Google</span>
             </div>
           </Button1>
 
           {/* Github */}
           <Button1 className="w-full !font-black !text-black !text-base !mb-0">
-            <div
-              onClick={redirectToGithubLogin}
-              className="flex items-center gap-2"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 48 48"
-                className="w-8 h-8"
-              ></svg>
+            <div onClick={redirectToGithubLogin} className="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="w-8 h-8"></svg>
               <span className="font-UdemySansBold"> Continue with Github</span>
             </div>
           </Button1>
 
           {/* Form for email and password */}
-          <form className="flex flex-col gap-2">
+          <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
             <Input1
               label="Email"
               value={email}
@@ -135,7 +113,7 @@ const Login = () => {
           )}
 
           {showSuccessModal && (
-            <SuccessModal onClick={() => setShowSuccessModal(false)}>
+            <SuccessModal setOpenModal={setShowSuccessModal}>
               <h2>Success!</h2>
               <p>Login successfully.</p>
             </SuccessModal>
