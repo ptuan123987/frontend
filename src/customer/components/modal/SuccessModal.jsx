@@ -16,7 +16,7 @@ const SuccessModal = ({ setOpenModal, children }) => {
               X
             </button>
           </div>
-          <div className="modalContent">
+          <div className="modalContent text-center justify-center">
             {children}
           </div>
           <div className="footer">
