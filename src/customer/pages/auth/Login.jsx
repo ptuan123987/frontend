@@ -31,7 +31,7 @@ const Login = () => {
   const redirectToGoogleLogin = async () => {
     try {
       const response = await axios.get(`${API_URL}api/login/google`, {
-        params: { redirect_url: 'http://13.229.208.74/callback/google' },
+        params: { redirect_url: API_URL+ 'callback/google' },
       });
       window.location.href = response.data.login_url;
     } catch (error) {
@@ -42,7 +42,7 @@ const Login = () => {
   const redirectToGithubLogin = async () => {
     try {
       const response = await axios.get(`${API_URL}api/login/github`, {
-        params: { redirect_url: 'http://13.229.208.74/callback/github' },
+        params: { redirect_url: API_URL+ 'callback/github' },
       });
       window.location.href = response.data.login_url;
     } catch (error) {
